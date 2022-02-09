@@ -35,7 +35,7 @@
                     <div class="cart">
                         <a-dropdown>
                             <template #overlay>
-                                <a-menu @click="handleMenuClick">
+                                <a-menu>
                                 <a-menu-item key="1">
                                     1st menu item
                                 </a-menu-item>
