@@ -1,68 +1,18 @@
 <template>
     <div class="home-webview">
         <div class="sidebar">
-            <a-row>
-                <a-col :span="5">
-                    <div class="menu-sidebar">
-                        <a-menu
-                            id="dddddd"
-                            v-model:openKeys="openKeys"
-                            v-model:selectedKeys="selectedKeys"
-                            style="width: 256px"
-                            mode="inline"
-                            @click="handleClick"
-                        >
-                            <a-sub-menu key="sub1">
-                            <template #icon>
-                                <MailOutlined />
-                            </template>
-                            <template #title>Navigation One</template>
-                            <a-menu-item-group key="g1">
-                                <template #icon>
-                                <QqOutlined />
-                                </template>
-                                <template #title>Item 1</template>
-                                <a-menu-item key="1">Option 1</a-menu-item>
-                                <a-menu-item key="2">Option 2</a-menu-item>
-                            </a-menu-item-group>
-                            <a-menu-item-group key="g2" title="Item 2">
-                                <a-menu-item key="3">Option 3</a-menu-item>
-                                <a-menu-item key="4">Option 4</a-menu-item>
-                            </a-menu-item-group>
-                            </a-sub-menu>
-                            <a-sub-menu key="sub2">
-                            <template #icon>
-                                <AppstoreOutlined />
-                            </template>
-                            <template #title>Navigation Two</template>
-                            <a-menu-item key="5">Option 5</a-menu-item>
-                            <a-menu-item key="6">Option 6</a-menu-item>
-                            <a-sub-menu key="sub3" title="Submenu">
-                                <a-menu-item key="7">Option 7</a-menu-item>
-                                <a-menu-item key="8">Option 8</a-menu-item>
-                            </a-sub-menu>
-                            </a-sub-menu>
-                            <a-sub-menu key="sub4">
-                            <template #icon>
-                                <SettingOutlined />
-                            </template>
-                            <template #title>Navigation Three</template>
-                            <a-menu-item key="9">Option 9</a-menu-item>
-                            <a-menu-item key="10">Option 10</a-menu-item>
-                            <a-menu-item key="11">Option 11</a-menu-item>
-                            <a-menu-item key="12">Option 12</a-menu-item>
-                            </a-sub-menu>
-                        </a-menu>
-                    </div>
-                </a-col>
+            <a-row :gutter="16">
                 <a-col :span="14">
                     <div class="banner">
                         <a-carousel autoplay>
-                            <div><img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061" alt=""></div>
-                            <div><img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061" alt=""></div>
-                            <div><img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061" alt=""></div>
-                            <div><img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061" alt=""></div>
+                            <div v-for="slide in getSlide" :key="slide.index"><img height="200" v-bind:src="slide" alt=""></div>
                         </a-carousel>
+                    </div>
+                </a-col>
+                <a-col :span="5">
+                    <div class="banner-img">
+                        <img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061" alt="">
+                        <img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061" alt="">
                     </div>
                 </a-col>
                 <a-col :span="5">
@@ -73,12 +23,165 @@
                 </a-col>
             </a-row>
         </div>
+        <div class="voucher">
+            <a-card title="Voucher">
+                <template #extra><a href="#">Xem tất cả</a></template>
+                <a-card-grid v-for="test in 4" :key="test" style="width: 25%; text-align: center">
+                    <div class="coupon">
+                        <div class="image">
+                            <img width="100" height="50" src="../../../assets/images/coupon.png" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="title">NHẬP MÃ: EGA10</div>
+                            <div class="describe">
+                                Mã Giảm giá 10% cho đơn hàng tối thiểu 100k
+                            </div>
+                            <div class="condition">
+                                <a href="">Chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </a-card-grid>
+            </a-card>
+        </div>
+        <div class="flash-sale">
+            <a-card title="Flash-sale">
+                <template #extra><a href="#">Xem tất cả</a></template>
+                <a-card-grid v-for="product in productDiscount" :key="product.index" style="width: 20%; text-align: center">
+                    <a-badge :count="product.product_discount + '%'">
+                        <img alt="example" v-bind:src="product.product_image" />
+                    </a-badge>
+                    
+                    <a-card-meta>
+                        <template #title>{{product.product_name}}</template>
+                        <template #description> <div v-html="product.product_description"></div> </template>
+                    </a-card-meta>
+
+                    <div v-if="product.product_discount">
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
+                        <span class="sale"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</del></span>
+                    </div>
+                    <div v-else>
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
+                    </div>
+
+                    <div class="icon-card">
+                        <img width="30" height="30" src="../../../assets/images/add-to-card.png" alt="">
+                    </div>
+                </a-card-grid>
+            </a-card>
+        </div>
+        <div class="selling">
+            <a-card title="Sản phẩm bán chạy">
+                <template #extra><a href="#">Xem tất cả</a></template>
+                <a-card-grid v-for="product in productSelling" :key="product.product_id" style="width: 20%; text-align: center">
+                    
+                    <img alt="example" v-bind:src="product.product_image" />
+                    
+                    <a-card-meta>
+                        <template #title>{{ product.product_name }}</template>
+                        <template #description> <div v-html="product.product_description"></div> </template>
+                    </a-card-meta>
+
+                    
+                    <div v-if="product.product_discount">
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
+                        <span class="sale"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</del></span>
+                    </div>
+                    <div v-else>
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
+                    </div>
+
+                    <div class="icon-card">
+                        <img width="30" height="30" src="../../../assets/images/add-to-card.png" alt="">
+                    </div>
+                </a-card-grid>
+            </a-card>
+        </div>
+        <div class="for-you">
+            <a-card title="Dành cho bạn">
+                <template #extra>
+                    <a href="#">Xem tất cả 
+                        <svg class="icon-outline" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
+                            <path d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
+                            <path d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                        </svg>
+                    </a>
+                </template>
+                <a-card-grid v-for="product in getProduct" :key="product.product_id" style="width: 20%; text-align: center">
+                    
+                    <img alt="example" v-bind:src="product.product_image" />
+                    
+                    <a-card-meta>
+                        <template #title>{{product.product_name}}</template>
+                        <template #description> <div v-html="product.product_description"></div> </template>
+                    </a-card-meta>
+
+                    
+                    <div v-if="product.product_discount">
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
+                        <span class="sale"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</del></span>
+                    </div>
+                    <div v-else>
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
+                    </div>
+
+                    <div class="icon-card">
+                        <img width="30" height="30" src="../../../assets/images/add-to-card.png" alt="">
+                    </div>
+                </a-card-grid>
+            </a-card>
+        </div>
     </div>
 </template>
 
 <script>
+import { AppstoreOutlined, } from '@ant-design/icons-vue';
+import api from "../../../api/homewebview";
     export default {
         name: "Home",
+        components: {
+            AppstoreOutlined,
+        },
+        data() {
+            return {
+                getProduct: '',
+                getSlide: '',
+                banner: '',
+                productDiscount: '',
+                productSelling: '',
+            }
+        },
+
+        created() {
+            this.getProducts();
+            this.getSlides();
+            this.productsDiscount();
+            this.productsSelling();
+        },
+
+        methods: {
+            async getProducts() {
+                let res = await api.getProduct();
+                this.getProduct = res.product;
+            },
+
+            async getSlides() {
+                let res = await api.getSlide();
+                this.getSlide = res.slide;
+                this.banner = res.banner;
+            },
+
+            async productsDiscount() {
+                let res = await api.productsDiscount();
+                this.productDiscount = res.productDiscount;
+            },
+
+            async productsSelling() {
+                let res = await api.productsSelling();
+                this.productSelling = res.productSelling;
+            }
+        }
     }
 </script>
 
@@ -94,6 +197,7 @@
             }
         }
         .banner {
+            padding-top: 5px;
             .ant-carousel :deep(.slick-slide) {
                 text-align: center;
                 height: 160px;
@@ -105,12 +209,37 @@
             .ant-carousel :deep(.slick-slide h3) {
                 color: #fff;
             }
+            img {
+                height: 290px !important;
+                width: 900px;
+            }
         }
         .banner-img {
             img {
-                width: 100%;
+                padding: 5px 0px;
+                // width: 100%;
+                height: 150px;
             }
         }
+    }
+    // .voucher {
+    //     .ant-card-grid {}
+    // }
+    .ant-card-head-title {
+        color: #d82e4d;
+        font-size: 20px;
+        font-weight: 800;
+    }
+    .ant-card-meta-detail {
+        padding: 20px 0px;
+        text-align: left;
+    }
+    .ant-card-grid {
+        text-align: left !important;
+    }
+
+    .ant-card-grid-hoverable:hover .icon-card {
+        display: inline;
     }
 }
 </style>
