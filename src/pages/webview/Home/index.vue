@@ -25,7 +25,17 @@
         </div>
         <div class="voucher">
             <a-card title="Voucher">
-                <template #extra><a href="#">Xem tất cả</a></template>
+                <template #extra>
+                    <a class="see-all" href="#">
+                        <span class="text">Xem tất cả </span>
+                        <span class="icon">
+                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
+                                <path fill="#1890FF" d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
+                                <path fill="#1890FF" d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                            </svg>
+                        </span>
+                    </a>
+                </template>
                 <a-card-grid v-for="test in 4" :key="test" style="width: 25%; text-align: center">
                     <div class="coupon">
                         <div class="image">
@@ -46,7 +56,17 @@
         </div>
         <div class="flash-sale">
             <a-card title="Flash-sale">
-                <template #extra><a href="#">Xem tất cả</a></template>
+                <template #extra>
+                    <a class="see-all" href="#">
+                        <span class="text">Xem tất cả </span>
+                        <span class="icon">
+                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
+                                <path fill="#1890FF" d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
+                                <path fill="#1890FF" d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                            </svg>
+                        </span>
+                    </a>
+                </template>
                 <a-card-grid v-for="product in productDiscount" :key="product.index" style="width: 20%; text-align: center">
                     <a-badge :count="product.product_discount + '%'">
                         <img alt="example" v-bind:src="product.product_image" />
@@ -73,7 +93,17 @@
         </div>
         <div class="selling">
             <a-card title="Sản phẩm bán chạy">
-                <template #extra><a href="#">Xem tất cả</a></template>
+                <template #extra>
+                    <a class="see-all" href="#">
+                        <span class="text">Xem tất cả </span>
+                        <span class="icon">
+                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
+                                <path fill="#1890FF" d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
+                                <path fill="#1890FF" d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                            </svg>
+                        </span>
+                    </a>
+                </template>
                 <a-card-grid v-for="product in productSelling" :key="product.product_id" style="width: 20%; text-align: center">
                     
                     <img alt="example" v-bind:src="product.product_image" />
@@ -101,11 +131,14 @@
         <div class="for-you">
             <a-card title="Dành cho bạn">
                 <template #extra>
-                    <a href="#">Xem tất cả 
-                        <svg class="icon-outline" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
-                            <path d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
-                            <path d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
-                        </svg>
+                    <a class="see-all" href="#">
+                        <span class="text">Xem tất cả </span>
+                        <span class="icon">
+                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
+                                <path fill="#1890FF" d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
+                                <path fill="#1890FF" d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                            </svg>
+                        </span>
                     </a>
                 </template>
                 <a-card-grid v-for="product in getProduct" :key="product.product_id" style="width: 20%; text-align: center">
@@ -217,7 +250,7 @@ import api from "../../../api/homewebview";
         .banner-img {
             img {
                 padding: 5px 0px;
-                // width: 100%;
+                width: 100%;
                 height: 150px;
             }
         }
@@ -236,10 +269,19 @@ import api from "../../../api/homewebview";
     }
     .ant-card-grid {
         text-align: left !important;
+        height: 100%;
     }
 
     .ant-card-grid-hoverable:hover .icon-card {
         display: inline;
+    }
+
+    .ant-card-meta-description > div{
+        text-overflow: ellipsis;
+        overflow: hidden; 
+        width: 185px; 
+        height: 1.2em; 
+        white-space: nowrap;
     }
 }
 </style>

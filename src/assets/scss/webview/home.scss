@@ -1,5 +1,5 @@
 .home-webview {
-    padding: 0px 200px;
+    padding: 0px 50px;
     .sidebar {
         margin-top: 10px;
         .menu-sidebar {
@@ -41,6 +41,17 @@
                 }
             }
         }
+
+        .see-all {
+            display: flex;
+            .text {
+                margin-right: 10px;
+            }
+
+            .icon {
+                margin-top: 2.5px;
+            }
+        }
     }
     .flash-sale {
         margin: 20px 0px 0px 0px;
@@ -59,8 +70,8 @@
         .icon-card {
             display: none;
             position: absolute;
-            bottom: 135px;
-            right: 55px;
+            bottom: 25px;
+            right: 30px;
             cursor: pointer;
 
             img {
@@ -70,6 +81,17 @@
                 // bottom: 135px;
                 // right: 55px;
                 // cursor: pointer;
+            }
+        }
+
+        .see-all {
+            display: flex;
+            .text {
+                margin-right: 10px;
+            }
+
+            .icon {
+                margin-top: 2.5px;
             }
         }
     }
@@ -89,8 +111,8 @@
         .icon-card {
             display: none;
             position: absolute;
-            bottom: 135px;
-            right: 55px;
+            bottom: 25px;
+            right: 30px;
             cursor: pointer;
 
             img {
@@ -100,6 +122,17 @@
                 // bottom: 135px;
                 // right: 55px;
                 // cursor: pointer;
+            }
+        }
+
+        .see-all {
+            display: flex;
+            .text {
+                margin-right: 10px;
+            }
+
+            .icon {
+                margin-top: 2.5px;
             }
         }
     }
@@ -119,8 +152,8 @@
         .icon-card {
             display: none;
             position: absolute;
-            bottom: 135px;
-            right: 55px;
+            bottom: 25px;
+            right: 30px;
             cursor: pointer;
 
             img {
@@ -130,6 +163,17 @@
                 // bottom: 135px;
                 // right: 55px;
                 // cursor: pointer;
+            }
+        }
+
+        .see-all {
+            display: flex;
+            .text {
+                margin-right: 10px;
+            }
+
+            .icon {
+                margin-top: 2.5px;
             }
         }
 
