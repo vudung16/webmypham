@@ -28,8 +28,6 @@ export default defineConfig({
     }
   },
 
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/webmypham/' // Thay tên repository của các bạn vào đây nhé
-    : '/'
+  publicPath: '/webmypham/'
   
 })
