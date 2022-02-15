@@ -67,7 +67,7 @@
                         </span>
                     </a>
                 </template>
-                <a-card-grid v-for="product in productDiscount" :key="product.index" style="width: 20%; text-align: center">
+                <a-card-grid v-for="product in productDiscount" :key="product.index" style="width: 20%; text-align: center" @click="redirectProduct(product.product_id)">
                     <a-badge :count="product.product_discount + '%'">
                         <img alt="example" v-bind:src="product.product_image" />
                     </a-badge>
@@ -104,7 +104,7 @@
                         </span>
                     </a>
                 </template>
-                <a-card-grid v-for="product in productSelling" :key="product.product_id" style="width: 20%; text-align: center">
+                <a-card-grid v-for="product in productSelling" :key="product.product_id" style="width: 20%; text-align: center" @click="redirectProduct(product.product_id)">
                     
                     <img alt="example" v-bind:src="product.product_image" />
                     
@@ -141,7 +141,7 @@
                         </span>
                     </a>
                 </template>
-                <a-card-grid v-for="product in getProduct" :key="product.product_id" style="width: 20%; text-align: center">
+                <a-card-grid v-for="product in getProduct" :key="product.product_id" style="width: 20%; text-align: center" @click="redirectProduct(product.product_id)">
                     
                     <img alt="example" v-bind:src="product.product_image" />
                     
@@ -213,6 +213,10 @@ import api from "../../../api/homewebview";
             async productsSelling() {
                 let res = await api.productsSelling();
                 this.productSelling = res.productSelling;
+            },
+
+            redirectProduct(id) {
+                this.$router.push('/product/product-detail/' + id);
             }
         }
     }
@@ -244,7 +248,7 @@ import api from "../../../api/homewebview";
             }
             img {
                 height: 290px !important;
-                width: 900px;
+                width: 100%;
             }
         }
         .banner-img {

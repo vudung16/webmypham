@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router';
 
 import Home from '../pages/webview/Home/index.vue';
 import WebviewLayout from "../pages/webview/layouts/WebviewLayout.vue";
+import ProductDetail from "../pages/webview/Product/productDetail.vue";
 
 
 const routes = [
@@ -23,6 +24,25 @@ const routes = [
             }
         ]
     },
+
+    {
+        path: '/product',
+        component: WebviewLayout,
+        meta: {
+            title: "Chi tết sản phẩm"
+        },
+        children: [
+            {
+                title: 'Chi tết sản phẩm',
+                path: 'product-detail/:id',
+                name: 'ProductDetail',
+                component: ProductDetail,
+                meta: {
+                    title: 'Chi tiết sản phẩm',
+                }
+            }
+        ]
+    }
 ]
 
 const router = createRouter({
