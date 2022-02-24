@@ -113,6 +113,31 @@
                 }
             }
         }
+
+        .info-product {
+            .product-content {
+                text-overflow: ellipsis;
+                overflow: hidden; 
+                max-width: 1000px; 
+                height: 5em; 
+                // white-space: nowrap;
+            }
+
+            .active {
+                text-overflow: none;
+                overflow: visible; 
+                max-width: 1000px; 
+                height: 100%; 
+            }
+        }
+
+        .info-product {
+            margin-top: 50px;
+        }
+
+        .comment {
+            margin-top: 100px;
+        }
     }
 
     .voucher {

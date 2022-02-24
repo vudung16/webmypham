@@ -15,7 +15,8 @@
     "v-click-outside": "^3.1.2",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12",
-    "vue3-apexcharts": "^1.4.1"
+    "vue3-apexcharts": "^1.4.1",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@element-plus/icons": "^0.0.11",

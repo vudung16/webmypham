@@ -36,21 +36,27 @@
                         <a-dropdown>
                             <template #overlay>
                                 <a-menu>
-                                <a-menu-item key="1">
-                                    1st menu item
-                                </a-menu-item>
-                                <a-menu-item key="2">
-                                    2nd menu item
-                                </a-menu-item>
-                                <a-menu-item key="3">
-                                    3rd item
-                                </a-menu-item>
+                                    <a-menu-item v-for="item in carts.carts" :key="item.index">
+                                        <div class="product">
+                                            <div class="img">
+                                                <img width="40" height="40" v-bind:src="item.product_image" alt="">
+                                            </div>
+                                            <div class="detail">
+                                                <div class="product-name">{{ item.product_name }}</div>
+                                                <div class="product-price">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_discount ? item.product_price - ((item.product_discount /100) * item.product_price)  : item.product_price)}} x {{ item.quantity }}</div>
+                                            </div>
+                                        </div>
+                                    </a-menu-item>
+                                    <a-menu-item>
+                                        <div class="sum-price">Tổng: <span>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}</span></div>
+                                        <div class="pay"><a-button @click="shoppingCart">Xem giỏ hàng >></a-button></div>
+                                    </a-menu-item>
                                 </a-menu>
                             </template>
                             <a-button>
                                 <img width="24" height="24" src="https://theme.hstatic.net/200000411391/1000799987/14/cart-icon.png?v=209" alt="">
                                 <span>Giỏ hàng &nbsp;</span>
-                                <span class="quantity">0</span> 
+                                <span class="quantity">{{ carts.sum_quantity}}</span> 
                             </a-button>
                         </a-dropdown>
                     </div>
@@ -65,12 +71,7 @@
                             <AppstoreOutlined />
                         </template>
                         <template #title>Danh mục sản phẩm</template>
-                        <a-menu-item key="3">Option 3</a-menu-item>
-                        <a-menu-item key="4">Option 4</a-menu-item>
-                        <a-sub-menu key="sub1-2" title="Submenu">
-                            <a-menu-item key="5">Option 5</a-menu-item>
-                            <a-menu-item key="6">Option 6</a-menu-item>
-                        </a-sub-menu>
+                        <a-menu-item v-for="cate in category" :key="cate.category_id">{{ cate.category_name }}</a-menu-item>
                     </a-sub-menu>
                     <a-menu-item key="policy">
                         <template #icon>
@@ -98,6 +99,7 @@
 
 <script>
 import { MenuFoldOutlined, AppstoreOutlined, HeatMapOutlined, OrderedListOutlined, SettingOutlined} from '@ant-design/icons-vue';
+import api from "../../../api/homewebview";
     export default {
         name: "Header",
         components: {
@@ -112,19 +114,50 @@ import { MenuFoldOutlined, AppstoreOutlined, HeatMapOutlined, OrderedListOutline
                 rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
                 openKeys: ['sub1'],
                 hideMenu: false,
+                category: {},
+                cart: {},
             };
         },
         computed: {
             hideMenu() {
                 // you can  check your form is filled or not here.
                 if (this.$route.name == 'Home') {
-                return this.hideMenu == true;
-            }
+                    return this.hideMenu == true;
+                }
             },
+            carts() {
+                let shoppingCart = JSON.parse(JSON.stringify(this.$store.state.product.cartData))
+                
+                if (shoppingCart) {
+                    return JSON.parse(JSON.stringify(this.$store.state.product.cartData));
+                }
+            }
         },
         created() {
             if (this.$route.name == 'Home') {
                 this.hideMenu == true;
+            }
+
+            this.getCategory();
+            this.test();
+        },
+
+        methods: {
+            async getCategory() {
+                let res = await api.getCategory();
+                this.category = res;
+            },
+
+            async test() {
+                let params = {
+                    product_id: '',
+                    quantity: ''
+                }
+                await this.$store.dispatch('product/cartData', params);
+            },
+
+            shoppingCart() {
+                this.$router.push('/cart/');
             }
         }
     }
@@ -136,64 +169,121 @@ import { MenuFoldOutlined, AppstoreOutlined, HeatMapOutlined, OrderedListOutline
 <style lang="scss">
 .header-webview {
     .ant-input-wrapper {
-    input {
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
+        input {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+        input:hover {
+            border-color: #fbd947;
+        }
+        button {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            color: #d82e4d;
+            background-color: #fbd947;
+            border: none;
+        }
     }
-    input:hover {
-        border-color: #fbd947;
+    .ant-menu {
+        background: none !important;
+        border: none !important;
+        color: #ffffff !important;
     }
-    button {
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
+    .ant-menu-light .ant-menu-item:hover {
+        color: #fbd947 !important;
+    }
+    .ant-menu-light .ant-menu-submenu-title:hover {
+        color: #fbd947 !important;
+    }
+    .ant-menu-horizontal > .ant-menu-submenu::after {
+        content: none !important;
+    }
+    .ant-menu-horizontal > .ant-menu-item::after {
+        content: none !important;
+    }
+    .ant-menu-horizontal .ant-menu-submenu {
+        background-color: #ffffff;
         color: #d82e4d;
-        background-color: #fbd947;
-        border: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        margin-top: 5px !important;
+        font-size: 17px;
+        width: 270px;
     }
-}
-.ant-menu {
-    background: none !important;
-    border: none !important;
-    color: #ffffff !important;
-}
-.ant-menu-light .ant-menu-item:hover {
-    color: #fbd947 !important;
-}
-.ant-menu-light .ant-menu-submenu-title:hover {
-    color: #fbd947 !important;
-}
-.ant-menu-horizontal > .ant-menu-submenu::after {
-    content: none !important;
-}
-.ant-menu-horizontal > .ant-menu-item::after {
-    content: none !important;
-}
-.ant-menu-horizontal .ant-menu-submenu {
-    background-color: #ffffff;
-    color: #d82e4d;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-top: 5px !important;
-    font-size: 17px;
-    width: 270px;
-}
-.ant-menu-item {
-    margin: 5px 0px !important;
-    font-size: 17px;
-}
-.ant-menu-submenu { 
     .ant-menu-item {
-        color: #000000;
+        margin: 5px 0px !important;
+        font-size: 17px;
+    }
+    .ant-menu-submenu { 
+        .ant-menu-item {
+            color: #000000;
+            &:hover {
+                color: #d82e4d !important;
+            }
+        }
+        .ant-menu-submenu {
+            color: #000000;
+            &:hover {
+                color: #d82e4d !important;
+            }
+        }
+    }
+}
+.ant-menu-submenu-popup {
+    left: 50px !important;
+    width: 270px !important;
+    .ant-menu-item-only-child {
         &:hover {
             color: #d82e4d !important;
         }
     }
-    .ant-menu-submenu {
-        color: #000000;
+
+    .ant-menu-title-content {
         &:hover {
             color: #d82e4d !important;
         }
     }
 }
+
+.ant-dropdown-menu-title-content{ 
+    .product {
+        display: flex !important;
+
+        .detail {
+            margin-left: 10px;
+
+            .product-name {
+                font-weight: 800;
+            }
+
+            .product-price {
+                color: #d82e4d;
+            }
+        }
+    }
+    
+}
+.sum-price {
+    font-weight: bold;
+
+    span {
+        color: #d82e4d;
+    }
+}
+.pay {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    button {
+        border-radius: 15px;
+        color: #d82e4d;
+        border-color: #d82e4d;
+        font-weight: bold;
+
+        &:hover {
+            color: #ffffff;
+            background-color: #d82e4d;
+        }
+    }
 }
 </style>

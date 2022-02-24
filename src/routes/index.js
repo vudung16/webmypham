@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router';
 import Home from '../pages/webview/Home/index.vue';
 import WebviewLayout from "../pages/webview/layouts/WebviewLayout.vue";
 import ProductDetail from "../pages/webview/Product/productDetail.vue";
+import Cart from "../pages/webview/Cart/cart.vue";
 
 
 const routes = [
@@ -42,7 +43,45 @@ const routes = [
                 }
             }
         ]
-    }
+    },
+
+    {
+        path: '/cart',
+        component: WebviewLayout,
+        meta: {
+            title: "Giỏ Hàng"
+        },
+        children: [
+            {
+                title: 'Cart',
+                path: '',
+                name: 'Cart',
+                component: Cart,
+                meta: {
+                    title: 'Giỏ Hàng',
+                }
+            }
+        ]
+    },
+
+    {
+        path: '/checkout',
+        component: WebviewLayout,
+        meta: {
+            title: "Checkout"
+        },
+        children: [
+            {
+                title: 'Checkout',
+                path: '/',
+                name: 'Checkout',
+                component: Cart,
+                meta: {
+                    title: 'Checkout',
+                }
+            }
+        ]
+    },
 ]
 
 const router = createRouter({

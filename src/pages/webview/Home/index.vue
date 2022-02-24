@@ -274,6 +274,7 @@ import api from "../../../api/homewebview";
     .ant-card-grid {
         text-align: left !important;
         height: 100%;
+        cursor: pointer;
     }
 
     .ant-card-grid-hoverable:hover .icon-card {
@@ -286,6 +287,10 @@ import api from "../../../api/homewebview";
         width: 185px; 
         height: 1.2em; 
         white-space: nowrap;
+    }
+
+    .ant-badge {
+        width: 100%;
     }
 }
 </style>
