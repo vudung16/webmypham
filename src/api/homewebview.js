@@ -284,4 +284,27 @@ export default {
             })
         });
     },
+
+    //lấy danh sách voucher màn thanh toán
+    listVoucher: () => {
+        const url = `http://127.0.0.1:2223/api/list-voucher`;
+        return new Promise((resolve, reject) => {
+            axios.get(url, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
 }

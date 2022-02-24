@@ -11,6 +11,46 @@
                     </div>
                     <div class="voucher">
                         Mã giảm giá: 
+                        <a-button type="primary" @click="showModal">Chọn hoặc nhập mã</a-button>
+                        <a-modal v-model:visible="visible" @ok="handleOk" width="600px">
+                            <template #title>
+                                <div class="title">
+                                    Chọn voucher
+                                </div>
+                                <div class="search">
+                                    <div class="text">Mã voucher</div>
+                                    <div class="input-search">
+                                        <a-input-search
+                                            v-model:value="value"
+                                            placeholder="Nhập mã Voucher cần áp dụng"
+                                            size="large"
+                                            @search="onSearch"
+                                            >
+                                            <template #enterButton>
+                                                <a-button>Áp dụng</a-button>
+                                            </template>
+                                        </a-input-search>
+                                    </div>
+                                </div>
+                            </template>
+                            <template #footer>
+                                <a-button key="back" @click="handleCancel">Trở lại</a-button>
+                                <a-button key="submit" type="primary" @click="handleOk">Đồng ý</a-button>
+                            </template>
+                            <a-radio-group v-model:value="selectVoucher">
+                                <a-radio-button value="shipcode" v-for="item in listVoucher" :key="item.index">
+                                    <div class="select-voucher">
+                                        <img width="100" v-bind:src="item.image" alt="">
+                                        <div class="content">
+                                            <div class="voucher-code">{{ item.code }}</div>
+                                            <div class="describe">{{ item.name }}</div>
+                                            <div class="end-date">HSD: {{ item.expires_at }}</div>
+                                            <div class="click-detail">Chi tiết</div>
+                                        </div>
+                                    </div>
+                                </a-radio-button>
+                            </a-radio-group>
+                        </a-modal>
                     </div>
                     <div class="shipping">
                         Phí vận chuyển: {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(shipPrice.total) }}
@@ -106,6 +146,21 @@
 <script>
 import { UserOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
+import axios from 'axios';
+
+const datatest = [{
+    id: 1,
+  title: 'Ant Design Title 1',
+}, {
+    id: 2,
+  title: 'Ant Design Title 2',
+}, {
+    id: 3,
+  title: 'Ant Design Title 3',
+}, {
+    id: 4,
+  title: 'Ant Design Title 4',
+}];
     export default {
         name: "Cart",
         components: {
@@ -127,12 +182,16 @@ import api from "../../../api/homewebview";
                 phone: '',
                 mail: '',
                 note: '',
-                selectPayment: 'shipcode'
+                selectPayment: 'shipcode',
+                visible: true,
+                datatest,
+                listVoucher: {},
             }
         },
 
         created() {
             this.getCity();
+            this.vouchers();
         },
 
         computed: {
@@ -185,11 +244,24 @@ import api from "../../../api/homewebview";
                         window.location = res;
                     }
                 }
-            }
+            },
 
-            // city(value) {
-            //     console.log(`selected ${value}`);
-            // },
+            async vouchers() {
+                let res = await api.listVoucher();
+                this.listVoucher = res;
+            },
+
+            // open model
+            showModal() {
+                this.visible = true;
+            },
+            handleCancel() {
+                this.visible = false;
+            },
+
+            handleOk() {
+                console.log('modal');
+            }
         },
 
         watch: {
@@ -204,17 +276,17 @@ import api from "../../../api/homewebview";
                     district_id: newValue
                 }
                 this.getWard(params);
-            },
-            phuong: function (newValue, oldValue) {
-                let params = {
+
+                let params1 = {
                     shop_id: 2448165,
                     from_district: 3303,
                     to_district: this.huyen,
                 }
-                this.getService(params);
-
+                this.getService(params1);
+            },
+            phuong: function (newValue, oldValue) {
                 let data = {
-                    service_id: 53321,
+                    service_id: this.service[0].service_id,
                     insurance_value: this.$store.state.product.cartData.sum_price,
                     coupon: null,
                     from_district_id: 3303,
@@ -280,6 +352,36 @@ import api from "../../../api/homewebview";
         height: 100%;
         padding: 0;
         margin-right: 10px;
+    }
+}
+.ant-modal-header {
+    .search {
+        display: flex;
+        align-items: center;
+        margin-top: 20px !important;
+        .text {
+            margin-right: 20px;
+        }
+        .input-search {
+            width: 80%;
+        }
+    }
+}
+.ant-modal-body {
+    height: 300px;
+    overflow-y: scroll;
+    .ant-radio-button-wrapper {
+        margin-top: 20px;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0;
+    }
+    .select-voucher {
+        display: flex;
+
+        .content {
+            padding: 0 0 0 10px;
+        }
     }
 }
 </style>
