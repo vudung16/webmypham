@@ -20,7 +20,8 @@ export const product = {
                     let res = await api.cartData({
                         user_id: 1,
                         product_id: data.product_id,
-                        quantity: data.quantity
+                        quantity: data.quantity,
+                        type: data.type
                     });
                     commit('cartData', res);
                     resolve(res)

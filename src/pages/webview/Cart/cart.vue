@@ -5,13 +5,63 @@
         </div>
         <div class="main">
             <a-row :gutter="16">
-                <a-col :span="14">
+                <a-col :span="15">
+                    <div class="table-product">
+                       <a-row :gutter="16">
+                           <a-col :span="6">Sản phẩm</a-col>
+                           <a-col :span="2"></a-col>
+                           <a-col :span="5">Đơn giá</a-col>
+                           <a-col :span="5">Số lượng</a-col>
+                           <a-col :span="2">Số tiền</a-col>
+                           <a-col :span="3">Thao tác</a-col>
+                       </a-row>
+                       <a-row :gutter="16" v-for="(item, index) in listProduct.carts" :key="item.id">
+                           <a-col :span="6">
+                               <div class="product">
+                                   <img width="60" height="60" v-bind:src="item.product_image" alt="">
+                                   <div class="product_name">{{ item.product_name }}</div>
+                               </div>
+                           </a-col>
+                           <a-col :span="2"></a-col>
+                           <a-col :span="5">
+                               <div class="money">
+                                    <div v-if="item.product_discount">
+                                        <span class="sale">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_price - ((item.product_discount /100) * item.product_price))}}&emsp;</span>
+                                        <span class="origin"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_price)}}</del></span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_price)}}</span>
+                                    </div>
+                                </div>
+                           </a-col>
+                           <a-col :span="5" class="quantity">
+                               <div class="quantity-toggle">
+                                    <a-button shape="circle" @click="reduction(item.product_id, index)">
+                                        <template #icon><minus-outlined /></template>
+                                    </a-button>
+                                    <a-input class="input-quantity" v-model:value="item.quantity" disabled/>
+                                    <a-button shape="circle" @click="plus(item.product_id, index)">
+                                        <template #icon><plus-outlined /></template>
+                                    </a-button>
+                                </div>
+                           </a-col>
+                           <a-col :span="2">
+                               <div class="total">
+                                   {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_price * item.quantity) }}
+                               </div>
+                           </a-col>
+                           <a-col :span="3">
+                               <a @click="deleteProduct(item.product_id)">
+                                   <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 30 30" width="25px" height="25px"><path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"/></svg>
+                               </a>
+                            </a-col>
+                       </a-row>
+                    </div>
                     <div class="total-money">
                         Tổng: {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}
                     </div>
                     <div class="voucher">
-                        Mã giảm giá: 
-                        <a-button type="primary" @click="showModal">Chọn hoặc nhập mã</a-button>
+                        Mã giảm giá: - {{ okVoucher.discount_price ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(okVoucher.discount_price) : '0đ' }}
                         <a-modal v-model:visible="visible" @ok="handleOk" width="600px">
                             <template #title>
                                 <div class="title">
@@ -20,31 +70,33 @@
                                 <div class="search">
                                     <div class="text">Mã voucher</div>
                                     <div class="input-search">
-                                        <a-input-search
-                                            v-model:value="value"
+                                        <a-input
+                                            v-model:value="selectVoucher"
                                             placeholder="Nhập mã Voucher cần áp dụng"
                                             size="large"
                                             @search="onSearch"
                                             >
-                                            <template #enterButton>
-                                                <a-button>Áp dụng</a-button>
-                                            </template>
-                                        </a-input-search>
+                                        </a-input>
+                                        <a-button @click="checkVoucher">Áp dụng</a-button>
                                     </div>
+                                </div>
+                                <div class="message-error" style="margin-top: 20px; text-align: center" v-if="messageError">
+                                    <close-circle-outlined @click="closeError"/>
+                                    <span style="color: red;">{{ messageError }}</span>
                                 </div>
                             </template>
                             <template #footer>
                                 <a-button key="back" @click="handleCancel">Trở lại</a-button>
-                                <a-button key="submit" type="primary" @click="handleOk">Đồng ý</a-button>
+                                <a-button key="submit" type="primary" @click="checkVoucher">Đồng ý</a-button>
                             </template>
                             <a-radio-group v-model:value="selectVoucher">
-                                <a-radio-button value="shipcode" v-for="item in listVoucher" :key="item.index">
+                                <a-radio-button :value="item.code" v-for="item in listVoucher" :key="item.index" :disabled="item.status===false">
                                     <div class="select-voucher">
                                         <img width="100" v-bind:src="item.image" alt="">
                                         <div class="content">
                                             <div class="voucher-code">{{ item.code }}</div>
                                             <div class="describe">{{ item.name }}</div>
-                                            <div class="end-date">HSD: {{ item.expires_at }}</div>
+                                            <div class="end-date">HSD: {{ item.end_date }}</div>
                                             <div class="click-detail">Chi tiết</div>
                                         </div>
                                     </div>
@@ -53,13 +105,13 @@
                         </a-modal>
                     </div>
                     <div class="shipping">
-                        Phí vận chuyển: {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(shipPrice.total) }}
+                        Phí vận chuyển: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(shipPrice.total) : '' }}
                     </div>
-                    <div class="payment" v-if="!voucher">
-                        Thanh toán: {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price + shipPrice.total) }}
+                    <div class="payment" v-if="!okVoucher.discount_price">
+                        Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price + shipPrice.total) : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}
                     </div>
                     <div class="payment" v-else>
-                        Thanh toán: 
+                        Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price - okVoucher.discount_price + shipPrice.total) : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price - okVoucher.discount_price) }}
                     </div>
                     <div class="payment-format">
                         <div class="text">Hình thức thanh toán: </div>
@@ -81,7 +133,7 @@
                         </div>
                     </div>
                 </a-col>
-                <a-col :span="10">
+                <a-col :span="9">
                     <div class="info-order">Thông tin đặt hàng</div>
                     <div class="info-order-content">
                         <span class="note-text">Bạn cần nhập đầy đủ các thông tin có dấu *</span>
@@ -135,7 +187,8 @@
                             </template>
                         </a-input>
                         <a-textarea v-model:value="note" placeholder="Ghi chú" allow-clear />
-                        <a-button @click="payment">Xác nhận và đặt hàng</a-button>
+                        <a-button @click="showModal">Chọn hoặc nhập mã giảm giá</a-button><br>
+                        <a-button class="btn-submit" @click="payment">Xác nhận và đặt hàng</a-button>
                     </div>
                 </a-col>
             </a-row>
@@ -144,27 +197,15 @@
 </template>
 
 <script>
-import { UserOutlined, PhoneOutlined, MailOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, PhoneOutlined, MailOutlined, CloseCircleOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
 import axios from 'axios';
+import {cloneDeep} from 'lodash';
 
-const datatest = [{
-    id: 1,
-  title: 'Ant Design Title 1',
-}, {
-    id: 2,
-  title: 'Ant Design Title 2',
-}, {
-    id: 3,
-  title: 'Ant Design Title 3',
-}, {
-    id: 4,
-  title: 'Ant Design Title 4',
-}];
     export default {
         name: "Cart",
         components: {
-            UserOutlined, PhoneOutlined, MailOutlined
+            UserOutlined, PhoneOutlined, MailOutlined, CloseCircleOutlined, MinusOutlined, PlusOutlined
         },
         data() {
             return {
@@ -177,28 +218,33 @@ const datatest = [{
                 phuong: '',
                 service: '',
                 shipPrice: '',
-                voucher: '',
                 name: '',
                 phone: '',
                 mail: '',
                 note: '',
                 selectPayment: 'shipcode',
                 visible: true,
-                datatest,
                 listVoucher: {},
+                selectVoucher: '',
+                okVoucher: {
+                    discount_price: 0
+                },
+                messageError: '',
+                listProduct: ''
             }
         },
 
         created() {
             this.getCity();
             this.vouchers();
+            this.listProduct = cloneDeep(this.$store.state.product.cartData);
         },
 
         computed: {
             carts() {
                 let shoppingCart = JSON.parse(JSON.stringify(this.$store.state.product.cartData))
-                
                 if (shoppingCart) {
+                    this.listProduct = JSON.parse(JSON.stringify(this.$store.state.product.cartData))
                     return JSON.parse(JSON.stringify(this.$store.state.product.cartData));
                 }
             }
@@ -238,7 +284,7 @@ const datatest = [{
                 } else {
                     if(this.selectPayment === 'vnpay') {
                         let params = {
-                            total: this.shipPrice.total + this.$store.state.product.cartData.sum_price
+                            total: this.shipPrice.total + this.$store.state.product.cartData.sum_price - this.okVoucher.discount_price
                         }
                         let res = await api.payment(params);
                         window.location = res;
@@ -251,6 +297,40 @@ const datatest = [{
                 this.listVoucher = res;
             },
 
+            deleteProduct(data) {
+                let params = {
+                    type: 'delete',
+                    quantity: '',
+                    product_id: data
+                }
+                
+                this.$store.dispatch('product/cartData', params);
+            },
+            reduction(product_id, index) {
+                if (this.listProduct.carts[index].quantity <= 1) {
+                    return false;
+                } else {
+                    this.listProduct.carts[index].quantity --
+                    let params = {
+                        type: 'update',
+                        quantity: this.listProduct.carts[index].quantity,
+                        product_id: product_id
+                    }
+                    this.$store.dispatch('product/cartData', params);
+                }
+            },
+
+            plus(product_id, index) {
+                this.listProduct.carts[index].quantity ++
+                let params = {
+                    type: 'update',
+                    quantity: this.listProduct.carts[index].quantity,
+                    product_id: product_id
+                }
+                this.$store.dispatch('product/cartData', params);
+                
+            },
+
             // open model
             showModal() {
                 this.visible = true;
@@ -259,8 +339,24 @@ const datatest = [{
                 this.visible = false;
             },
 
-            handleOk() {
-                console.log('modal');
+            closeError() {
+                this.messageError = '';
+            },
+
+            async checkVoucher() {
+                let params = {
+                    user_id: 1,
+                    code_voucher: this.selectVoucher,
+                    price: this.$store.state.product.cartData.sum_price
+                };
+                let res = await api.checkVoucher(params);
+                if (res.status === true) {
+                    this.okVoucher = res.data;
+                    this.visible = false;
+                } else {
+                    this.messageError = res.message;
+                }
+
             }
         },
 
@@ -343,6 +439,12 @@ const datatest = [{
                 background-color: #d82e4d;
             }
         }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #d82e4d;
+            color: #ffffff;
+        }
     }
     .anticon svg {
         color: #bdbcbc !important;
@@ -364,6 +466,18 @@ const datatest = [{
         }
         .input-search {
             width: 80%;
+            display: flex;
+
+            button {
+                height: 40px;
+            }
+        }
+    }
+    .message-error {
+        svg {
+            color: red !important;
+            margin-right: 5px;
+            font-size: 14px;
         }
     }
 }
