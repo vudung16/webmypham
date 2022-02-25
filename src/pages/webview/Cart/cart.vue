@@ -3,20 +3,23 @@
         <div class="header">
             Giỏ hàng
         </div>
-        <div class="main">
-            <a-row :gutter="16">
-                <a-col :span="15">
+        <div class="empty-cart"  v-if="listProduct.carts.length === 0">
+            <img src="../../../assets/images/empty-cart.png" alt="">
+        </div>
+        <div class="main" v-else>
+            <a-row :gutter="16" style="align-items: center;">
+                <a-col :span="15" style="padding-right: 30px; border-right: 1px dashed #c6bdbd;">
                     <div class="table-product">
-                       <a-row :gutter="16">
-                           <a-col :span="6">Sản phẩm</a-col>
+                       <a-row :gutter="16" class="title-header">
+                           <a-col :span="7">Sản phẩm</a-col>
                            <a-col :span="2"></a-col>
                            <a-col :span="5">Đơn giá</a-col>
                            <a-col :span="5">Số lượng</a-col>
-                           <a-col :span="2">Số tiền</a-col>
-                           <a-col :span="3">Thao tác</a-col>
+                           <a-col :span="4">Số tiền</a-col>
+                           <a-col :span="1"></a-col>
                        </a-row>
-                       <a-row :gutter="16" v-for="(item, index) in listProduct.carts" :key="item.id">
-                           <a-col :span="6">
+                       <a-row :gutter="16" v-for="(item, index) in listProduct.carts" :key="item.id" style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
+                           <a-col :span="7">
                                <div class="product">
                                    <img width="60" height="60" v-bind:src="item.product_image" alt="">
                                    <div class="product_name">{{ item.product_name }}</div>
@@ -45,95 +48,102 @@
                                     </a-button>
                                 </div>
                            </a-col>
-                           <a-col :span="2">
+                           <a-col :span="4">
                                <div class="total">
-                                   {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_price * item.quantity) }}
-                               </div>
+                                    <div v-if="item.product_discount">
+                                        <span class="sale">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format((item.product_price - ((item.product_discount /100) * item.product_price)) * item.quantity)}}&emsp;</span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.product_price)}}</span>
+                                    </div>
+                                </div>
                            </a-col>
-                           <a-col :span="3">
+                           <a-col :span="1" class="icon-delete">
                                <a @click="deleteProduct(item.product_id)">
                                    <svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 30 30" width="25px" height="25px"><path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"/></svg>
                                </a>
                             </a-col>
                        </a-row>
                     </div>
-                    <div class="total-money">
-                        Tổng: {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}
-                    </div>
-                    <div class="voucher">
-                        Mã giảm giá: - {{ okVoucher.discount_price ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(okVoucher.discount_price) : '0đ' }}
-                        <a-modal v-model:visible="visible" @ok="handleOk" width="600px">
-                            <template #title>
-                                <div class="title">
-                                    Chọn voucher
-                                </div>
-                                <div class="search">
-                                    <div class="text">Mã voucher</div>
-                                    <div class="input-search">
-                                        <a-input
-                                            v-model:value="selectVoucher"
-                                            placeholder="Nhập mã Voucher cần áp dụng"
-                                            size="large"
-                                            @search="onSearch"
-                                            >
-                                        </a-input>
-                                        <a-button @click="checkVoucher">Áp dụng</a-button>
+                    <div class="info-payment">
+                        <div class="total-money">
+                            Tổng: {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}
+                        </div>
+                        <div class="voucher">
+                            Mã giảm giá: - {{ okVoucher.discount_price ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(okVoucher.discount_price) : '0đ' }}
+                            <a-modal v-model:visible="visible" @ok="handleOk" width="600px">
+                                <template #title>
+                                    <div class="title">
+                                        Chọn voucher
                                     </div>
-                                </div>
-                                <div class="message-error" style="margin-top: 20px; text-align: center" v-if="messageError">
-                                    <close-circle-outlined @click="closeError"/>
-                                    <span style="color: red;">{{ messageError }}</span>
-                                </div>
-                            </template>
-                            <template #footer>
-                                <a-button key="back" @click="handleCancel">Trở lại</a-button>
-                                <a-button key="submit" type="primary" @click="checkVoucher">Đồng ý</a-button>
-                            </template>
-                            <a-radio-group v-model:value="selectVoucher">
-                                <a-radio-button :value="item.code" v-for="item in listVoucher" :key="item.index" :disabled="item.status===false">
-                                    <div class="select-voucher">
-                                        <img width="100" v-bind:src="item.image" alt="">
-                                        <div class="content">
-                                            <div class="voucher-code">{{ item.code }}</div>
-                                            <div class="describe">{{ item.name }}</div>
-                                            <div class="end-date">HSD: {{ item.end_date }}</div>
-                                            <div class="click-detail">Chi tiết</div>
+                                    <div class="search">
+                                        <div class="text">Mã voucher</div>
+                                        <div class="input-search">
+                                            <a-input
+                                                v-model:value="selectVoucher"
+                                                placeholder="Nhập mã Voucher cần áp dụng"
+                                                size="large"
+                                                @search="onSearch"
+                                                >
+                                            </a-input>
+                                            <a-button @click="checkVoucher">Áp dụng</a-button>
                                         </div>
                                     </div>
-                                </a-radio-button>
-                            </a-radio-group>
-                        </a-modal>
-                    </div>
-                    <div class="shipping">
-                        Phí vận chuyển: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(shipPrice.total) : '' }}
-                    </div>
-                    <div class="payment" v-if="!okVoucher.discount_price">
-                        Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price + shipPrice.total) : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}
-                    </div>
-                    <div class="payment" v-else>
-                        Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price - okVoucher.discount_price + shipPrice.total) : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price - okVoucher.discount_price) }}
-                    </div>
-                    <div class="payment-format">
-                        <div class="text">Hình thức thanh toán: </div>
-                        <div class="select-payment">
-                            <a-radio-group v-model:value="selectPayment">
-                                <a-radio-button value="shipcode">
-                                    <img width="50" height="50" src="../../../assets/images/shipcode.png" alt="">
-                                </a-radio-button>
-                                <a-radio-button value="vnpay">
-                                    <img width="50" height="50" src="../../../assets/images/vnpay.png" alt="">
-                                </a-radio-button>
-                                <a-radio-button value="momo">
-                                    <img width="50" height="50" src="../../../assets/images/momo.jpg" alt="">
-                                </a-radio-button>
-                                <a-radio-button value="paypal">
-                                    <img width="50" height="50" src="../../../assets/images/paypal.jpg" alt="">
-                                </a-radio-button>
-                            </a-radio-group>
+                                    <div class="message-error" style="margin-top: 20px; text-align: center" v-if="messageError">
+                                        <close-circle-outlined @click="closeError"/>
+                                        <span style="color: red;">{{ messageError }}</span>
+                                    </div>
+                                </template>
+                                <template #footer>
+                                    <a-button key="back" @click="handleCancel">Trở lại</a-button>
+                                    <a-button key="submit" type="primary" @click="checkVoucher">Đồng ý</a-button>
+                                </template>
+                                <a-radio-group v-model:value="selectVoucher">
+                                    <a-radio-button :value="item.code" v-for="item in listVoucher" :key="item.index" :disabled="item.status===false">
+                                        <div class="select-voucher">
+                                            <img width="100" v-bind:src="item.image" alt="">
+                                            <div class="content">
+                                                <div class="voucher-code">{{ item.code }}</div>
+                                                <div class="describe">{{ item.name }}</div>
+                                                <div class="end-date">HSD: {{ item.end_date }}</div>
+                                                <div class="click-detail">Chi tiết</div>
+                                            </div>
+                                        </div>
+                                    </a-radio-button>
+                                </a-radio-group>
+                            </a-modal>
+                        </div>
+                        <div class="shipping">
+                            Phí vận chuyển: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(shipPrice.total) : '' }}
+                        </div>
+                        <div class="payment" v-if="!okVoucher.discount_price">
+                            Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price + shipPrice.total) : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price) }}
+                        </div>
+                        <div class="payment" v-else>
+                            Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price - okVoucher.discount_price + shipPrice.total) : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price - okVoucher.discount_price) }}
+                        </div>
+                        <div class="payment-format">
+                            <div class="text">Hình thức thanh toán: {{ selectPayment }}</div>
+                            <div class="select-payment">
+                                <a-radio-group v-model:value="selectPayment">
+                                    <a-radio-button value="shipcode">
+                                        <img width="50" height="50" src="../../../assets/images/shipcode.png" alt="">
+                                    </a-radio-button>
+                                    <a-radio-button value="vnpay">
+                                        <img width="50" height="50" src="../../../assets/images/vnpay.png" alt="">
+                                    </a-radio-button>
+                                    <a-radio-button value="momo">
+                                        <img width="50" height="50" src="../../../assets/images/momo.jpg" alt="">
+                                    </a-radio-button>
+                                    <a-radio-button value="paypal">
+                                        <img width="50" height="50" src="../../../assets/images/paypal.jpg" alt="">
+                                    </a-radio-button>
+                                </a-radio-group>
+                            </div>
                         </div>
                     </div>
                 </a-col>
-                <a-col :span="9">
+                <a-col :span="9" style="padding-left: 30px;">
                     <div class="info-order">Thông tin đặt hàng</div>
                     <div class="info-order-content">
                         <span class="note-text">Bạn cần nhập đầy đủ các thông tin có dấu *</span>
@@ -223,14 +233,14 @@ import {cloneDeep} from 'lodash';
                 mail: '',
                 note: '',
                 selectPayment: 'shipcode',
-                visible: true,
+                visible: false,
                 listVoucher: {},
                 selectVoucher: '',
                 okVoucher: {
                     discount_price: 0
                 },
                 messageError: '',
-                listProduct: ''
+                listProduct: '',
             }
         },
 
@@ -454,6 +464,19 @@ import {cloneDeep} from 'lodash';
         height: 100%;
         padding: 0;
         margin-right: 10px;
+    }
+    .table-product {
+        margin: 60px 0px 30px 0px;
+        .title-header {
+            // text-align: center;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .ant-row {
+            align-items: center;
+            text-align: center;
+        }
     }
 }
 .ant-modal-header {
