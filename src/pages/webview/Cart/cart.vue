@@ -1,12 +1,12 @@
 <template>
-    <div class="main-cart" v-if="loading == true">
+    <div class="main-cart" v-if="loading === true">
         <div class="header">
             Giỏ hàng
         </div>
-        <div class="empty-cart"  v-if="listProduct.carts.length === 0">
+        <div class="empty-cart" v-show="!listProduct.carts.length">
             <img src="../../../assets/images/empty-cart.png" alt="">
         </div>
-        <div class="main" v-else>
+        <div class="main" v-show="listProduct.carts.length">
             <a-row :gutter="16" style="align-items: center;">
                 <a-col :span="15" style="padding-right: 30px; border-right: 1px dashed #c6bdbd;">
                     <div class="table-product">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="voucher">
                             Mã giảm giá: - {{ okVoucher.discount_price ? new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(okVoucher.discount_price) : '0đ' }}
-                            <a-modal v-model:visible="visible" @ok="handleOk" width="600px">
+                            <a-modal v-model:visible="visible" width="600px">
                                 <template #title>
                                     <div class="title">
                                         Chọn voucher
@@ -83,8 +83,7 @@
                                                 v-model:value="selectVoucher"
                                                 placeholder="Nhập mã Voucher cần áp dụng"
                                                 size="large"
-                                                @search="onSearch"
-                                                >
+                                            >
                                             </a-input>
                                             <a-button @click="checkVoucher">Áp dụng</a-button>
                                         </div>
@@ -104,7 +103,7 @@
                                             <img width="100" v-bind:src="item.image" alt="">
                                             <div class="content">
                                                 <div class="voucher-code">{{ item.code }}</div>
-                                                <div class="describe">{{ item.name }}</div>
+                                                <div class="describe">{{ item.name }} - Đơn tối thiểu {{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(item.minimum_order)}}</div>
                                                 <div class="end-date">HSD: {{ item.end_date }}</div>
                                                 <div class="click-detail">Chi tiết</div>
                                             </div>
@@ -147,55 +146,74 @@
                     <div class="info-order">Thông tin đặt hàng</div>
                     <div class="info-order-content">
                         <span class="note-text">Bạn cần nhập đầy đủ các thông tin có dấu *</span>
-                        <a-input v-model:value="name" placeholder="Họ và tên *">
-                            <template #prefix>
-                                <user-outlined type="user" />
-                            </template>
-                        </a-input>
-                        <a-input v-model:value="phone" placeholder="Số điện thoại *">
-                            <template #prefix>
-                                <phone-outlined type="phone" />
-                            </template>
-                        </a-input>
-                        <div class="address">
-                            <a-row :gutter="16">
-                                <a-col :span="8">
-                                    <a-select v-model:value="province">
-                                        <a-select-option value="">
-                                            Tỉnh/Thành phố *
-                                        </a-select-option>
-                                        <a-select-option v-for="item in city" :value="item.ProvinceID" :key="item.index">
-                                            {{ item.ProvinceName }}
-                                        </a-select-option>
-                                    </a-select>
-                                </a-col>
-                                <a-col :span="8">
-                                    <a-select v-model:value="huyen">
-                                        <a-select-option value="">
-                                            Quận/Huyện *
-                                        </a-select-option>
-                                        <a-select-option v-for="item in district" :value="item.DistrictID" :key="item.index">
-                                            {{ item.DistrictName }}
-                                        </a-select-option>
-                                    </a-select>
-                                </a-col>
-                                <a-col :span="8">
-                                    <a-select v-model:value="phuong">
-                                        <a-select-option value="">
-                                            Phường/Xã *
-                                        </a-select-option>
-                                        <a-select-option v-for="item in ward" :value="item.WardCode" :key="item.index">
-                                            {{ item.WardName }}
-                                        </a-select-option>
-                                    </a-select>
-                                </a-col>
-                            </a-row>
+                        <div class="text">
+                            <a-input v-model:value="name" placeholder="Họ và tên *">
+                                <template #prefix>
+                                    <user-outlined type="user" />
+                                </template>
+                            </a-input>
+                            <div class="errors" v-if="listErrors.name">{{ listErrors.name[0] }}</div>
                         </div>
-                        <a-input v-model:value="mail" placeholder="Email *">
-                            <template #prefix>
-                                <mail-outlined type="mail" />
-                            </template>
-                        </a-input>
+                        <div class="text">
+                            <a-input v-model:value="phone" placeholder="Số điện thoại *">
+                                <template #prefix>
+                                    <phone-outlined type="phone" />
+                                </template>
+                            </a-input>
+                            <div class="errors" v-if="listErrors.phone">{{ listErrors.phone[0] }}</div>
+                        </div>        
+
+                        <div class="text">
+                            <div class="address">
+                                <a-row :gutter="16">
+                                    <a-col :span="8">
+                                        <a-select v-model:value="province">
+                                            <a-select-option value="">
+                                                Tỉnh/Thành phố *
+                                            </a-select-option>
+                                            <a-select-option v-for="item in city" :value="item.ProvinceID" :key="item.index">
+                                                {{ item.ProvinceName }}
+                                            </a-select-option>
+                                        </a-select>
+                                    </a-col>
+                                    <a-col :span="8">
+                                        <a-select v-model:value="huyen">
+                                            <a-select-option value="">
+                                                Quận/Huyện *
+                                            </a-select-option>
+                                            <a-select-option v-for="item in district" :value="item.DistrictID" :key="item.index">
+                                                {{ item.DistrictName }}
+                                            </a-select-option>
+                                        </a-select>
+                                    </a-col>
+                                    <a-col :span="8">
+                                        <a-select v-model:value="phuong">
+                                            <a-select-option value="">
+                                                Phường/Xã *
+                                            </a-select-option>
+                                            <a-select-option v-for="item in ward" :value="item.WardCode" :key="item.index">
+                                                {{ item.WardName }}
+                                            </a-select-option>
+                                        </a-select>
+                                    </a-col>
+                                </a-row>
+                                <div class="errors">
+                                    <div v-if="listErrors.province">{{ listErrors.province[0] }}</div>
+                                    <div v-if="listErrors.district">{{ listErrors.district[0] }}</div>
+                                    <div v-if="listErrors.ward">{{ listErrors.ward[0] }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text">
+                            <a-input v-model:value="mail" placeholder="Email *">
+                                <template #prefix>
+                                    <mail-outlined type="mail" />
+                                </template>
+                            </a-input>
+                            <div class="errors" v-if="listErrors.email">{{ listErrors.email[0] }}</div>
+                        </div>
+
                         <a-textarea v-model:value="note" placeholder="Ghi chú" allow-clear />
                         <a-button @click="showModal">Chọn hoặc nhập mã giảm giá</a-button><br>
                         <a-button class="btn-submit" @click="payment">Xác nhận và đặt hàng</a-button>
@@ -241,13 +259,16 @@ import {cloneDeep} from 'lodash';
                 },
                 messageError: '',
                 listProduct: '',
+                listErrors: {},
             }
         },
 
         created() {
+            this.loading = false;
             this.getCity();
             this.vouchers();
             this.listProduct = cloneDeep(this.$store.state.product.cartData);
+            this.loading = true;
         },
 
         computed: {
@@ -262,10 +283,10 @@ import {cloneDeep} from 'lodash';
 
         methods: {
             async getCity() {
-                this.loading = false;
+                // this.loading = false;
                 let res = await api.getCity();
                 this.city = res;
-                this.loading = true;
+                // this.loading = true;
             },
 
             async getDistrict(params) {
@@ -289,15 +310,36 @@ import {cloneDeep} from 'lodash';
             },
 
             async payment() {
+                let params = {
+                    user_id: 1,
+                    type: this.selectPayment,
+                    name: this.name,
+                    phone: this.phone,
+                    email: this.mail,
+                    province: this.province,
+                    district: this.huyen,
+                    ward: this.phuong,
+                    total: this.shipPrice.total + this.$store.state.product.cartData.sum_price - this.okVoucher.discount_price,
+                    pay_ship: this.shipPrice.total,
+                    voucher_id: this.okVoucher.voucher_id,
+                    note: this.note
+                }
                 if(this.selectPayment === 'shipcode') {
-                    this.$router.push('/checkout');
+                    let res = await api.payment(params);
+                    if (res.status === true) {
+                        this.$router.push('/checkout');
+                    } else {
+                        this.listErrors = res.errors;
+                    }
                 } else {
                     if(this.selectPayment === 'vnpay') {
-                        let params = {
-                            total: this.shipPrice.total + this.$store.state.product.cartData.sum_price - this.okVoucher.discount_price
-                        }
                         let res = await api.payment(params);
-                        window.location = res;
+                        if(res.status === true) {
+                            window.location = res.data;
+                        } else {
+                            console.log(res);
+                            this.listErrors = res.errors;
+                        }
                     }
                 }
             },
@@ -313,7 +355,6 @@ import {cloneDeep} from 'lodash';
                     quantity: '',
                     product_id: data
                 }
-                
                 this.$store.dispatch('product/cartData', params);
             },
             reduction(product_id, index) {
@@ -327,6 +368,8 @@ import {cloneDeep} from 'lodash';
                         product_id: product_id
                     }
                     this.$store.dispatch('product/cartData', params);
+                    setTimeout(() => this.checkVoucher(),1500);
+                    // this.checkVoucher();
                 }
             },
 
@@ -338,6 +381,7 @@ import {cloneDeep} from 'lodash';
                     product_id: product_id
                 }
                 this.$store.dispatch('product/cartData', params);
+                setTimeout(() => this.checkVoucher(), 1500);
                 
             },
 
@@ -363,6 +407,7 @@ import {cloneDeep} from 'lodash';
                 if (res.status === true) {
                     this.okVoucher = res.data;
                     this.visible = false;
+                    this.messageError = '';
                 } else {
                     this.messageError = res.message;
                 }
@@ -404,7 +449,7 @@ import {cloneDeep} from 'lodash';
                     width:15
                 }
                 this.shippingOrder(data);
-            }
+            },
         }
     }
 </script>
@@ -426,12 +471,18 @@ import {cloneDeep} from 'lodash';
             color: #bdbcbc;
         }
     }
+    .info-order-content {
+        .text {
+            margin-top: 20px;
+        }
+    }
     .ant-input-affix-wrapper {
         border-radius: 15px;
-        margin: 10px 0px;
+        // margin: 10px 0px;
         height: 40px;
     }
     .ant-input-affix-wrapper-textarea-with-clear-btn {
+        margin-top: 20px;
         border-radius: 2px !important;
         height: 80px !important;
     }

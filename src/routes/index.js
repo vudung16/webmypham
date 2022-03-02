@@ -4,6 +4,7 @@ import Home from '../pages/webview/Home/index.vue';
 import WebviewLayout from "../pages/webview/layouts/WebviewLayout.vue";
 import ProductDetail from "../pages/webview/Product/productDetail.vue";
 import Cart from "../pages/webview/Cart/cart.vue";
+import Category from '../pages/webview/Category/index.vue';
 
 
 const routes = [
@@ -78,6 +79,25 @@ const routes = [
                 component: Cart,
                 meta: {
                     title: 'Checkout',
+                }
+            }
+        ]
+    },
+
+    {
+        path: '/category',
+        component: WebviewLayout,
+        meta: {
+            title: "Thể loại"
+        },
+        children: [
+            {
+                title: 'Thể loại',
+                path: ':id',
+                name: 'Category',
+                component: Category,
+                meta: {
+                    title: 'Thể loại',
                 }
             }
         ]

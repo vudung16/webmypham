@@ -9,10 +9,9 @@
             <a-col class="header-center" :span="7">
                 <div>
                     <a-input-search
-                        v-model:value="value"
+                        v-model:value="search"
                         placeholder="Tìm kiếm..."
                         enter-button
-                        @search="onSearch"
                     />
                 </div>
             </a-col>
@@ -66,7 +65,7 @@
         <a-row class="header-bottom">
             <div class="header-bottom-menu">
                 <a-menu v-model="current" mode="horizontal">
-                    <a-sub-menu key="sub1" :disabled="hideMenu">
+                    <a-sub-menu key="sub1">
                         <template #icon>
                             <AppstoreOutlined />
                         </template>
@@ -113,18 +112,13 @@ import api from "../../../api/homewebview";
             return {
                 rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
                 openKeys: ['sub1'],
-                hideMenu: false,
                 category: {},
                 cart: {},
+                current: '',
+                search: '',
             };
         },
         computed: {
-            hideMenu() {
-                // you can  check your form is filled or not here.
-                if (this.$route.name == 'Home') {
-                    return this.hideMenu == true;
-                }
-            },
             carts() {
                 let shoppingCart = JSON.parse(JSON.stringify(this.$store.state.product.cartData))
                 
@@ -134,10 +128,6 @@ import api from "../../../api/homewebview";
             }
         },
         created() {
-            if (this.$route.name == 'Home') {
-                this.hideMenu == true;
-            }
-
             this.getCategory();
             this.test();
         },
@@ -159,7 +149,7 @@ import api from "../../../api/homewebview";
             shoppingCart() {
                 this.$router.push('/cart/');
             }
-        }
+        },
     }
 </script>
 

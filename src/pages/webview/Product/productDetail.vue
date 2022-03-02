@@ -13,7 +13,7 @@
         </div>
         <div class="product-main">
             <a-row :gutter="16">
-                <a-col :span="19">
+                <a-col :span="20">
                     <a-row :gutter="16">
                         <a-col :span="11">
                             <a-carousel arrows dots-class="slick-dots slick-thumb">
@@ -131,18 +131,18 @@
                     </a-row>
                 </a-col>
                 
-                <a-col :span="3">
+                <a-col :span="4">
                     <div class="voucher">
                         <a-card title="Voucher">
-                            <a-card-grid v-for="test in 4" :key="test" style="width: 100%; text-align: center">
+                            <a-card-grid v-for="item in listVoucher" :key="item.index" style="width: 100%; text-align: center">
                                 <div class="coupon">
                                     <div class="image">
-                                        <img width="100" height="50" src="../../../assets/images/coupon.png" alt="">
+                                        <img width="100" height="50" v-bind:src="item.image" alt="">
                                     </div>
                                     <div class="content">
-                                        <div class="title">NHẬP MÃ: EGA10</div>
+                                        <div class="title">NHẬP MÃ: {{ item.code }}</div>
                                         <div class="describe">
-                                            Mã Giảm giá 10% cho đơn hàng tối thiểu 100k
+                                            {{ item.name }}
                                         </div>
                                         <div class="condition">
                                             <a href="">Chi tiết</a>
@@ -180,11 +180,13 @@ export default {
             product: '',
             isLoading: false,
             isActive: false,
+            listVoucher: '',
         };
     },
 
     created() {
         this.productsDetail();
+        this.vouchers();
     },
 
     methods: {
@@ -213,6 +215,11 @@ export default {
             let res = await api.productDetail({id: id});
             this.product = res;
             this.isLoading = true;
+        },
+
+        async vouchers() {
+            let res = await api.listVoucher();
+            this.listVoucher = res;
         },
 
         addToCart(id) {

@@ -1,14 +1,14 @@
 <template>
     <div class="layout">
         <div class="webmypham-layout">
-            <div class="webmypham-sidebar">
+            <!-- <div class="webmypham-sidebar">
                 <Sidebar></Sidebar>
-            </div>
+            </div> -->
             <div class="webmypham-main-content">
                 <div class="webmypham-header">
                     <Header></Header>
                 </div>
-                <div class="webmypham-content" :style="{maxHeight: showFooter ? 'calc(100vh - 120px)' : ''}">
+                <div class="webmypham-content">
                     <router-view></router-view>
                 </div>
                 <div class="webmypham-footer">
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import Sidebar from "../../../components/webview/common/Sidebar.vue";
+// import Sidebar from "../../../components/webview/common/Sidebar.vue";
 import Header from "../../../components/webview/common/Header.vue";
 import Footer from "../../../components/webview/common/Footer.vue";
 
 export default {
     name: "WebviewLayout",
-    components: {Footer, Header, Sidebar},
+    components: {Footer, Header},
 }
 </script>
 

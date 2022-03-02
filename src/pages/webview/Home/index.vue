@@ -36,15 +36,15 @@
                         </span>
                     </a>
                 </template>
-                <a-card-grid v-for="test in 4" :key="test" style="width: 25%; text-align: center">
+                <a-card-grid v-for="item in listVoucher" :key="item.index" style="width: 25%; text-align: center">
                     <div class="coupon">
                         <div class="image">
-                            <img width="100" height="50" src="../../../assets/images/coupon.png" alt="">
+                            <img width="100" height="50" v-bind:src="item.image" alt="">
                         </div>
                         <div class="content">
-                            <div class="title">NHẬP MÃ: EGA10</div>
+                            <div class="title">NHẬP MÃ: {{ item.code }}</div>
                             <div class="describe">
-                                Mã Giảm giá 10% cho đơn hàng tối thiểu 100k
+                                {{ item.name }}
                             </div>
                             <div class="condition">
                                 <a href="">Chi tiết</a>
@@ -183,6 +183,7 @@ import api from "../../../api/homewebview";
                 banner: '',
                 productDiscount: '',
                 productSelling: '',
+                listVoucher: '',
             }
         },
 
@@ -191,6 +192,7 @@ import api from "../../../api/homewebview";
             this.getSlides();
             this.productsDiscount();
             this.productsSelling();
+            this.vouchers();
         },
 
         methods: {
@@ -213,6 +215,11 @@ import api from "../../../api/homewebview";
             async productsSelling() {
                 let res = await api.productsSelling();
                 this.productSelling = res.productSelling;
+            },
+
+            async vouchers() {
+                let res = await api.listVoucher();
+                this.listVoucher = res;
             },
 
             redirectProduct(id) {
