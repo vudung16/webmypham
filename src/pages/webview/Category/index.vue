@@ -37,7 +37,7 @@
                     <Filter @searchCategory="handleCategory" />
                 </a-col>
                 <a-col :span="18">
-                    <Category />
+                    <Category @searchArrange="handleArrange"/>
                 </a-col>
             </a-row>
         </div>
@@ -49,6 +49,7 @@ import { HomeOutlined, } from '@ant-design/icons-vue';
 import Filter from "../../../components/category/Filter.vue";
 import Category from "../../../components/category/Category.vue";
 import api from "../../../api/homewebview";
+import { forEach } from 'lodash';
     export default {
         name: "Home",
         components: {
@@ -61,26 +62,47 @@ import api from "../../../api/homewebview";
             return {
                 listVoucher: '',
                 dataFilter: {
-                    filter: {},
-                    arrange: {},
+                    category_id: '', 
+                    filter: {
+                        brand: [],
+                        total: [0, 5000000],
+                    },
+                    arrange: ['az'],
                 },
             }
         },
 
         created() {
+            this.dataFilter.category_id = this.$route.params.id;
             this.vouchers();
+            this.categoryProduct();
+            this.getBrand();
         },
 
         methods: {
             handleCategory(data) {
                 let params = JSON.parse(JSON.stringify(data));
                 this.dataFilter.filter = params;
-                console.log(params);
+            },
+            handleArrange(data) {
+                let params = JSON.parse(JSON.stringify(data));
+                this.dataFilter.arrange = params;
             },
             async vouchers() {
                 let res = await api.listVoucher();
                 this.listVoucher = res;
             },
+            categoryProduct() {
+                this.$store.dispatch('product/categoryProduct', this.dataFilter);
+            },
+            async getBrand() {
+                let arr = [];
+                let res = await api.getBrand();
+                res.forEach(item => {
+                    arr.push(item.brand_id);
+                });
+                this.dataFilter.filter.brand = arr;
+            }
         },
 
         watch: {
