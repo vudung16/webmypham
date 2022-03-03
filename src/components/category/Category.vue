@@ -16,9 +16,9 @@
             <div class="category-product">
                 <div class="product">
                     <a-card>
-                        <a-card-grid v-for="product in CategoryProduct" :key="product.product_id" style="width: 25%; text-align: center" @click="redirectProduct(product.product_id)">
+                        <a-card-grid v-for="product in CategoryProduct" :key="product.product_id" style="width: 25%; text-align: center" >
                             
-                            <img alt="example" v-bind:src="product.product_image" />
+                            <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.product_id)"/>
                             
                             <a-card-meta>
                                 <template #title>{{product.product_name}}</template>
@@ -34,7 +34,7 @@
                                 <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
                             </div>
 
-                            <div class="icon-card">
+                            <div class="icon-card" @click="addToCart(product.product_id)">
                                 <img width="30" height="30" src="../../assets/images/add-to-card.png" alt="">
                             </div>
                         </a-card-grid>
@@ -64,6 +64,21 @@ export default {
             }
         }
     },
+    methods: {
+        redirectProduct(id) {
+            this.$router.push('/product/product-detail/' + id);
+        },
+        addToCart(id) {
+            let params = {
+                product_id: id,
+                quantity: 1
+            };
+
+            this.$store.dispatch('product/cartData', params);
+            this.$message.success('Thêm vào giỏ hàng thành công');
+        },
+    },
+
     watch: {
         current: {
             handler(val) {
@@ -120,13 +135,18 @@ export default {
             .select {
                 width: 100%;
                 .ant-menu-overflow {
-                    background-color: #f2f2f2;
+                    background-color: #ffffff;
                 }
             }
         }
     }
+}
+
+</style>
+<style lang="scss">
+.category-left {
     .ant-card-body {
-        background-color: #f2f2f2;
+        background-color: #ffffff !important;
     }
     .ant-card-meta-detail {
         padding: 20px 0px;
@@ -136,10 +156,11 @@ export default {
         text-align: left !important;
         height: 100%;
         cursor: pointer;
+        border: 1px solid rgb(213, 211, 211);
     }
 
     .ant-card-grid-hoverable:hover .icon-card {
-        display: inline;
+        display: inline !important;
     }
 
     .ant-card-meta-description > div{
@@ -149,6 +170,11 @@ export default {
         height: 1.2em; 
         white-space: nowrap;
     }
+    .ant-menu-item-selected {
+        color: #d82e4d !important;
+        &::after {
+            border-bottom: 2px solid #d82e4d !important;
+        }
+    }
 }
-
 </style>

@@ -6,14 +6,14 @@
                     <home-outlined />
                 </a-breadcrumb-item>
                 <a-breadcrumb-item href="">
-                    <span>abc</span>
+                    <span>Danh mục</span>
                 </a-breadcrumb-item>
                 <a-breadcrumb-item>abc</a-breadcrumb-item>
             </a-breadcrumb>
         </div>
         <div class="voucher">
             <a-card>
-                <a-card-grid v-for="item in listVoucher" :key="item.index" style="width: 25%; text-align: center">
+                <a-card-grid v-for="item in listVoucher" :key="item.index" style="width: 25%; text-align: center" :bordered="false">
                     <div class="coupon">
                         <div class="image">
                             <img width="100" height="50" v-bind:src="item.image" alt="">
@@ -121,8 +121,40 @@ import { forEach } from 'lodash';
 </style>
 <style lang="scss">
 .main-category {
+    .voucher {
+        margin: 20px 0px 30px 0px !important;
+        .ant-card-grid {
+            .coupon {
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -3px;
+                    height: 100%;
+                    width: 10px;
+                    color: #fff;
+                    background-clip: padding-box;
+                    background: repeating-linear-gradient(#e5e5e5,#e5e5e5 5px,transparent 0,transparent 9px,#e5e5e5 0,#e5e5e5 10px) 0/1px 100% no-repeat,radial-gradient(circle at 0 7px,transparent,transparent 2px,#e5e5e5ee 0,#e5e5e5 3px,currentColor 0) 1px 0/100% 10px repeat-y;
+                }
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: -3px;
+                    height: 100%;
+                    width: 10px;
+                    color: #fff;
+                    background-clip: padding-box;
+                    background: repeating-linear-gradient(#e5e5e5,#e5e5e5 5px,transparent 0,transparent 9px,#e5e5e5 0,#e5e5e5 10px) 0/1px 100% no-repeat,radial-gradient(circle at 0 7px,transparent,transparent 2px,#e5e5e5ee 0,#e5e5e5 3px,currentColor 0) 1px 0/100% 10px repeat-y;
+                }
+            }
+        }
+    }
     .ant-card-grid {
         padding: 7px;
+    }
+    .ant-card-bordered {
+        border: none;
     }
 }
 </style>

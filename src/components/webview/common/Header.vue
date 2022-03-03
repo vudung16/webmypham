@@ -70,7 +70,7 @@
                             <AppstoreOutlined />
                         </template>
                         <template #title>Danh mục sản phẩm</template>
-                        <a-menu-item v-for="cate in category" :key="cate.category_id">{{ cate.category_name }}</a-menu-item>
+                        <a-menu-item v-for="cate in category" :key="cate.category_id" @click="redirectCategory(cate.category_id)">{{ cate.category_name }}</a-menu-item>
                     </a-sub-menu>
                     <a-menu-item key="policy">
                         <template #icon>
@@ -148,6 +148,11 @@ import api from "../../../api/homewebview";
 
             shoppingCart() {
                 this.$router.push('/cart/');
+            },
+
+            redirectCategory(id) {
+                let test = `${process.env.homePage}/category/cate/` + id;
+                console.log(test);
             }
         },
     }

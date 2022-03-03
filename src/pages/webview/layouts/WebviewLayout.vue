@@ -47,7 +47,7 @@ export default {
                 max-height: calc(100vh - 60px);
                 overflow: hidden auto;
                 height: 100%;
-                background: #f2f2f2;
+                background: #ffffff;
             }
 
             .webmypham-footer {

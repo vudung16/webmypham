@@ -229,6 +229,7 @@ export default {
             };
 
             this.$store.dispatch('product/cartData', params);
+            this.$message.success('Thêm vào giỏ hàng thành công');
         },
 
         readMore() {
