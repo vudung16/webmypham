@@ -6,14 +6,14 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default ({mode}) => {
   dotenv.config(
-      { path: './.env.' + mode }
+      { path: './.env' }
   );
   return defineConfig({
     plugins: [vue()],
     define: {
       'process.env': {
-        homePage: process.env.VUE_APP_HOMEPAGE,
-        webmyphamapi: process.env.VUE_APP_WEBMYPHAMAPI,
+        homePage: process.env.HOMEPAGE,
+        webmyphamapi: process.env.WEBMYPHAMAPI,
       }
     },
     server: {

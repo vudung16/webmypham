@@ -1,10 +1,9 @@
 import axios from 'axios';
-require('dotenv').config();
 export default {
 
     //Lấy slide
     getSlide: () => {
-        const url = `http://127.0.0.1:2223/api/home-slide`;
+        const url = `${process.env.webmyphamapi}api/home-slide`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {
@@ -27,7 +26,7 @@ export default {
 
     //sản phẩm
     getProduct: () => {
-        const url = `http://127.0.0.1:2223/api/home-product`;
+        const url = `${process.env.webmyphamapi}api/home-product`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {
@@ -50,7 +49,7 @@ export default {
 
     // lấy sản phẩm giảm giá
     productsDiscount: () => {
-        const url = `http://127.0.0.1:2223/api/product-discount`;
+        const url = `${process.env.webmyphamapi}api/product-discount`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {
@@ -73,7 +72,7 @@ export default {
 
     // lấy sản phẩm bán chạy
     productsSelling: () => {
-        const url = `http://127.0.0.1:2223/api/product-selling`;
+        const url = `${process.env.webmyphamapi}api/product-selling`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {
@@ -96,7 +95,7 @@ export default {
 
     //lấy chi tiết sản phẩm
     productDetail: (data) => {
-        const url = `http://127.0.0.1:2223/api/product-detail`;
+        const url = `${process.env.webmyphamapi}api/product-detail`;
         return new Promise((resolve, reject) => {
             axios.post(url, data, {}, {
                 headers: {
@@ -119,7 +118,7 @@ export default {
 
     // lấy danh sách category đổ vào header
     getCategory: () => {
-        const url = `http://127.0.0.1:2223/api/category`;
+        const url = `${process.env.webmyphamapi}api/category`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {
@@ -142,7 +141,7 @@ export default {
 
     // thêm vào giỏ hàng vuex
     cartData: (data) => {
-        const url = `http://127.0.0.1:2223/api/add-to-cart`;
+        const url = `${process.env.webmyphamapi}api/add-to-cart`;
         return new Promise((resolve, reject) => {
             axios.post(url, data, {}, {
                 headers: {
@@ -269,7 +268,7 @@ export default {
     // Thanh toán
 
     payment: (data) => {
-        const url = `http://127.0.0.1:2223/api/payment`;
+        const url = `${process.env.webmyphamapi}api/payment`;
         return new Promise((resolve, reject) => {
             axios.post(url, data, {}, {
                 headers: {
@@ -292,7 +291,7 @@ export default {
 
     //lấy danh sách voucher màn thanh toán
     listVoucher: () => {
-        const url = `http://127.0.0.1:2223/api/list-voucher`;
+        const url = `${process.env.webmyphamapi}api/list-voucher`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {
@@ -314,7 +313,7 @@ export default {
     },
 
     checkVoucher: (data) => {
-        const url = `http://127.0.0.1:2223/api/check-voucher`;
+        const url = `${process.env.webmyphamapi}api/check-voucher`;
         return new Promise((resolve, reject) => {
             axios.post(url, data, {}, {
                 headers: {
@@ -340,7 +339,7 @@ export default {
     },
 
     categoryProduct(data) {
-        const url = `http://127.0.0.1:2223/api/category-product`;
+        const url = `${process.env.webmyphamapi}api/category-product`;
         return new Promise((resolve, reject) => {
             axios.post(url, data, {}, {
                 headers: {
@@ -362,7 +361,7 @@ export default {
     },
 
     getBrand: () => {
-        const url = `http://127.0.0.1:2223/api/brand`;
+        const url = `${process.env.webmyphamapi}api/brand`;
         return new Promise((resolve, reject) => {
             axios.get(url, {}, {
                 headers: {

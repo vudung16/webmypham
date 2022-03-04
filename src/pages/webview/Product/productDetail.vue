@@ -155,6 +155,43 @@
                 </a-col>
             </a-row>
         </div>
+        <div class="for-you">
+            <a-card title="Dành cho bạn">
+                <template #extra>
+                    <a class="see-all" href="#">
+                        <span class="text">Xem tất cả </span>
+                        <span class="icon">
+                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
+                                <path fill="#1890FF" d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
+                                <path fill="#1890FF" d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                            </svg>
+                        </span>
+                    </a>
+                </template>
+                <a-card-grid v-for="product in getProduct" :key="product.product_id" style="width: 20%; text-align: center">
+                    
+                    <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.product_id)"/>
+                    
+                    <a-card-meta>
+                        <template #title>{{product.product_name}}</template>
+                        <template #description> <div v-html="product.product_description"></div> </template>
+                    </a-card-meta>
+
+                    
+                    <div v-if="product.product_discount">
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
+                        <span class="sale"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</del></span>
+                    </div>
+                    <div v-else>
+                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
+                    </div>
+
+                    <div class="icon-card" @click="addToCart(product.product_id)">
+                        <img width="30" height="30" src="../../../assets/images/add-to-card.png" alt="">
+                    </div>
+                </a-card-grid>
+            </a-card>
+        </div>
     </div>
 </template>
 
@@ -181,12 +218,14 @@ export default {
             isLoading: false,
             isActive: false,
             listVoucher: '',
+            getProduct: '',
         };
     },
 
     created() {
         this.productsDetail();
         this.vouchers();
+        this.getProducts();
     },
 
     methods: {
@@ -220,6 +259,11 @@ export default {
         async vouchers() {
             let res = await api.listVoucher();
             this.listVoucher = res;
+        },
+
+        async getProducts() {
+            let res = await api.getProduct();
+            this.getProduct = res.product.slice(0,5);
         },
 
         addToCart(id) {
@@ -280,6 +324,34 @@ export default {
                 color: #ffffff;
                 background-color: #d82e4d;
             }
+        }
+    }
+    .for-you {
+        .ant-card-head-title {
+            color: #d82e4d;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .ant-card-meta-detail {
+            padding: 20px 0px;
+            text-align: left;
+        }
+        .ant-card-grid {
+            text-align: left !important;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .ant-card-grid-hoverable:hover .icon-card {
+            display: inline;
+        }
+
+        .ant-card-meta-description > div{
+            text-overflow: ellipsis;
+            overflow: hidden; 
+            width: 185px; 
+            height: 1.2em; 
+            white-space: nowrap;
         }
     }
 }

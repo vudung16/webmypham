@@ -151,8 +151,8 @@ import api from "../../../api/homewebview";
             },
 
             redirectCategory(id) {
-                let test = `${process.env.homePage}/category/cate/` + id;
-                console.log(test);
+                let url = `${process.env.homePage}category/cate/` + id;
+                window.location.href = url;            
             }
         },
     }
