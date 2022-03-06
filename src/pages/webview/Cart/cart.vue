@@ -311,7 +311,7 @@ import {cloneDeep} from 'lodash';
 
             async payment() {
                 let params = {
-                    user_id: 1,
+                    user_id: this.$store.state.auth.user.id,
                     type: this.selectPayment,
                     name: this.name,
                     phone: this.phone,
@@ -321,7 +321,7 @@ import {cloneDeep} from 'lodash';
                     ward: this.phuong,
                     total: this.shipPrice.total + this.$store.state.product.cartData.sum_price - this.okVoucher.discount_price,
                     pay_ship: this.shipPrice.total,
-                    voucher_id: this.okVoucher.voucher_id,
+                    voucher_id: this.okVoucher.voucher_id ? this.okVoucher.voucher_id : null,
                     note: this.note
                 }
                 if(this.selectPayment === 'shipcode') {

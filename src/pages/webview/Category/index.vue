@@ -13,7 +13,7 @@
         </div>
         <div class="voucher">
             <a-card>
-                <a-card-grid v-for="item in listVoucher" :key="item.index" style="width: 25%; text-align: center" :bordered="false">
+                <a-card-grid v-for="(item, index) in listVoucher" :key="item.index" style="width: 25%; text-align: center" :bordered="false">
                     <div class="coupon">
                         <div class="image">
                             <img width="100" height="50" v-bind:src="item.image" alt="">
@@ -24,7 +24,7 @@
                                 {{ item.name }}
                             </div>
                             <div class="condition">
-                                <a href="">Chi tiết</a>
+                                <a @click="showVoucher(index)">Chi tiết</a>
                             </div>
                         </div>
                     </div>
@@ -65,11 +65,11 @@
 
                     
                     <div v-if="product.product_discount">
-                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
-                        <span class="sale"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</del></span>
+                        <span class="money">{{ formatVND(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
+                        <span class="sale"><del>{{ formatVND(product.product_price)}}</del></span>
                     </div>
                     <div v-else>
-                        <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
+                        <span class="money">{{ formatVND(product.product_price)}}</span>
                     </div>
 
                     <div class="icon-card" @click="addToCart(product.product_id)">
@@ -78,6 +78,16 @@
                 </a-card-grid>
             </a-card>
         </div>
+        <a-modal v-model:visible="visible" :title="'NHẬP MÃ:' + voucher.code">
+            <div class="code">Mã khuyến mãi: {{voucher.code}}</div>
+            <div class="condition">
+                <div class="describe">{{voucher.describe}}</div>
+                <div class="min">Đơn tối thiểu: {{formatVND(voucher.minimum_order)}} - Tối đa {{ formatVND(voucher.discount_amount)}}</div>
+                <div class="quantity">Mỗi khách hàng được sử dụng tối đa {{voucher.quantity}} lần</div>
+                <div class="start_date">Ngày bắt đầu: {{formatDate(voucher.start_date)}} </div>
+                <div class="end_date">Ngày kết thúc: {{formatDate(voucher.end_date)}} </div>
+            </div>
+        </a-modal>
     </div>
 </template>
 
@@ -86,6 +96,7 @@ import { HomeOutlined, } from '@ant-design/icons-vue';
 import Filter from "../../../components/category/Filter.vue";
 import Category from "../../../components/category/Category.vue";
 import api from "../../../api/homewebview";
+import moment from 'moment';
 import { forEach } from 'lodash';
     export default {
         name: "Home",
@@ -107,6 +118,8 @@ import { forEach } from 'lodash';
                     },
                     arrange: ['az'],
                 },
+                visible: false,
+                voucher: '',
             }
         },
 
@@ -155,6 +168,19 @@ import { forEach } from 'lodash';
                 this.$store.dispatch('product/cartData', params);
                 this.$message.success('Thêm vào giỏ hàng thành công');
             },
+
+            showVoucher(index) {
+                this.visible = true;
+                this.voucher = this.listVoucher[index];
+            },
+
+            formatDate(date) {
+                return moment(date).format('MM/DD/YYYY');
+            },
+
+            formatVND(data) {
+                return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
+            }
         },
 
         watch: {

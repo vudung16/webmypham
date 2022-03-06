@@ -26,14 +26,34 @@
                     </div>
                     <div class="login">
                         <img width="32" height="32" src="https://theme.hstatic.net/200000411391/1000799987/14/account-icon.png?v=209" alt="">
-                        <div class="menu-content">
-                            <div>Tài khoản</div>
-                            <div>Đăng nhập</div>
+                        <div v-if="!user" class="menu-content">
+                            <div><a @click="login">Đăng nhập</a></div>
+                        </div>
+                        <div v-else class="menu-content">
+                            <div>{{user.name}}</div>
+                            <div>
+                                <a-dropdown @click="toCarts">
+                                    <template #overlay v-if="user">
+                                        <a-menu>
+                                            <a-menu-item>
+                                                <user-outlined />Cá nhân
+                                            </a-menu-item>
+                                            <a-menu-item>
+                                               <shopping-cart-outlined />Đơn hàng
+                                            </a-menu-item>
+                                            <a-menu-item>
+                                                <logout-outlined />Đăng xuất
+                                            </a-menu-item>
+                                        </a-menu>
+                                    </template>
+                                        <span class="quantity">Tài khoản</span> 
+                                </a-dropdown>
+                            </div>
                         </div>
                     </div>
                     <div class="cart">
-                        <a-dropdown>
-                            <template #overlay>
+                        <a-dropdown @click="toCarts">
+                            <template #overlay v-if="user">
                                 <a-menu>
                                     <a-menu-item v-for="item in carts.carts" :key="item.index">
                                         <div class="product">
@@ -55,7 +75,7 @@
                             <a-button>
                                 <img width="24" height="24" src="https://theme.hstatic.net/200000411391/1000799987/14/cart-icon.png?v=209" alt="">
                                 <span>Giỏ hàng &nbsp;</span>
-                                <span class="quantity">{{ carts.sum_quantity}}</span> 
+                                <span v-if="user" class="quantity">{{ carts.sum_quantity}}</span> 
                             </a-button>
                         </a-dropdown>
                     </div>
@@ -97,7 +117,7 @@
 </template>
 
 <script>
-import { MenuFoldOutlined, AppstoreOutlined, HeatMapOutlined, OrderedListOutlined, SettingOutlined} from '@ant-design/icons-vue';
+import { MenuFoldOutlined, AppstoreOutlined, HeatMapOutlined, OrderedListOutlined, SettingOutlined, UserOutlined, ShoppingCartOutlined, LogoutOutlined} from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
     export default {
         name: "Header",
@@ -106,7 +126,10 @@ import api from "../../../api/homewebview";
             AppstoreOutlined,
             HeatMapOutlined,
             OrderedListOutlined,
-            SettingOutlined
+            SettingOutlined,
+            UserOutlined,
+            ShoppingCartOutlined,
+            LogoutOutlined
         },
         data() {
             return {
@@ -125,11 +148,16 @@ import api from "../../../api/homewebview";
                 if (shoppingCart) {
                     return JSON.parse(JSON.stringify(this.$store.state.product.cartData));
                 }
+            },
+            user() {
+                return this.$store.state.auth.user;
             }
+            
         },
         created() {
             this.getCategory();
             this.test();
+            this.getMyInfo();
         },
 
         methods: {
@@ -145,6 +173,9 @@ import api from "../../../api/homewebview";
                 }
                 await this.$store.dispatch('product/cartData', params);
             },
+            async getMyInfo() {
+                await this.$store.dispatch('auth/getMyInfo');
+            },
 
             shoppingCart() {
                 this.$router.push('/cart/');
@@ -153,6 +184,19 @@ import api from "../../../api/homewebview";
             redirectCategory(id) {
                 let url = `${process.env.homePage}category/cate/` + id;
                 window.location.href = url;            
+            },
+
+            login() {
+                this.$router.push({ name: 'Login' });
+            },
+
+            toCarts() {
+                if(!this.$store.state.auth.user) {
+                    this.$message.error('Bạn chưa đăng nhập');
+                    this.$router.push({ name: 'Login' });
+                } else {
+                    this.$router.push({ name: 'Cart' });
+                }
             }
         },
     }

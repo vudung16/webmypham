@@ -27,11 +27,11 @@
 
                             
                             <div v-if="product.product_discount">
-                                <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
-                                <span class="sale"><del>{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</del></span>
+                                <span class="money">{{ formatVND(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
+                                <span class="sale"><del>{{ formatVND(product.product_price)}}</del></span>
                             </div>
                             <div v-else>
-                                <span class="money">{{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(product.product_price)}}</span>
+                                <span class="money">{{ formatVND(product.product_price)}}</span>
                             </div>
 
                             <div class="icon-card" @click="addToCart(product.product_id)">
@@ -77,6 +77,9 @@ export default {
             this.$store.dispatch('product/cartData', params);
             this.$message.success('Thêm vào giỏ hàng thành công');
         },
+        formatVND(data) {
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
+        }
     },
 
     watch: {

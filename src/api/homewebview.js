@@ -142,11 +142,13 @@ export default {
     // thêm vào giỏ hàng vuex
     cartData: (data) => {
         const url = `${process.env.webmyphamapi}api/add-to-cart`;
+        let config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
         return new Promise((resolve, reject) => {
-            axios.post(url, data, {}, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            axios.post(url, data, config, {
                 withCredentials: true,
                 xsrfCookieName: 'csrftoken_testtest',
                 // xsrfHeaderName: 'X-CSRFToken'
@@ -367,6 +369,76 @@ export default {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    //đăng nhập
+    login(data) {
+        const url = `${process.env.webmyphamapi}api/auth/login`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    resolve(response.data);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+
+    //đăng ký
+    register(data) {
+        const url = `${process.env.webmyphamapi}api/auth/register`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    resolve(response.data);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+
+    // lấy danh sách đơn hàng
+    getCart: (data) => {
+        const url = `${process.env.webmyphamapi}api/get-cart`;
+        let config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, config, {
                 withCredentials: true,
                 xsrfCookieName: 'csrftoken_testtest',
                 // xsrfHeaderName: 'X-CSRFToken'
