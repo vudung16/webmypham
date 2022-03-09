@@ -98,7 +98,7 @@ const routes = [
     },
 
     {
-        path: '/category',
+        path: '/categoryaaaa',
         component: WebviewLayout,
         meta: {
             title: "Thể loại"
