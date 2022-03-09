@@ -106,7 +106,7 @@ const routes = [
         children: [
             {
                 title: 'Thể loại',
-                path: 'cate/:id',
+                path: ':id',
                 name: 'Category',
                 component: Category,
                 meta: {
