@@ -90,9 +90,14 @@ export default {
             let res = await api.login(params);
             if (res.status === true) {
                 this.$message.success('Đăng nhập thành công');
-                localStorage.setItem('token', res.data);
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('role', res.data.role);
                 await this.$store.dispatch('auth/getMyInfo');
-                this.$router.push('/');
+                if (res.data.role === 1) {
+                    this.$router.push('/');
+                } else {
+                    this.$message.error('Đăng nhập thất bại');
+                }
             } else {
                 this.$message.error(res.message);
             }
