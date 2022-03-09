@@ -182,7 +182,7 @@ import api from "../../../api/homewebview";
             },
 
             redirectCategory(id) {
-                let url = `${process.env.homePage}categoryaaaa/` + id;
+                let url = `${process.env.homePage}#/category/` + id;
                 window.location.href = url;            
             },
 
