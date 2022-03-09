@@ -437,6 +437,7 @@ export default {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             }
         }
+        console.log(data);
         return new Promise((resolve, reject) => {
             axios.post(url, data, config, {
                 withCredentials: true,

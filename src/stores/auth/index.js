@@ -3,15 +3,20 @@ export const auth = {
     namespaced: true,
     state: {
         user: "",
+        myId: "",
         
     },
     getters: {
         user: state => state.user,
+        myId: state => state.myId,
         
     },
     mutations: {
         updateUser(state, key) {
             state.user = key;
+        },
+        updateMyId(state, key) {
+            state.myId = key
         },
     },
     actions: {
@@ -21,6 +26,7 @@ export const auth = {
                 try {
                     let res = await api.authUser();
                     state.user = res;
+                    state.myId = res.id;
 
                     resolve(res);
                 } catch (e) {

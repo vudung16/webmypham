@@ -1,36 +1,145 @@
 <template>
     <div class="info-user">
-        <a-tabs v-model:activeKey="activeKey" type="card">
-            <a-tab-pane key="1" tab="Tất cả">Content of Tab Pane 1</a-tab-pane>
-            <a-tab-pane key="2" tab="Chờ xác nhận">Content of Tab Pane 2</a-tab-pane>
-            <a-tab-pane key="3" tab="Chờ lấy hàng">Content of Tab Pane 3</a-tab-pane>
-            <a-tab-pane key="4" tab="Đang giao">Content of Tab Pane 1</a-tab-pane>
-            <a-tab-pane key="5" tab="Đã giao">Content of Tab Pane 2</a-tab-pane>
-            <a-tab-pane key="6" tab="Đã hủy">Content of Tab Pane 3</a-tab-pane>
-        </a-tabs>
+        <div class="user-menu">
+            <a-menu v-model:selectedKeys="current" mode="horizontal">
+                <a-menu-item key="6">
+                    Tất cả
+                </a-menu-item>
+                <a-menu-item key="1">
+                    Chờ xác nhận
+                </a-menu-item>
+                <a-menu-item key="2">
+                    Chờ lấy hàng
+                </a-menu-item>
+                <a-menu-item key="3">
+                    Đang giao
+                </a-menu-item>
+                <a-menu-item key="4">
+                    Đã giao
+                </a-menu-item>
+                <a-menu-item key="5">
+                    Đã hủy
+                </a-menu-item>
+            </a-menu>
+        </div>
+        <div class="cart">
+            <div class="order-cart" v-for="(cart, index) in carts" :key="index" @click="orderDetail(index)">
+                <div class="product-order">
+                    <a-row :gutter="16" v-for="(item, index) in cart[1]" :key="index" style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
+                        <a-col :span="16">
+                            <div class="product">
+                                <img width="80" height="80" v-bind:src="item.product_image" alt="">
+                                <div class="product_name">
+                                    <p>{{ item.product_name }}</p>
+                                    <p>x{{item.quantity}}</p>
+                                </div>
+                            </div>
+                        </a-col>
+                        <a-col :span="2"></a-col>
+                        <a-col :span="6">
+                            <div class="total">
+                                <div>
+                                    <span class="sale">{{ formatVND(item.detail_amount * item.quantity)}}&emsp;</span>
+                                </div>
+                            </div>
+                        </a-col>
+                    </a-row>
+                </div>
+                <div class="order-total">
+                    Tổng số tiền: {{ formatVND(cart[0].order_total_money) }}
+                </div>
+            </div>
+        </div>
+        <a-modal v-if="orderDetails" v-model:visible="visible" :title="'Chi tiết đơn hàng: ' + orderDetails[0].code" @ok="okModal">
+            <div class="condition">
+                <a-row :gutter="16" v-for="(item, index) in orderDetails[1]" :key="index" style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
+                    <a-col :span="16">
+                        <div class="product">
+                            <img width="80" height="80" v-bind:src="item.product_image" alt="">
+                            <div class="product_name">
+                                <p>{{ item.product_name }}</p>
+                                <p>x{{item.quantity}}</p>
+                            </div>
+                        </div>
+                    </a-col>
+                    <a-col :span="2"></a-col>
+                    <a-col :span="6">
+                        <div class="total">
+                            <div>
+                                <span class="sale">{{ formatVND(item.detail_amount * item.quantity)}}&emsp;</span>
+                            </div>
+                        </div>
+                    </a-col>
+                </a-row>
+                <div class="detail" style="font-size: 16px">
+                    <div class="total-product">Tổng tiền hàng: {{ formatVND(orderDetails[1].reduce((accumulator, current) => accumulator + current.detail_amount, 0)) }}</div>
+                    <div class="payship">Phí vận chuyển: {{ formatVND(orderDetails[0].pay_ship) }}</div>
+                    <div class="voucher" v-if="orderDetails[0].voucher">Giảm giá: - {{ formatVND(orderDetails[0].voucher) }}</div>
+                    <div class="order-total">Tổng tiền thanh toán: {{ formatVND(orderDetails[0].order_total_money) }}</div>
+                </div>
+            </div>
+        </a-modal>
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
-            activeKey: '1',
+            current: ['1'],
+            visible: false,
+            orderDetails: '',
         }
+    },
+
+    computed: {
+        ...mapGetters('auth', [
+            'myId',
+        ]),
+        carts() {
+            let shoppingCart = JSON.parse(JSON.stringify(this.$store.state.product.getCart))
+            if (shoppingCart) {
+                return JSON.parse(JSON.stringify(this.$store.state.product.getCart));
+            }
+        },
     },
     methods: {
         getCart() {
-            console.log(key);
-        },
-        async getCart() {
             let params = {
-                status: this.activeKey
+                status: this.current[0],
+                user_id: this.myId          
             }
-            await this.$store.dispatch('product/getCart', params);
+            console.log(params);
+            this.$store.dispatch('product/getCart', params).then(res => {
+                console.log(res);
+            }).catch(e => {
+                console.log('err');
+            });
+        },
+
+        formatVND(data) {
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
+        },
+        
+        orderDetail(index) {
+            this.orderDetails = this.carts[index];
+            this.visible = true;
+        },
+
+        okModal() {
+            this.visible = false;
+        },
+
+        async getUser() {
+            await this.$store.dispatch('auth/getMyInfo');
         }
     },
     watch: {
-        activeKey: function () {
-            this.getCart();
+        current: {
+            handler (newValue,oldValue) {
+                this.getCart();
+            },
+            immediate: true
         }
     }
 }
@@ -40,8 +149,11 @@ export default {
 </style>
 <style lang="scss">
 .info-user {
-    .ant-tabs-nav-scroll {
-        text-align: center !important;
+    .user-menu {
+        .ant-menu {
+            width: 60%;
+            margin: 0 auto;
+        }
     }
     .ant-tabs-tab-active {
         color: #d82e4d !important;
@@ -52,6 +164,9 @@ export default {
         &:hover {
             color: #bf445a !important;
         }
+    }
+    .ant-row {
+        width: 100%;
     }
 }
 </style>

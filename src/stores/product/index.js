@@ -63,7 +63,7 @@ export const product = {
             return new Promise(async (resolve, reject) => {
                 try {
                     let res = await api.getCart({
-                        user_id: rootGetters['auth/user'].id,
+                        user_id: data.user_id,
                         status: data.status,
                     });
                     commit('getCart', res);

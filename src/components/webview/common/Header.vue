@@ -38,7 +38,7 @@
                                             <a-menu-item>
                                                 <user-outlined />Cá nhân
                                             </a-menu-item>
-                                            <a-menu-item>
+                                            <a-menu-item @click="redirectCart()">
                                                <shopping-cart-outlined />Đơn hàng
                                             </a-menu-item>
                                             <a-menu-item>
@@ -197,6 +197,10 @@ import api from "../../../api/homewebview";
                 } else {
                     this.$router.push({ name: 'Cart' });
                 }
+            },
+
+            redirectCart() {
+                this.$router.push({ name: 'InfoUser' });
             }
         },
     }

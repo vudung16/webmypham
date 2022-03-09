@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import auth from '../middleware/auth';
+import {store} from "../stores";
 
 import Home from '../pages/webview/Home/index.vue';
 import WebviewLayout from "../pages/webview/layouts/WebviewLayout.vue";
@@ -119,6 +120,7 @@ const routes = [
         path: '/user',
         component: WebviewLayout,
         meta: {
+            middleware: [auth],
             title: "Tài khoản"
         },
         children: [
