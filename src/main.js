@@ -5,9 +5,9 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import vClickOutside from "click-outside-vue3";
 import VueApexCharts from "vue3-apexcharts";
-// import mitt from 'mitt';
+import mitt from 'mitt';
 import { store } from "./stores";
-// const emitter = mitt();
+const emitter = mitt();
 
 const app = createApp(App);
 app.use(route);
@@ -18,7 +18,7 @@ app.use(store);
 
 
 // app.config.globalProperties.$filters = filters;
-// app.config.globalProperties.$emitter = emitter;
+app.config.globalProperties.$emitter = emitter;
 
 route.isReady().then(() => {
     app.mount('#app');

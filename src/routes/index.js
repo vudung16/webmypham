@@ -10,7 +10,11 @@ import Category from '../pages/webview/Category/index.vue';
 import Login from '../pages/webview/Login/login.vue';
 import Register from '../pages/webview/Login/register.vue';
 import Error404 from "../pages/webview/errors/Error404.vue";
-import InfoUser from "../pages/webview/User/info.vue"
+import InfoUser from "../pages/webview/User/info.vue";
+
+//admin
+import AdminLayout from "../pages/admin/layouts/AdminLayout.vue";
+import Dashboard from '../pages/admin/Dashboard/index.vue';
 
 const routes = [
     {
@@ -173,6 +177,31 @@ const routes = [
             }
         ]
     },
+
+    //các page admin
+    {
+        path: '/admin',
+        component: AdminLayout,
+        meta: {
+            // middleware: [auth],
+            title: "Admin"
+        },
+        children: [
+            {
+                title: 'Dashboard',
+                path: 'dashboard',
+                name: 'Dashboard',
+                component: Dashboard,
+                meta: {
+                    title: 'Dashboard',
+                }
+            }
+        ]
+    },
+
+
+
+    // error 404 not found
     {
         path: "/:pathMatch(.*)*",
         name: 'Error404',
