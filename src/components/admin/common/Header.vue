@@ -64,7 +64,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/
     .info-name {
         flex-grow: 8;
         text-align: right;
-        padding: 0px 100px;
+        padding: 0px 30px;
     }
 }
 </style>
