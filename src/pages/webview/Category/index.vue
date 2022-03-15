@@ -8,7 +8,8 @@
                 <a-breadcrumb-item href="">
                     <span>Danh mục</span>
                 </a-breadcrumb-item>
-                <a-breadcrumb-item>abc</a-breadcrumb-item>
+                <a-breadcrumb-item v-if="$route.params.id && CategoryProduct.category">{{CategoryProduct.category.category_name}}</a-breadcrumb-item>
+                <a-breadcrumb-item v-else>Search</a-breadcrumb-item>
             </a-breadcrumb>
         </div>
         <div class="voucher">
@@ -105,12 +106,14 @@ import { forEach } from 'lodash';
             Category,
             HomeOutlined,
         },
+        props: ['search'],
 
         data() {
             return {
                 getProduct: '',
                 listVoucher: '',
                 dataFilter: {
+                    searchValue: {...this.search},
                     category_id: '', 
                     filter: {
                         brand: [],
@@ -131,6 +134,16 @@ import { forEach } from 'lodash';
             this.getProducts();
         },
 
+        computed: {
+            CategoryProduct() {
+                let shoppingCart = JSON.parse(JSON.stringify(this.$store.state.product.categoryProduct))
+                if (shoppingCart) {
+                    // this.listProduct = JSON.parse(JSON.stringify(this.$store.state.product.categoryProduct.product))
+                    return JSON.parse(JSON.stringify(this.$store.state.product.categoryProduct));
+                }
+            }
+        },
+
         methods: {
             handleCategory(data) {
                 let params = JSON.parse(JSON.stringify(data));
@@ -145,7 +158,9 @@ import { forEach } from 'lodash';
                 this.listVoucher = res;
             },
             categoryProduct() {
+                this.dataFilter.searchValue = localStorage.getItem('search')
                 this.$store.dispatch('product/categoryProduct', this.dataFilter);
+                localStorage.removeItem("search");
             },
             async getBrand() {
                 let arr = [];
@@ -189,6 +204,12 @@ import { forEach } from 'lodash';
                     this.$store.dispatch('product/categoryProduct', this.dataFilter);
                 },
                 deep: true
+            },
+            search: {
+                immediate: true,
+                handler (newVal, oldVal) {
+                    this.dataFilter.searchValue = newVal;
+                }
             }
         }
     }

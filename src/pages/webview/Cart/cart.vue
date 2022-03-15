@@ -3,10 +3,10 @@
         <div class="header">
             Giỏ hàng
         </div>
-        <div class="empty-cart" v-show="!listProduct.carts.length">
+        <div class="empty-cart" v-if="!carts.carts || !carts.carts.length">
             <img src="../../../assets/images/empty-cart.png" alt="">
         </div>
-        <div class="main" v-show="listProduct.carts.length">
+        <div v-else class="main">
             <a-row :gutter="16" style="align-items: center;">
                 <a-col :span="15" style="padding-right: 30px; border-right: 1px dashed #c6bdbd;">
                     <div class="table-product">

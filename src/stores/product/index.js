@@ -45,6 +45,7 @@ export const product = {
             return new Promise(async (resolve, reject) => {
                 try {
                     let res = await api.categoryProduct({
+                        search: data.searchValue,
                         category_id: data.category_id,
                         brand: data.filter.brand,
                         total: data.filter.total,

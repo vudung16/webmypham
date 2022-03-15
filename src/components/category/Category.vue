@@ -1,7 +1,8 @@
 <template>
     <div class="category-left">
         <div class="brand">
-            <h1>Trang điểm</h1>
+            <h1 v-if="$route.params.id && CategoryProduct.category">{{CategoryProduct.category.category_name}}</h1>
+            <h1 v-else>Tìm kiếm</h1>
             <div class="arrange">
                 <div class="text">Sắp xếp:</div>
                 <div class="select">
@@ -14,9 +15,12 @@
                 </div>
             </div>
             <div class="category-product">
-                <div class="product">
+                <div v-if="$route.params.id && CategoryProduct.category" class="product">
+                    Không tìm thấy sản phẩm
+                </div>
+                <div v-else class="product">
                     <a-card>
-                        <a-card-grid v-for="product in CategoryProduct" :key="product.product_id" style="width: 25%; text-align: center" >
+                        <a-card-grid v-for="product in CategoryProduct.product" :key="product.product_id" style="width: 25%; text-align: center" >
                             
                             <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.product_id)"/>
                             
@@ -59,7 +63,6 @@ export default {
         CategoryProduct() {
             let shoppingCart = JSON.parse(JSON.stringify(this.$store.state.product.categoryProduct))
             if (shoppingCart) {
-                // this.listProduct = JSON.parse(JSON.stringify(this.$store.state.product.categoryProduct))
                 return JSON.parse(JSON.stringify(this.$store.state.product.categoryProduct));
             }
         }

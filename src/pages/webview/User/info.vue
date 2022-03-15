@@ -2,7 +2,7 @@
     <div class="info-user">
         <div class="user-menu">
             <a-menu v-model:selectedKeys="current" mode="horizontal">
-                <a-menu-item key="6">
+                <a-menu-item key="">
                     Tất cả
                 </a-menu-item>
                 <a-menu-item key="1">
@@ -86,9 +86,10 @@ import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
-            current: ['1'],
+            current: [''],
             visible: false,
             orderDetails: '',
+            id: 0
         }
     },
 
@@ -103,18 +104,19 @@ export default {
             }
         },
     },
+    mounted() {
+        this.$emitter.on("user_id", (data) => {
+            this.id = data.id
+            this.getCart(this.id);
+        });
+    },
     methods: {
-        getCart() {
+        getCart(id) {
             let params = {
                 status: this.current[0],
-                user_id: this.myId          
+                user_id: id
             }
-            console.log(params);
-            this.$store.dispatch('product/getCart', params).then(res => {
-                console.log(res);
-            }).catch(e => {
-                console.log('err');
-            });
+            this.$store.dispatch('product/getCart', params);    
         },
 
         formatVND(data) {
@@ -137,7 +139,7 @@ export default {
     watch: {
         current: {
             handler (newValue,oldValue) {
-                this.getCart();
+                this.getCart(this.id);
             },
             immediate: true
         }

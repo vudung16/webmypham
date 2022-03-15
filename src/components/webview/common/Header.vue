@@ -12,6 +12,7 @@
                         v-model:value="search"
                         placeholder="Tìm kiếm..."
                         enter-button
+                        @search="onSearch"
                     />
                 </div>
             </a-col>
@@ -41,7 +42,7 @@
                                             <a-menu-item @click="redirectCart()">
                                                <shopping-cart-outlined />Đơn hàng
                                             </a-menu-item>
-                                            <a-menu-item>
+                                            <a-menu-item @click="logout()">
                                                 <logout-outlined />Đăng xuất
                                             </a-menu-item>
                                         </a-menu>
@@ -150,7 +151,9 @@ import api from "../../../api/homewebview";
                 }
             },
             user() {
-                return this.$store.state.auth.user;
+                if (this.$store.state.auth.user) {
+                    return this.$store.state.auth.user
+                }
             }
             
         },
@@ -174,7 +177,8 @@ import api from "../../../api/homewebview";
                 await this.$store.dispatch('product/cartData', params);
             },
             async getMyInfo() {
-                await this.$store.dispatch('auth/getMyInfo');
+                let data = await this.$store.dispatch('auth/getMyInfo');
+                this.$emitter.emit("user_id", data);
             },
 
             shoppingCart() {
@@ -183,7 +187,8 @@ import api from "../../../api/homewebview";
 
             redirectCategory(id) {
                 let url = `${process.env.homePage}#/category/` + id;
-                window.location.href = url;            
+                window.location.href = url;     
+                window.location.reload();
             },
 
             login() {
@@ -201,6 +206,28 @@ import api from "../../../api/homewebview";
 
             redirectCart() {
                 this.$router.push({ name: 'InfoUser' });
+            },
+
+            async logout() {
+                let res = await api.logout();
+                if (res.status === true) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    this.$message.success('Đăng xuất thành công');
+                    this.$router.push({ name: 'Login' });
+                } else {
+                    this.$message.error('Bạn chưa đăng nhập');
+                }
+            },
+
+            async onSearch() {
+                if (this.search) {
+                    localStorage.setItem('search', this.search)
+                    this.$emitter.emit("search", this.search);
+                    this.$router.push({name: 'Search'});
+                } else {
+                    return false;
+                }
             }
         },
     }

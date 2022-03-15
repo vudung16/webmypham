@@ -9,6 +9,7 @@ import Cart from "../pages/webview/Cart/cart.vue";
 import Category from '../pages/webview/Category/index.vue';
 import Login from '../pages/webview/Login/login.vue';
 import Register from '../pages/webview/Login/register.vue';
+import Search from '../pages/webview/Category/Search.vue';
 import Error404 from "../pages/webview/errors/Error404.vue";
 import InfoUser from "../pages/webview/User/info.vue";
 
@@ -173,6 +174,25 @@ const routes = [
                 component: Register,
                 meta: {
                     title: 'Đăng Ký',
+                }
+            }
+        ]
+    },
+
+    {
+        path: '/search',
+        component: WebviewLayout,
+        meta: {
+            title: "Tìm kiếm"
+        },
+        children: [
+            {
+                title: 'Tìm kiếm',
+                path: '',
+                name: 'Search',
+                component: Search,
+                meta: {
+                    title: 'Tìm kiếm',
                 }
             }
         ]
