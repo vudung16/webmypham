@@ -476,4 +476,62 @@ export default {
             })
         });
     },
+
+    // lấy đánh giá sản phẩm
+    rating: (data) => {
+        const url = `${process.env.webmyphamapi}api/rating?page=` + data.page;
+        let config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                user_id: localStorage.getItem('user_id'),
+            }
+        }
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, config, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+
+    // lấy comment sản phẩm
+    comment: (data) => {
+        const url = `${process.env.webmyphamapi}api/comment?page=` + data.page;
+        let config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                user_id: localStorage.getItem('user_id'),
+            }
+        }
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, config, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
 }

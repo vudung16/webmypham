@@ -17,7 +17,7 @@
 <style lang="scss" scoped>
     .webmypham-layout {
         display: flex;
-        height: 100vh;
+        // height: 100vh;
         flex-direction: column;
         background-color: #eff2f6;
 
@@ -25,14 +25,14 @@
             flex: auto;
             .webmypham-content {
                 /*padding: 20px;*/
-                max-height: calc(100vh - 120px);
+                // max-height: calc(100vh - 120px);
                 overflow: hidden auto;
                 height: 100%;
             }
 
             .webmypham-footer {
                 flex-shrink: 0;
-                height: 60px;
+                // height: 60px;
                 width: 100%;
                 background: #FFFFFF;
             }

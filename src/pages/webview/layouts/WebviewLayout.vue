@@ -33,7 +33,7 @@ export default {
 <style lang="scss" scoped>
     .webmypham-layout {
         display: flex;
-        height: 100vh;
+        // height: 100vh;
 
         .webmypham-main-content {
             flex: auto;
@@ -44,7 +44,7 @@ export default {
             }
             .webmypham-content {
                 /*padding: 20px;*/
-                max-height: calc(100vh - 60px);
+                // max-height: calc(100vh - 60px);
                 overflow: hidden auto;
                 height: 100%;
                 background: #ffffff;
@@ -52,7 +52,7 @@ export default {
 
             .webmypham-footer {
                 flex-shrink: 0;
-                height: 60px;
+                // height: 60px;
                 width: 100%;
                 background: #FFFFFF;
             }

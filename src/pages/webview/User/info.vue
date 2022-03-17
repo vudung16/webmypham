@@ -50,6 +50,7 @@
                 </div>
             </div>
         </div>
+        <Footer />
         <a-modal v-if="orderDetails" v-model:visible="visible" :title="'Chi tiết đơn hàng: ' + orderDetails[0].code" @ok="okModal">
             <div class="condition">
                 <a-row :gutter="16" v-for="(item, index) in orderDetails[1]" :key="index" style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
@@ -89,7 +90,7 @@ export default {
             current: [''],
             visible: false,
             orderDetails: '',
-            id: 0
+            id: ''
         }
     },
 
@@ -114,7 +115,7 @@ export default {
         getCart(id) {
             let params = {
                 status: this.current[0],
-                user_id: id
+                user_id: id ? id : this.myId
             }
             this.$store.dispatch('product/getCart', params);    
         },

@@ -135,8 +135,28 @@
             margin-top: 50px;
         }
 
+        .rate {
+            margin: 25px 0px 0px 25px;
+            .rate-info {
+                display: flex;
+                .info {
+                    margin-left: 10px;
+                    .name {
+                        font-size: 13px;
+                    }
+                    .date {
+                        font-size: 12px;
+                        color: rgb(175, 175, 175);
+                    }
+                }
+            }
+            .rate-comment {
+                margin: 10px 0px 0px 20px;
+            }
+        }
+
         .comment {
-            margin-top: 100px;
+            margin: 25px 0px 0px 25px;
         }
     }
 

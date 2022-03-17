@@ -92,6 +92,7 @@ export default {
                 this.$message.success('Đăng nhập thành công');
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('role', res.data.role);
+                localStorage.setItem('user_id', res.data.user_id);
                 await this.$store.dispatch('auth/getMyInfo');
                 if (res.data.role === 1) {
                     this.$router.push('/');

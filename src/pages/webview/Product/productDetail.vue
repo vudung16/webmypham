@@ -83,52 +83,83 @@
                             </div>
                         </div>
                     </a-row>
-                    <a-row :gutter="16">
-                        <div class="comment">
-                            <h2>Bình luận sản phẩm</h2>
-                            <a-comment>
-                                <template #actions>
-                                    <span key="comment-nested-reply-to">Reply to</span>
-                                </template>
-                                <template #author>
-                                    <a>Han Solo</a>
-                                </template>
-                                <template #avatar>
-                                    <a-avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                    />
-                                </template>
-                                <template #content>
-                                    <p>
-                                        We supply a series of design principles, practical patterns and high quality design
-                                        resources (Sketch and Axure).
-                                    </p>
-                                </template>
+                    <a-tabs v-model:activeKey="activeKey">
+                        <a-tab-pane key="1" tab="Đánh giá">
+                            <a-row :gutter="16" v-for="item in rating.data" :key="item.index">
+                                <div class="rate">
+                                    <div class="rate-info">
+                                        <a-avatar :src="item.image" :size="45">
+                                            <template v-if="!item.image" #icon><UserOutlined /></template>
+                                            <!-- <img v-if="item.image" v-bind:src="item.image" alt=""> -->
+                                        </a-avatar>
+                                        <div class="info">
+                                            <div class="name">{{ item.name }}</div>
+                                            <div class="value"><a-rate :value="item.rate_scores" disabled/></div>
+                                            <div v-if="item.date" class="date">{{ formatDate(item.date) }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="rate-comment">{{ item.rate_comment }}</div>
+                                </div>
+                            </a-row>
+                            <Pagination v-show="rating.last_page > 1" @paginate="ratings" :totalPage="rating.last_page"/>
+                        </a-tab-pane>
+                        <a-tab-pane key="2" tab="Bình luận" force-render>
+                            <a-row :gutter="16">
+                                <div class="comment">
+                                    <h2>Bình luận sản phẩm</h2>
+                                  <a-list
+                                      class="comment-list"
+                                      item-layout="horizontal"
+                                      :data-source="comment.data"
+                                  >
+                                    <template #renderItem="{ item }">
+                                      <a-list-item>
+                                        <a-comment :author="item.author" >
+                                          <template #avatar>
+                                            <a-avatar :src="item.avatar" :size="45">
+                                              <template v-if="!item.avatar" #icon><UserOutlined /></template>
+                                              <!-- <img v-if="item.image" v-bind:src="item.image" alt=""> -->
+                                            </a-avatar>
+                                          </template>
+                                          <template #actions>
+                                            <span v-for="(action, index) in item.actions" :key="index">{{ action }}</span>
+                                          </template>
+                                          <template #content>
+                                            <p>
+                                              {{ item.content }}
+                                            </p>
+                                          </template>
+                                          <template #datetime>
+                                            <a-tooltip :title="formatDate(item.datetime)">
+                                              <span>{{ formatDate(item.datetime) }}</span>
+                                            </a-tooltip>
+                                          </template>
+                                        </a-comment>
+                                      </a-list-item>
+                                    </template>
+                                  </a-list>
+                                </div>
+                            </a-row>
+                            <a-row>
                                 <a-comment>
-                                    <template #actions>
-                                        <span>Reply to</span>
-                                    </template>
-                                    <template #author>
-                                        <a>Han Solo</a>
-                                    </template>
                                     <template #avatar>
-                                        <a-avatar
-                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                        alt="Han Solo"
-                                        />
+                                        <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
                                     </template>
                                     <template #content>
-                                        <p>
-                                        We supply a series of design principles, practical patterns and high quality design
-                                        resources (Sketch and Axure).
-                                        </p>
+                                        <a-form-item>
+                                            <a-textarea v-model:value="valueComment" :rows="1" :col="20" />
+                                        </a-form-item>
+                                        <a-form-item>
+                                            <a-button html-type="submit" type="primary" @click="handleSubmitComment">
+                                              Bình luận
+                                            </a-button>
+                                        </a-form-item>
                                     </template>
-                                
                                 </a-comment>
-                            </a-comment>
-                        </div>
-                    </a-row>
+                            </a-row>
+                            <Pagination v-if="comment.last_page > 1" @paginate="comments" :totalPage="comment.last_page"/>
+                        </a-tab-pane>
+                    </a-tabs>
                 </a-col>
                 
                 <a-col :span="4">
@@ -206,8 +237,9 @@
 </template>
 
 <script>
-import { HomeOutlined, MinusOutlined, PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, MinusOutlined, PlusOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
+import Pagination from '../../../components/webview/common/Pagination.vue';
 import moment from 'moment';
 const baseUrl =
   'https://raw.githubusercontent.com/vueComponent/ant-design-vue/master/components/vc-slick/assets/img/react-slick/';
@@ -217,7 +249,9 @@ export default {
         HomeOutlined,
         MinusOutlined,
         PlusOutlined,
-        ShoppingCartOutlined
+        ShoppingCartOutlined,
+        UserOutlined,
+        Pagination,
     },
 
     data() {
@@ -232,6 +266,10 @@ export default {
             getProduct: '',
             visible: false,
             voucher: '',
+            activeKey: '2',
+            rating: '',
+            valueComment: '',
+            comment: '',
         };
     },
 
@@ -239,6 +277,8 @@ export default {
         this.productsDetail();
         this.vouchers();
         this.getProducts();
+        this.ratings();
+        this.comments();
     },
 
     methods: {
@@ -304,6 +344,34 @@ export default {
         showVoucher(index) {
             this.visible = true;
             this.voucher = this.listVoucher[index];
+        },
+
+        async ratings(data) {
+            let params = {
+                page: data ? data : 1,
+                product_id: this.$route.params.id
+            }
+            let res = await api.rating(params);
+            this.rating = res;
+        },
+
+        async comments(data) {
+            let params = {
+                page: data ? data : 1,
+                product_id: this.$route.params.id,
+                value: data ? '' : this.valueComment
+            }
+            let res = await api.comment(params);
+            this.comment = res;
+        },
+
+        handleSubmitComment() {
+          if (!localStorage.getItem('token')) {
+            this.$message.error('Bạn chưa đăng nhập');
+            return false;
+          }
+          this.comments();
+          this.valueComment = '';
         },
 
         formatDate(date) {
@@ -384,6 +452,21 @@ export default {
             white-space: nowrap;
         }
     }
+    .value {
+        .anticon-star {
+            font-size: 11px !important;
+        }
+        .ant-rate {
+            line-height: 10px;
+        }
+    }
+    .ant-form-item {
+        width: 300px !important;
+    }
+    .ant-comment-inner {
+        padding: 0 !important;
+    }
+
 }
 </style>
 <style scoped>

@@ -213,6 +213,7 @@ import api from "../../../api/homewebview";
                 if (res.status === true) {
                     localStorage.removeItem("token");
                     localStorage.removeItem("role");
+                    localStorage.removeItem("user_id");
                     this.$message.success('Đăng xuất thành công');
                     this.$router.push({ name: 'Login' });
                 } else {
