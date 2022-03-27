@@ -116,4 +116,7 @@ export default {
         }
     }
 }
+ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark, ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed.ant-menu-dark {
+  height: 760px;
+}
 </style>

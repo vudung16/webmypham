@@ -56,7 +56,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/
 .admin-header {
     display: flex;
     padding: 10px 0px 10px 10px;
-    background: #eeecec;
+    background: #fafafa;
     height: 52px;
     .collapsed-button {
         flex-grow: 2;

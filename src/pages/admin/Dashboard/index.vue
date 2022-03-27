@@ -1,5 +1,5 @@
 <template>
-    <div class="main-dashboard">
+    <div class="main-dashboard" id="export-pdf">
         <div class="statistical-header">
             <div class="header-right">
                 <ul class="header-times">
@@ -37,8 +37,8 @@
                     <label @click="triggerDatePicker">
                         <span>
                         <svg
-                            width="14"
-                            height="14"
+                            width="15"
+                            height="15"
                             viewBox="0 0 14 14"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -55,8 +55,6 @@
                     <a-range-picker
                         :placeholder="['Bắt Đầu...', 'Kết Thúc...']"
                         @change="pickDateRange"
-                        v-model:value="datepicker"
-                        ref="datepicker"
                         class="header-times_option-datepicker"
                         :size="'small'"
                         format="DD-MM-YYYY"
@@ -72,11 +70,11 @@
                 <div class="header-export-report">
                     <a-dropdown>
                     <template #overlay>
-                        <a-menu @click="handleMenuClick" data-html2canvas-ignore="true">
-                        <a-menu-item key="1" @click="onHandleExportPng">
+                        <a-menu data-html2canvas-ignore="true">
+                        <a-menu-item key="1" @click="exportPng">
                             Ảnh PNG
                         </a-menu-item>
-                        <a-menu-item key="2" @click="onHandleExportPdf">
+                        <a-menu-item key="2" @click="exportPdf">
                             Tệp PDF
                             <div class="loading" v-if="isLoadingChangePdf">
                             <div class="spinning"></div>
@@ -92,29 +90,32 @@
             </div>
         </div>
         <div class="statistical-text">
-            <Statistical/>
+            <Statistical v-if="loading===false" :time="time"/>
         </div>
         <div class="order-chart">
-            <OrderChart/>
+            <OrderChart v-if="loading===false" :time="time"/>
         </div>
         <div class="money-chart">
-            <MoneyChart/>
+            <MoneyChart v-if="loading===false" :time="time"/>
         </div>
         <div class="user-chart">
-            <UserChart/>
+            <UserChart v-if="loading===false" :time="time"/>
         </div>
-        <div class="table-report">
-            <TableReport/>
-        </div>
+        <!-- <div class="table-report">
+            <TableReport v-if="loading===false"/>
+        </div> -->
     </div>
 </template>
 <script>
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
-import Statistical from '../../../components/admin/Dashboard/Statistical.vue'
-import OrderChart from '../../../components/admin/Dashboard/OrderChart.vue'
-import MoneyChart from '../../../components/admin/Dashboard/MoneyChart.vue'
-import UserChart from '../../../components/admin/Dashboard/UserChart.vue'
-import TableReport from '../../../components/admin/Dashboard/TableReport.vue'
+import Statistical from '../../../components/admin/Dashboard/Statistical.vue';
+import OrderChart from '../../../components/admin/Dashboard/OrderChart.vue';
+import MoneyChart from '../../../components/admin/Dashboard/MoneyChart.vue';
+import UserChart from '../../../components/admin/Dashboard/UserChart.vue';
+import TableReport from '../../../components/admin/Dashboard/TableReport.vue'; 
+import jsPDF from 'jspdf' 
+import html2canvas from "html2canvas"
+import moment from "moment";
 export default {
     name: "Dashboard",
     components: {
@@ -135,9 +136,122 @@ export default {
                 week: false,
                 month: false,
             },
+            loading: true,
+            time: '',
+            dates: [],
+            index: 0,
         }
     },
+
+    created() {
+        this.handleGetTime('week');
+    },
+
     methods: {
+        async handleGetTime(time, params) {
+            switch (time) {
+                case "today":
+                this.active = {
+                    today: true,
+                    yesterday: false,
+                    week: false,
+                    month: false,
+                };
+                var today = moment().format("DD-MM-YYYY");
+                var yesterday = moment().subtract(1, "days").format("DD-MM-YYYY");
+                // console.log(yesterday);
+                var params = {
+                    from: today,
+                    to: today,
+                };
+                break;
+                case "yesterday":
+                this.active = {
+                    today: false,
+                    yesterday: true,
+                    week: false,
+                    month: false,
+                };
+                var yesterday = moment().subtract(1, "days").format("DD-MM-YYYY");
+                var beforeYesterday = moment()
+                    .subtract(2, "days")
+                    .format("DD-MM-YYYY");
+                var params = {
+                    from: yesterday,
+                    to: yesterday,
+                };
+                break;
+                case "week":
+                this.active = {
+                    today: false,
+                    yesterday: false,
+                    week: true,
+                    month: false,
+                };
+
+                var to = moment().format("DD-MM-YYYY");
+                var from = moment().subtract(6, "days").format("DD-MM-YYYY");
+                var params = {
+                    from: from,
+                    to: to,
+                };
+                break;
+                case "month":
+                this.active = {
+                    today: false,
+                    yesterday: false,
+                    week: false,
+                    month: true,
+                };
+
+                var to = moment().format("DD-MM-YYYY");
+                var from = moment().subtract(29, "days").format("DD-MM-YYYY");
+                var params = {
+                    from: from,
+                    to: to,
+                };
+                break;
+
+                case "select":
+                this.active = {
+                    today: false,
+                    yesterday: false,
+                    week: false,
+                    month: false,
+                };
+                var params = {
+                    from: params.from,
+                    to: params.to,
+                };
+                console.log(params);
+                break;
+            }
+            await this.$store.dispatch('admin/responseTime', params);
+            this.compareDay(time);
+            if (JSON.parse(JSON.stringify(this.$store.state.admin.responseTime))) {
+                this.loading = false;
+            }
+        },
+
+        pickDateRange(value, dateString) {
+            if (value != null) {
+                this.active = {
+                    today: false,
+                    yesterday: false,
+                    week: false,
+                    month: false,
+                };
+                let params = {
+                    from: dateString[0],
+                    to: dateString[1],
+                };
+                let time = "select";
+                this.handleGetTime(time, params);
+            } else {
+                this.handleGetTime("today");
+            }
+        },
+
         formatDate(date) {
             return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
         },
@@ -167,6 +281,77 @@ export default {
                 return Math.abs(diffEnd) > 30;
             }
         },
+
+        onCalendarChange(val) {
+            this.dates = val;
+        },
+
+        // xuất png
+        exportPng() {
+            let elementPng = document.getElementById('export-pdf')
+            html2canvas(elementPng)
+            .then(canvas => {
+                canvas.style.display = 'none'
+                document.body.appendChild(canvas)
+                return canvas
+            })
+            .then(canvas => {
+                const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+                const a = document.createElement('a')
+                a.setAttribute('download', 'bao_cao_nhan_vien.png')
+                a.setAttribute('href', image)
+                a.click()
+                canvas.remove()
+            })
+        },
+
+        // xuất PDF
+        exportPdf() {
+            var element = document.getElementById('export-pdf');
+            html2canvas(element).then(canvas => {
+                var imgData = canvas.toDataURL('image/png');
+                var imgWidth = 210; 
+                var pageHeight = 295;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var pdf = new jsPDF('p', 'mm');
+                var position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                pdf.save('bao_cao_nhan_vien.pdf');
+            });
+        },
+
+        compareDay(time) {
+            switch (time) {
+            case 'today':
+                this.time = "hôm qua";
+                break;
+            case 'yesterday':
+                this.time = "hôm kia";
+                break;
+            case 'week':
+                this.time = "tuần trước";
+                break;
+            case 'month':
+                this.time = "tháng trước";
+                break;
+            case "select":
+                this.time = "trước đó" + this.index ++;
+                break;
+
+                default: this.time = "hôm qua"
+            }
+        },
     }
     
 }
@@ -193,24 +378,24 @@ export default {
                     cursor: pointer;
                     display:inline-block;
                     text-align:center;
-                    font-size: 14px;
+                    font-size: 16px;
                     border-bottom: 1px solid transparent;
                 }
                 .header-times_option span:hover {
                     font-weight:bold;
                     /* font-style: normal; */
                     /* font-weight: bold; */
-                    color: #5c7ae8;
+                    color: #d82e4d;
                     /* width: 120%; */
-                    border-bottom: 1px solid #5c7ae8;
+                    border-bottom: 1px solid #d82e4d;
                 }
                 .header-times_option .span-active {
                     font-weight:bold;
                     /* font-style: normal; */
                     /* font-weight: bold; */
-                    color: #5c7ae8;
+                    color: #d82e4d;
                     /* width: 120%; */
-                    border-bottom: 1px solid #5c7ae8;
+                    border-bottom: 1px solid #d82e4d;
                 }
                 
                 .header-times_option span::before {
@@ -229,6 +414,9 @@ export default {
                     cursor: pointer;
                     /* height: 22px; */
                     line-height: 22px;
+                    label {
+                        margin-right: 5px;
+                    }
                 }
             }
             .header-export-report {
@@ -240,7 +428,7 @@ export default {
                     font-style: normal !important;
                     font-weight: normal !important;
                     font-size: 14px !important;
-                    background: #5473e7 !important;
+                    background: #d82e4d !important;
                     border-radius: 4px !important;
                 }
             }
@@ -269,7 +457,14 @@ export default {
     //ant
     span.ant-calendar-picker-input.ant-input.ant-input-sm {
         background: none;
-        border: none;
+    }
+    .span-active {
+        font-weight:bold;
+        /* font-style: normal; */
+        /* font-weight: bold; */
+        color: #d82e4d;
+        /* width: 120%; */
+        border-bottom: 1px solid #d82e4d;
     }
 }
 </style>

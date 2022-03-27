@@ -5,16 +5,26 @@
                 <div class="report-text">
                     <div class="content">
                         <div class="title">Tổng tiền</div>
-                        <div class="unit">5000000Đ</div>
-                        <div class="up-down">
+                        <div class="unit">{{ formatVND(countData.total.order_money) }}</div>
+                        <div class="up-down" v-if="(countData.total.precent_order_money).charAt(0) === '+'">
                             <span>
                                 <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" >
                                     <path d="M1 6.33333L6.33333 1" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M1.66699 1H6.33366V5.66667" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </span>
-                            <span class="up">+33% &nbsp;</span>
-                            <span>so với tháng trước</span>
+                            <span class="up">&nbsp;{{ countData.total.precent_order_money }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
+                        </div>
+                        <div class="up-down" v-else>
+                            <span>
+                                <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.33398 0.999919L1.00065 6.33325" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5.66699 6.33325L1.00033 6.33325L1.00032 1.66659" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span class="down">&nbsp;{{ countData.total.precent_order_money }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
                         </div>
                     </div>
                     <div class="img">
@@ -31,16 +41,26 @@
                 <div class="report-text">
                     <div class="content">
                         <div class="title">Tài khoản</div>
-                        <div class="unit">222</div>
-                        <div class="up-down">
+                        <div class="unit">{{ countData.total.user_count }}</div>
+                        <div class="up-down" v-if="(countData.total.precent_user_count).charAt(0) === '+'">
                             <span>
                                 <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" >
                                     <path d="M1 6.33333L6.33333 1" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M1.66699 1H6.33366V5.66667" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </span>
-                            <span class="up">+33% &nbsp;</span>
-                            <span>so với tháng trước</span>
+                            <span class="up">&nbsp;{{ countData.total.precent_user_count }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
+                        </div>
+                        <div class="up-down" v-else>
+                            <span>
+                                <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.33398 0.999919L1.00065 6.33325" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5.66699 6.33325L1.00033 6.33325L1.00032 1.66659" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span class="down">&nbsp;{{ countData.total.precent_user_count }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
                         </div>
                     </div>
                     <div class="img">
@@ -57,17 +77,27 @@
             <a-col :span="6">
                 <div class="report-text">
                     <div class="content">
-                        <div class="title">Người dùng</div>
-                        <div class="unit">2222</div>
-                        <div class="up-down">
+                        <div class="title">Đánh giá</div>
+                        <div class="unit">{{ countData.total.rate_count }}</div>
+                        <div class="up-down" v-if="(countData.total.precent_rate_count).charAt(0) === '+'">
                             <span>
                                 <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" >
                                     <path d="M1 6.33333L6.33333 1" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M1.66699 1H6.33366V5.66667" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </span>
-                            <span class="up">+33% &nbsp;</span>
-                            <span>so với tháng trước</span>
+                            <span class="up">&nbsp;{{ countData.total.precent_rate_count }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
+                        </div>
+                        <div class="up-down" v-else>
+                            <span>
+                                <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.33398 0.999919L1.00065 6.33325" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5.66699 6.33325L1.00033 6.33325L1.00032 1.66659" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span class="down">&nbsp;{{ countData.total.precent_rate_count }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
                         </div>
                     </div>
                     <div class="img">
@@ -82,16 +112,26 @@
                 <div class="report-text">
                     <div class="content">
                         <div class="title">Đơn hàng</div>
-                        <div class="unit">111</div>
-                        <div class="up-down">
+                        <div class="unit">{{ countData.total.order_count }}</div>
+                        <div class="up-down" v-if="(countData.total.precent_order_count).charAt(0) === '+'">
                             <span>
                                 <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" >
                                     <path d="M1 6.33333L6.33333 1" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M1.66699 1H6.33366V5.66667" stroke="#5DC2CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </span>
-                            <span class="up">+33% &nbsp;</span>
-                            <span> so với tháng trước</span>
+                            <span class="up">&nbsp;{{ countData.total.precent_order_count }}% &nbsp;</span>
+                            <span> so với {{ time }}</span>
+                        </div>
+                        <div class="up-down" v-else>
+                            <span>
+                                <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.33398 0.999919L1.00065 6.33325" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5.66699 6.33325L1.00033 6.33325L1.00032 1.66659" stroke="#FF6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span class="down">&nbsp;{{ countData.total.precent_order_count }}% &nbsp;</span>
+                            <span>so với {{ time }}</span>
                         </div>
                     </div>
                     <div class="img">
@@ -104,6 +144,26 @@
         </a-row>
     </div>
 </template>
+<script>
+export default {
+    props: ['time'],
+    computed: {
+        countData() {
+            const data = this.$store.state.admin.responseTime;
+            
+            if(data) {
+                return data; 
+            }        
+
+        },
+    },
+    methods: {
+        formatVND(data) {
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
+        }
+    }
+}
+</script>
 <style lang="scss">
 .statitis {
     background-color: #ffffff;
@@ -124,6 +184,9 @@
             .up-down {
                 .up {
                     color: #5DC2CC;
+                }
+                .down {
+                    color: #FF6F6F;
                 }
             }
 

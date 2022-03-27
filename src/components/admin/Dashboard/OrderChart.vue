@@ -8,11 +8,12 @@
 <script>
 export default {
     name: "OrderChart",
+    props: ['time'],
     data() {
         return {
             series: [{
-                name: "Desktops",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                name: "Tổng tiền đơn hàng",
+                data: []
             }],
             chartOptions: {
                 chart: {
@@ -41,7 +42,7 @@ export default {
                     strokeWidth: [1, 1],
                 },
                 title: {
-                    text: 'Tổng số đơn hàng',
+                    text: 'Tổng tiền đơn hàng',
                     align: 'left',
                     offsetX: 10,
                     offsetY: 10,
@@ -51,7 +52,15 @@ export default {
                         fontWeight: "bold",
                         fontSize: "16px",
                         lineHeight: "22px",
+                        color:  '#d82e4d'
                     },
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (value) {
+                            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(value)
+                        }
+                    }
                 },
                 grid: {
                     row: {
@@ -59,23 +68,44 @@ export default {
                         opacity: 0.5
                     },
                 },
+                yaxis: {
+                    labels: {
+                        formatter: (value) => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(value),
+                    },
+                },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: [],
                 },
-                legend: {
-                    labels: { colors: "#6B7D95" },
-                    position: "top",
-                    horizontalAlign: "right",
-                    floating: true,
-                    offsetY: -25,
-                    offsetX: -5,
-                    fontSize: "12px",
-                    fontWeight: "600",
-                    lineHeight: "16px",
-                    colors: "#6B7D95",
-                    fontFamily: "Sarabun",
-                },
+                colors: ['#d82e4d'],
             },
+        }
+    },
+    mounted() {
+        this.getDataChart();
+    },
+
+    methods: {
+        async getDataChart() {
+            this.arr = []
+            let dataChart = await this.$store.state.admin.responseTime
+        
+            this.series = [{
+                data: dataChart.sum_order
+            }];
+            dataChart.date.forEach(item => {
+                this.arr.push(item)
+            })
+            this.chartOptions = {
+                xaxis: {
+                    categories: this.arr
+                }
+            }
+        },
+    },
+    
+    watch: {
+        time() {
+            this.getDataChart();
         }
     }
 }
