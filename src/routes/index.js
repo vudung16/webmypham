@@ -16,6 +16,7 @@ import InfoUser from "../pages/webview/User/info.vue";
 //admin
 import AdminLayout from "../pages/admin/layouts/AdminLayout.vue";
 import Dashboard from '../pages/admin/Dashboard/index.vue';
+import Slide from '../pages/admin/Slide/index.vue';
 
 const routes = [
     {
@@ -214,6 +215,15 @@ const routes = [
                 component: Dashboard,
                 meta: {
                     title: 'Dashboard',
+                }
+            },
+            {
+                title: 'Slide',
+                path: 'slide',
+                name: 'Slide',
+                component: Slide,
+                meta: {
+                    title: 'Slide',
                 }
             }
         ]
