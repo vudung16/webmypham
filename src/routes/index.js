@@ -17,6 +17,8 @@ import InfoUser from "../pages/webview/User/info.vue";
 import AdminLayout from "../pages/admin/layouts/AdminLayout.vue";
 import Dashboard from '../pages/admin/Dashboard/index.vue';
 import Slide from '../pages/admin/Slide/index.vue';
+import Brand from '../pages/admin/Brand/index.vue';
+import Voucher from '../pages/admin/Voucher/index.vue';
 import CategoryAdmin from '../pages/admin/Category/index.vue';
 
 const routes = [
@@ -234,6 +236,24 @@ const routes = [
                 component: CategoryAdmin,
                 meta: {
                     title: 'Thể loại',
+                }
+            },
+            {
+                title: 'Thương hiệu',
+                path: 'brand',
+                name: 'Brand',
+                component: Brand,
+                meta: {
+                    title: 'Thương hiệu',
+                }
+            },
+            {
+                title: 'Voucher',
+                path: 'voucher',
+                name: 'Voucher',
+                component: Voucher,
+                meta: {
+                    title: 'Voucher',
                 }
             }
         ]

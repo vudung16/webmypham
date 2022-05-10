@@ -1,65 +1,65 @@
 <template>
     <div>
-        <div class="admin-slide">
-            <div class="header-slide">
-                <div class="title">Danh sách slide</div>
+        <div class="admin-brand">
+            <div class="header-brand">
+                <div class="title">Danh sách thương hiệu</div>
                 <div class="btn-add">
-                    <a-button type="primary" shape="round" @click="showModal()">
-                        <template #icon>
-                            <plus-outlined />
-                        </template>
-                        Thêm mới
-                    </a-button>
+                    <a-space>
+                        <a-input-search placeholder="Tìm kiếm thể loại" enter-button style="width: 300px"
+                            v-model:value="textSearch" />
+                        <a-button type="primary" @click="showModal()">
+                            <template #icon>
+                                <plus-outlined />
+                            </template>
+                            Thêm mới
+                        </a-button>
+                    </a-space>
                 </div>
             </div>
-            <div class="slide-table">
-                <a-table :columns="columns" :data-source="listSlide.data" bordered :pagination="false">
+            <div class="brand-table">
+                <a-table :columns="columns" :data-source="listBrand.data" bordered :pagination="false">
+                    <template #stt="{ record }">
+                        {{ record.index }}
+                    </template>
+                    <template #name="{ record }">
+                        {{ record.name }}
+                    </template>
                     <template #image="{ record }">
-                        <img style="width: 100%; height: 200px" v-bind:src="record.slide_image" alt="">
-                    </template>
-                    <template #start="{ record }">
-                        {{ formatDate(record.created_at) }}
-                    </template>
-                    <template #update="{ record }">
-                        {{ formatDate(record.updated_at) }}
+                        <img style="width: 100%; height: 200px" v-bind:src="record.image" alt="">
                     </template>
                     <template #edit="{ record }">
                         <FormOutlined @click="showModal(record)" />
                     </template>
                     <template #delete="{ record }">
-                        <DeleteOutlined @click="remove(record.slide_id)" />
-                    </template>
-
-                    <template #title>Trạng thái:
-                        <a-switch v-model:checked="status" />
+                        <DeleteOutlined @click="remove(record.id)" />
                     </template>
                     <template #footer>
-                        <Pagination v-show="listSlide.last_page > 1" @paginate="getSlide"
-                            :totalPage="listSlide.last_page" />
+                        <Pagination v-show="listBrand.last_page > 1" @paginate="getBrand"
+                            :totalPage="listBrand.last_page" />
                     </template>
                 </a-table>
             </div>
         </div>
-        <ModalSlide :visible="visible" @cancel="handleCancel" :slide="slide" />
+        <ModalBrand :visible="visible" @cancel="handleCancel" :brand="brand" />
     </div>
 </template>
 <script>
 const columns = [
     {
+        title: 'STT',
+        dataIndex: 'stt',
+        slots: { customRender: 'stt' },
+    },
+    {
+        title: 'Tên thương hiệu',
+        dataIndex: 'name',
+        slots: { customRender: 'name' },
+    },
+    {
         title: 'Ảnh',
         dataIndex: 'image',
         slots: { customRender: 'image' },
-        width: '60%'
-    },
-    {
-        title: 'Ngày tạo',
-        dataIndex: 'start',
-        slots: { customRender: 'start' },
-    },
-    {
-        title: 'Ngày cập nhật',
-        dataIndex: 'update',
-        slots: { customRender: 'update' },
+        width: '50%'
     },
     {
         title: '',
@@ -75,49 +75,47 @@ const columns = [
 import { DeleteOutlined, FormOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import Pagination from '../../../components/admin/common/Pagination.vue';
 import api from '../../../api/admin';
-import ModalSlide from '../../../components/admin/Slide/ModalSlide.vue';
+import ModalBrand from '../../../components/admin/Brand/ModalBrand.vue';
 import { createVNode } from 'vue';
 import { Modal } from 'ant-design-vue';
 import moment from 'moment';
 export default {
-    components: { Pagination, DeleteOutlined, FormOutlined, ExclamationCircleOutlined, PlusOutlined, ModalSlide },
+    components: { Pagination, DeleteOutlined, FormOutlined, ExclamationCircleOutlined, PlusOutlined, ModalBrand },
     data() {
         return {
-            status: true,
             columns,
-            listSlide: [],
+            listBrand: [],
             visible: false,
-            slide: {},
+            brand: {},
+            textSearch: ''
         }
     },
     created() {
-        this.getSlide();
+        this.getBrand();
     },
     methods: {
-        async getSlide(data) {
+        async getBrand(data) {
             let params = {
                 page: data ? data : 1,
-                status: this.status ? 1 : 0
+                search: this.textSearch,
             }
-            let res = await api.listSlide(params);
-            this.listSlide = res;
-            this.listSlide.data = res.data.map((slide, index) => {
-                const { slide_id, slide_image, slide_status, created_at, updated_at } = slide;
+            let res = await api.listBrand(params);
+            this.listBrand = res;
+            this.listBrand.data = res.data.map((brand, index) => {
+                const { id, image, name } = brand;
                 return {
                     index: index + 1,
-                    key: slide_id,
-                    slide_id: slide_id,
-                    slide_image: slide_image,
-                    slide_status: slide_status,
-                    created_at: created_at,
-                    updated_at: updated_at
+                    key: id,
+                    id: id,
+                    image: image,
+                    name: name,
                 }
             })
         },
 
         remove(id) {
             Modal.confirm({
-                title: () => "Bạn có chắc chắn muốn xóa slide này",
+                title: () => "Bạn có chắc chắn muốn xóa thương hiệu này",
                 icon: () => createVNode(ExclamationCircleOutlined),
                 okText: () => "Xóa",
                 cancelText: () => "Đóng",
@@ -125,10 +123,10 @@ export default {
                     const data = {
                         id: id,
                     };
-                    api.deleteSlide(data)
+                    api.deleteBrand(data)
                         .then((res) => {
-                            this.getSlide();
-                            this.$message.success("Xóa slide thành công");
+                            this.getBrand();
+                            this.$message.success("Xóa thương hiệu thành công");
                         })
                         .catch((err) => {
                             this.$message.error("Có lỗi xảy ra");
@@ -137,15 +135,14 @@ export default {
             });
         },
 
-        showModal(slide) {
-            this.slide = slide || null;
+        showModal(brand) {
+            this.brand = brand || null;
             this.visible = true;
-            console.log(slide);
         },
         handleCancel(result) {
             this.visible = false;
             if (result && result.ok) {
-                this.getSlide();
+                this.getBrand();
             }
         },
         handleOk() {
@@ -160,9 +157,10 @@ export default {
         },
     },
     watch: {
-        status: {
+        textSearch: {
             handler(val) {
-                this.getSlide();
+                console.log(val);
+                this.getBrand();
             },
             deep: true
         }
@@ -170,10 +168,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.admin-slide {
+.admin-brand {
     padding: 30px;
 
-    .header-slide {
+    .header-brand {
         display: flex;
         justify-content: space-between;
 
@@ -195,8 +193,12 @@ export default {
 }
 </style>
 <style lang="scss">
-.admin-slide {
+.admin-brand {
     .ant-table-tbody tr td {
+        text-align: center !important;
+    }
+
+    .ant-table-thead tr th {
         text-align: center !important;
     }
 }
