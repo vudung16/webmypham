@@ -19,6 +19,7 @@ import Dashboard from '../pages/admin/Dashboard/index.vue';
 import Slide from '../pages/admin/Slide/index.vue';
 import Brand from '../pages/admin/Brand/index.vue';
 import Voucher from '../pages/admin/Voucher/index.vue';
+import VoucherCreate from '../pages/admin/Voucher/create.vue';
 import CategoryAdmin from '../pages/admin/Category/index.vue';
 
 const routes = [
@@ -252,6 +253,15 @@ const routes = [
                 path: 'voucher',
                 name: 'Voucher',
                 component: Voucher,
+                meta: {
+                    title: 'Voucher',
+                }
+            },
+            {
+                title: 'Voucher',
+                path: 'voucher/create',
+                name: 'VoucherCreate',
+                component: VoucherCreate,
                 meta: {
                     title: 'Voucher',
                 }
