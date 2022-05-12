@@ -1,13 +1,13 @@
 <template>
     <div class="layout">
+        <div class="webmypham-header">
+            <Header></Header>
+        </div>
         <div class="webmypham-layout">
             <div class="webmypham-sidebar">
                 <Sidebar></Sidebar>
             </div>
             <div class="webmypham-main-content">
-                <div class="webmypham-header">
-                    <Header></Header>
-                </div>
                 <div class="webmypham-content">
                     <router-view></router-view>
                 </div>

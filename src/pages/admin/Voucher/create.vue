@@ -1,10 +1,8 @@
 <template>
     <div class="voucher-create">
         <div class="header">
-            <Breadcrums :title="'abc'">
-                <div>
-                    abc
-                </div>
+            <Breadcrums :title="'Thêm mới Voucher'">
+                
             </Breadcrums>
         </div>
         <div class="create">

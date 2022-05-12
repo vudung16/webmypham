@@ -1,11 +1,5 @@
 <template>
     <div class="admin-header">
-        <div class="collapsed-button">
-            <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
-                <MenuUnfoldOutlined v-if="collapsed"/>
-                <MenuFoldOutlined v-else />
-            </a-button>
-        </div>
         <div class="info-name">
             <a-dropdown-button>
             <template #icon><UserOutlined /></template>
@@ -28,27 +22,12 @@
 </template>
 
 <script>
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons-vue';
+import {UserOutlined } from '@ant-design/icons-vue';
     export default {
         name: "Header",
         components: {
-            MenuFoldOutlined, 
-            MenuUnfoldOutlined,
             UserOutlined
         },
-
-        data() {
-            return {
-                collapsed: false,
-            };
-        },
-
-        methods: {
-            toggleCollapsed() {
-                this.collapsed = !this.collapsed;
-                this.$emitter.emit("toggle-sidebar", this.collapsed);
-            }
-        }
     }
 </script>
 
