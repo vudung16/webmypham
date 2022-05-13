@@ -1,5 +1,5 @@
 <template>
-    <div style="background: #ffffff">
+    <div style="background: #ffffff; padding-bottom: 25px">
         <div class="breadCrumb-header">
             <div class="collapsed-button">
                 <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
@@ -96,6 +96,7 @@ export default {
 .breadcrumb-bottom {
     .header-title {
         font-size: 22px;
+        margin-left: 45px;
     }
 }
 

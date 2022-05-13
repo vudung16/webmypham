@@ -2,7 +2,10 @@
     <div class="voucher-create">
         <div class="header">
             <Breadcrums :title="'Thêm mới Voucher'">
-                
+                <template #action>
+                    <a-button>Hủy bỏ</a-button>
+                    <a-button type="primary">Tạo mới</a-button>
+                </template>
             </Breadcrums>
         </div>
         <div class="create">
