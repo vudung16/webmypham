@@ -1,19 +1,20 @@
 <template>
     <div>
-        <div class="admin-voucher">
-            <div class="header-voucher">
-                <div class="title">Danh sách Voucher</div>
-                <div class="btn-add">
+        <div class="header">
+            <Breadcrums :title="'Danh sách Voucher'">
+                <template #action>
                     <a-space>
-                        <a-button type="primary" @click="addVoucher">
+                        <a-button type="primary" size="large" @click="addVoucher">
                             <template #icon>
                                 <plus-outlined />
                             </template>
-                            Thêm mới
+                            Thêm mới Voucher
                         </a-button>
                     </a-space>
-                </div>
-            </div>
+                </template>
+            </Breadcrums>
+        </div>
+        <div class="admin-voucher">
             <div class="filter-voucher">
                 <a-space>
                     <a-range-picker v-model:value="search.date" />
@@ -171,9 +172,7 @@ export default {
         },
 
         addVoucher() {
-            this.$router.push({
-
-            });
+            this.$router.push({ name: 'VoucherCreate' })
         },
 
         searchVoucher() {

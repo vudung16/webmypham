@@ -8,6 +8,7 @@ import VueApexCharts from "vue3-apexcharts";
 import mitt from 'mitt';
 import { store } from "./stores";
 import Breadcrums from './components/common/Breadcrums.vue';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 const emitter = mitt();
 
 const app = createApp(App);
@@ -16,6 +17,7 @@ app.use(Antd);
 app.use(vClickOutside);
 app.use(VueApexCharts);
 app.use(store);
+app.use(CKEditor);
 app.component('Breadcrums',  Breadcrums); 
 
 // app.config.globalProperties.$filters = filters;
