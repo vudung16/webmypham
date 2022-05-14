@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-sidebar" style="width: 256px">
+    <div class="admin-sidebar" style="width: 256px; height: 100%">
         <!-- <div v-if="!collapsed" class="logo" style="background: #001529;"><img width="200" height="50" src="https://theme.hstatic.net/200000411391/1000799987/14/logo.png?v=209" alt=""></div>
         <div v-else class="logo" style="background: #001529;">logo</div> -->
     <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
@@ -117,6 +117,6 @@ export default {
     }
 }
 ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark, ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed.ant-menu-dark {
-  height: 760px;
+  height: 100%;
 }
 </style>

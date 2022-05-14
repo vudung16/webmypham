@@ -1,23 +1,34 @@
 <template>
     <div class="admin-header">
-        <div class="info-name">
-            <a-dropdown-button>
-            <template #icon><UserOutlined /></template>
-            Mạnh Dũng
-            <template #overlay>
-                <a-menu>
-                <a-menu-item key="1">
-                    <UserOutlined />
-                    Thông tin tài khoản
-                </a-menu-item>
-                <a-menu-item key="2">
-                    <UserOutlined />
-                    Thoát
-                </a-menu-item>
-                </a-menu>
-            </template>
-            </a-dropdown-button>
-        </div>
+        <a-row :gutter="24" style="width:100%">
+            <a-col :span="8">
+            </a-col>
+            <a-col :span="8" style="text-align:center">
+                <div class="logo-image">
+                    <img src="../../../assets/images/logo.png" alt="">
+                </div>
+            </a-col>
+            <a-col :span="8">
+                <div class="info-name">
+                    <a-dropdown-button>
+                    <template #icon><UserOutlined /></template>
+                    Mạnh Dũng
+                    <template #overlay>
+                        <a-menu>
+                        <a-menu-item key="1">
+                            <UserOutlined />
+                            Thông tin tài khoản
+                        </a-menu-item>
+                        <a-menu-item key="2">
+                            <UserOutlined />
+                            Thoát
+                        </a-menu-item>
+                        </a-menu>
+                    </template>
+                    </a-dropdown-button>
+                </div>
+            </a-col>
+        </a-row>
     </div>
 </template>
 

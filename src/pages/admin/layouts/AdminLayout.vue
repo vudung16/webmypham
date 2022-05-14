@@ -34,6 +34,9 @@ export default {
     .webmypham-layout {
         display: flex;
         height: 100vh;
+        .webmypham-sidebar {
+            height: 100%;
+        }
 
         .webmypham-main-content {
             // flex: auto;
