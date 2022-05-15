@@ -9,7 +9,12 @@
             </div>
             <a-breadcrumb :routes="
                 (checkPath() === 1 && routes1) ||
-                (checkPath() === 2 && routes2)
+                (checkPath() === 2 && routes2) ||
+                (checkPath() === 3 && routes3) ||
+                (checkPath() === 4 && routes4) ||
+                (checkPath() === 5 && routes5) ||
+                (checkPath() === 6 && routes6) ||
+                (checkPath() === 7 && routes7)
             ">
                 <template #itemRender="{ route, params, routes, paths }">
                     <span v-if="routes.indexOf(route) === routes.length - 1">
@@ -66,6 +71,56 @@ export default {
                     breadcrumbName: "Voucher",
                 },
             ],
+            routes3: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/product",
+                    breadcrumbName: "Sản phẩm",
+                },
+            ],
+            routes4: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/brand",
+                    breadcrumbName: "Thương hiệu",
+                },
+            ],
+            routes5: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/category",
+                    breadcrumbName: "Danh mục",
+                },
+            ],
+            routes6: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/slide",
+                    breadcrumbName: "Slide",
+                },
+            ],
+            routes7: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/order",
+                    breadcrumbName: "Đơn hàng",
+                },
+            ],
         };
     },
     methods: {
@@ -73,6 +128,21 @@ export default {
             const { path } = this.$route;
             if (path.includes("voucher")) {
                 return 2;
+            }
+            if (path.includes("product")) {
+                return 3;
+            }
+            if (path.includes("brand")) {
+                return 4;
+            }
+            if (path.includes("category")) {
+                return 5;
+            }
+            if (path.includes("slide")) {
+                return 6;
+            }
+            if (path.includes("order")) {
+                return 7;
             }
         },
         toggleCollapsed() {

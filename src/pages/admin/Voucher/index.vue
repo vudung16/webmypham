@@ -17,7 +17,7 @@
         <div class="admin-voucher">
             <div class="filter-voucher">
                 <a-space>
-                    <a-range-picker v-model:value="search.date" />
+                    <a-range-picker v-model="search.date" :placeholder="['Bắt Đầu...', 'Kết Thúc...']" />
                     <a-input placeholder="Tìm kiếm theo mã code" style="width: 300px"
                         v-model:value="search.textSearch" />
                     <a-button type="primary" @click="searchVoucher">Tìm kiếm</a-button>
@@ -44,13 +44,13 @@
                         {{ formatDate(record.expires_at) }}
                     </template>
                     <template #edit="{ record }">
-                        <FormOutlined @click="showModal(record)" />
+                        <FormOutlined @click="update(record)" />
                     </template>
                     <template #delete="{ record }">
                         <DeleteOutlined @click="remove(record.id)" />
                     </template>
                     <template #footer>
-                        <Pagination v-show="listVoucher.last_page > 1" @paginate="getVoucher"
+                        <Pagination v-if="listVoucher.last_page > 1" @paginate="getVoucher"
                             :totalPage="listVoucher.last_page" />
                     </template>
                 </a-table>
@@ -109,6 +109,7 @@ import { createVNode } from 'vue';
 import { Modal } from 'ant-design-vue';
 import moment from 'moment';
 export default {
+    name: 'ListVoucher',
     components: { Pagination, DeleteOutlined, FormOutlined, ExclamationCircleOutlined, PlusOutlined },
     data() {
         return {
@@ -170,7 +171,13 @@ export default {
                 },
             });
         },
-
+        update(record) {
+            this.$router.push({
+                name: 'VoucherUpdate', query: {
+                    id: record.id,
+                },
+            })
+        },
         addVoucher() {
             this.$router.push({ name: 'VoucherCreate' })
         },

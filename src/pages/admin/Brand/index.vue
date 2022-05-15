@@ -1,21 +1,29 @@
 <template>
     <div>
-        <div class="admin-brand">
-            <div class="header-brand">
-                <div class="title">Danh sách thương hiệu</div>
-                <div class="btn-add">
+        <div class="header">
+            <Breadcrums :title="'Danh sách thương hiệu'">
+                <template #action>
                     <a-space>
-                        <a-input-search placeholder="Tìm kiếm thể loại" enter-button style="width: 300px"
-                            v-model:value="textSearch" />
-                        <a-button type="primary" @click="showModal()">
+                        <a-button type="primary" size="large" @click="showModal()">
                             <template #icon>
                                 <plus-outlined />
                             </template>
-                            Thêm mới
+                            Thêm mới thương hiệu
                         </a-button>
+                    </a-space>
+                </template>
+            </Breadcrums>
+        </div>
+        <div class="admin-brand">
+            <div class="header-category">
+                <div class="btn-add">
+                    <a-space>
+                        <a-input-search placeholder="Tìm kiếm thương hiệu" enter-button style="width: 300px"
+                            v-model:value="textSearch" />
                     </a-space>
                 </div>
             </div>
+            <br>
             <div class="brand-table">
                 <a-table :columns="columns" :data-source="listBrand.data" bordered :pagination="false">
                     <template #stt="{ record }">

@@ -1,0 +1,162 @@
+<template>
+    <div>
+        <div class="header">
+            <Breadcrums :title="'Danh sách đơn hàng'">
+                <template #action>
+                    <a-space>
+                        <a-button type="primary" size="large" @click="addOrder">
+                            <template #icon>
+                                <plus-outlined />
+                            </template>
+                            Tạo đơn hàng
+                        </a-button>
+                    </a-space>
+                </template>
+            </Breadcrums>
+        </div>
+        <div class="admin-order">
+            <div class="filter-order">
+                <!-- <a-space>
+                    <a-input placeholder="Tìm kiếm theo mã tên" style="width: 300px"
+                        v-model:value="search.textSearch" />
+                    <a-select placeholder="Thể loại" :allowClear="true" class="full-width"
+                        v-model:value="search.category" style="width: 300px">
+                        <a-select-option v-for="category in category" :value="category.category_id"
+                            :key="category.category_id">
+                            {{ category.category_name }}
+                        </a-select-option>
+                    </a-select>
+                    <a-select placeholder="Thương hiệu" :allowClear="true" class="full-width"
+                        v-model:value="search.brand" style="width: 300px">
+                        <a-select-option v-for="brand in brand" :value="brand.brand_id" :key="brand.brand_id">
+                            {{ brand.brand_name }}
+                        </a-select-option>
+                    </a-select>
+                    <a-button type="primary" @click="searchProduct">Tìm kiếm</a-button>
+                </a-space> -->
+            </div>
+            <div class="product-table">
+                <a-tabs size="small" :active-key="tabStatus" :tabBarGutter="8" @change="changeTab">
+                    <a-tab-pane v-for="tab in listTabs" :key="tab.key" :tab="`${tab.name} (${tab.total})`">
+                        <div class="padding-table">
+                            <div class="padding-table">
+                                <TableOrder :listOrder="listOrder" :tabStatus="tabStatus" :totalRecord="totalRecord" />
+                            </div>
+                        </div>
+                    </a-tab-pane>
+                </a-tabs>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+const listTabs = [
+    {
+        name: "Đơn mới",
+        key: 'order_create',
+        total: 0,
+    },
+    {
+        name: "Đang xử lý",
+        key: "order_receive",
+        total: 0,
+    },
+    {
+        name: "Đang giao hàng",
+        key: "order_delivery",
+        total: 0,
+    },
+    {
+        name: "Đơn hoàn thành",
+        key: "order_finish",
+        total: 0,
+    },
+    {
+        name: "Đơn hủy",
+        key: "order_cancel",
+        total: 0,
+    },
+];
+import api from '../../../api/admin';
+import TableOrder from '../../../components/admin/Order/TableOrder.vue';
+export default {
+    name: 'ListOrder',
+    components: { TableOrder },
+    data() {
+        return {
+            listTabs,
+            tabStatus: 'order_create',
+            listOrder: [],
+            totalRecord: 0,
+        }
+    },
+    mounted() {
+        if (this.$route.query.status) {
+            this.tabStatus = this.$route.query.status;
+        }
+        const {
+            startDate,
+            endDate,
+            textSearch,
+            province_id,
+            district_id,
+            wards_id,
+            page,
+        } = this.$route.query;
+        const data = {
+            status: this.tabStatus,
+            page: page || 1,
+            date_start: startDate,
+            date_end: endDate,
+            key_search: textSearch,
+            province_id,
+            district_id,
+            wards_id,
+        };
+        this.getOrder({ ...data });
+    },
+    methods: {
+        changeTab(key) {
+            this.tabStatus = key;
+            this.$router.push({
+                name: "Order",
+                query: {
+                    ...this.$route.query,
+                    status: key
+                },
+            });
+        },
+        getOrder(data) {
+            api.getListOrder(data).then((res) => {
+                console.log(res);
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+    },
+}
+</script>
+<style lang="scss" scoped>
+.admin-order {
+    padding: 30px;
+
+    .header-order {
+        display: flex;
+        justify-content: space-between;
+
+        .title {
+            font-size: 20px;
+            margin: 0px 0px 30px 0px;
+        }
+    }
+
+    .filter-order {
+        margin-bottom: 20px;
+    }
+
+    .anticon-form {
+        color: green;
+        font-size: 19px;
+    }
+}
+</style>

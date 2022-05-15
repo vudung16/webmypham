@@ -21,6 +21,11 @@ import Brand from '../pages/admin/Brand/index.vue';
 import Voucher from '../pages/admin/Voucher/index.vue';
 import VoucherCreate from '../pages/admin/Voucher/create.vue';
 import VoucherUpdate from '../pages/admin/Voucher/update.vue';
+import Product from '../pages/admin/Product/index.vue';
+import ProductCreate from '../pages/admin/Product/create.vue';
+import ProductUpdate from '../pages/admin/Product/update.vue';
+import Order from '../pages/admin/Order/index.vue';
+import OrderDetail from '../pages/admin/Order/detail.vue';
 import CategoryAdmin from '../pages/admin/Category/index.vue';
 
 const routes = [
@@ -275,7 +280,56 @@ const routes = [
                 meta: {
                     title: 'Voucher',
                 }
-            }
+            },
+
+            // Sản phẩm
+            {
+                title: 'Sản phẩm',
+                path: 'product',
+                name: 'Product',
+                component: Product,
+                meta: {
+                    title: 'Sản phẩm',
+                }
+            },
+            {
+                title: 'Thêm mới',
+                path: 'product/create',
+                name: 'ProductCreate',
+                component: ProductCreate,
+                meta: {
+                    title: 'Thêm mới',
+                }
+            },
+            {
+                title: 'Chỉnh sửa',
+                path: 'product/update',
+                name: 'ProductUpdate',
+                component: ProductUpdate,
+                meta: {
+                    title: 'Chỉnh sửa',
+                }
+            },
+
+            //Đơn hàng
+            {
+                title: 'Đơn hàng',
+                path: 'order',
+                name: 'Order',
+                component: Order,
+                meta: {
+                    title: 'Đơn hàng',
+                }
+            },
+            {
+                title: 'Chi tiết',
+                path: 'order/detail',
+                name: 'OrderDetail',
+                component: OrderDetail,
+                meta: {
+                    title: 'Chi tiết',
+                }
+            },
         ]
     },
 

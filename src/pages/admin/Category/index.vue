@@ -1,21 +1,29 @@
 <template>
     <div>
-        <div class="admin-category">
-            <div class="header-category">
-                <div class="title">Danh sách thể loại</div>
-                <div class="btn-add">
+        <div class="header">
+            <Breadcrums :title="'Danh sách Danh mục'">
+                <template #action>
                     <a-space>
-                        <a-input-search placeholder="Tìm kiếm thể loại" enter-button style="width: 300px"
-                            v-model:value="textSearch" />
-                        <a-button type="primary" @click="showModal()">
+                        <a-button type="primary" size="large" @click="showModal()">
                             <template #icon>
                                 <plus-outlined />
                             </template>
-                            Thêm mới
+                            Thêm mới danh mục
                         </a-button>
+                    </a-space>
+                </template>
+            </Breadcrums>
+        </div>
+        <div class="admin-category">
+            <div class="header-category">
+                <div class="btn-add">
+                    <a-space>
+                        <a-input-search placeholder="Tìm kiếm danh mục" enter-button style="width: 300px"
+                            v-model:value="textSearch" />
                     </a-space>
                 </div>
             </div>
+            <br>
             <div class="category-table">
                 <a-table :columns="columns" :data-source="listCategory.data" bordered :pagination="false">
                     <template #stt="{ record }">
@@ -48,7 +56,7 @@ const columns = [
         slots: { customRender: 'stt' }
     },
     {
-        title: 'Tên thể loại',
+        title: 'Tên danh mục',
         dataIndex: 'name',
         slots: { customRender: 'name' },
         width: '60%'

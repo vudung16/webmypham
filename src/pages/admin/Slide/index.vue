@@ -1,17 +1,20 @@
 <template>
     <div>
+        <div class="header">
+            <Breadcrums :title="'Danh sách slide'">
+                <template #action>
+                    <a-space>
+                        <a-button type="primary" size="large" @click="showModal()">
+                            <template #icon>
+                                <plus-outlined />
+                            </template>
+                            Thêm mới slide
+                        </a-button>
+                    </a-space>
+                </template>
+            </Breadcrums>
+        </div>
         <div class="admin-slide">
-            <div class="header-slide">
-                <div class="title">Danh sách slide</div>
-                <div class="btn-add">
-                    <a-button type="primary" shape="round" @click="showModal()">
-                        <template #icon>
-                            <plus-outlined />
-                        </template>
-                        Thêm mới
-                    </a-button>
-                </div>
-            </div>
             <div class="slide-table">
                 <a-table :columns="columns" :data-source="listSlide.data" bordered :pagination="false">
                     <template #image="{ record }">

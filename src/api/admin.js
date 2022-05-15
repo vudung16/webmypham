@@ -254,6 +254,21 @@ export default {
             })
         });
     },
+    detailVoucher: (data) => {
+        const url = `${process.env.webmyphamapi}admin/voucher/detail`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
     updateVoucher: (data) => {
         const url = `${process.env.webmyphamapi}admin/voucher/update`;
         return new Promise((resolve, reject) => {
@@ -268,5 +283,115 @@ export default {
                 reject(response);
             })
         });
-    }
+    },
+
+    //Product
+    listProduct: (data) => {
+        const url = `${process.env.webmyphamapi}admin/product/list?page=` + data.page;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    deleteProduct: (data) => {
+        const url = `${process.env.webmyphamapi}admin/product/delete`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    createProduct: (data) => {
+        const url = `${process.env.webmyphamapi}admin/product/create`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    detailProduct: (data) => {
+        const url = `${process.env.webmyphamapi}admin/product/detail`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    updateProduct: (data) => {
+        const url = `${process.env.webmyphamapi}admin/product/update`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    deleteImage: (data) => {
+        const url = `${process.env.webmyphamapi}admin/product/delete-image`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+
+    //order
+    getListOrder: (data) => {
+        console.log(data);
+        const url = `${process.env.webmyphamapi}admin/order/list?page=` + data.page;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
 }
