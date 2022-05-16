@@ -8,7 +8,7 @@
                 <a-breadcrumb-item href="">
                     <span>{{ product.category.name }}</span>
                 </a-breadcrumb-item>
-                <a-breadcrumb-item>{{ product.product.product_name }}</a-breadcrumb-item>
+                <a-breadcrumb-item>{{ product.product.name }}</a-breadcrumb-item>
             </a-breadcrumb>
         </div>
         <div class="product-main">
@@ -18,9 +18,9 @@
                         <a-col :span="11">
                             <a-carousel arrows dots-class="slick-dots slick-thumb">
                                 <template #customPaging="props">
-                                <a>
-                                    <img :src="getImgUrl(props.i)" />
-                                </a>
+                                    <a>
+                                        <img :src="getImgUrl(props.i)" />
+                                    </a>
                                 </template>
                                 <div v-for="(item, index) in product.product_image">
                                     <img v-bind:src="getImage(index)" />
@@ -30,37 +30,50 @@
                         <a-col :span="13">
                             <div class="main-content">
                                 <div class="brand">{{ product.brand }}</div>
-                                <div class="product-name">{{product.product.product_name }}</div>
+                                <div class="product-name">{{ product.product.name }}</div>
                                 <div class="status">Tình trạng: <span>còn hàng</span></div>
                                 <div class="rating">
-                                    <a-rate v-model:value="rate" disabled/>
+                                    <a-rate v-model:value="rate" disabled />
                                     <span class="text">(123)</span>
                                 </div>
                                 <hr width="85%" align="left">
                                 <div class="money">
-                                    <div v-if="product.product.product_discount">
-                                        <span class="sale">{{ formatVND(product.product.product_price - ((product.product.product_discount /100) * product.product.product_price))}}&emsp;</span>
-                                        <span class="origin"><del>{{ formatVND(product.product.product_price)}}</del></span>
-                                        <span class="precent">{{ product.product.product_discount}}%</span>
+                                    <div v-if="product.product.discount">
+                                        <span class="sale">{{ formatVND(product.product.price -
+                                                ((product.product.discount / 100) * product.product.price))
+                                        }}&emsp;</span>
+                                        <span class="origin"><del>{{ formatVND(product.product.price) }}</del></span>
+                                        <span class="precent">{{ product.product.discount }}%</span>
                                     </div>
                                     <div v-else>
-                                        <span class="money">{{ formatVND(product.product.product_price)}}</span>
+                                        <span class="money">{{ formatVND(product.product.price) }}</span>
                                     </div>
                                 </div>
-                                <div class="save" v-if="product.product.product_discount">(Tiết kiệm: <span>{{ formatVND(product.product.product_price - (product.product.product_price - ((product.product.product_discount /100) * product.product.product_price))) }}</span>)</div>
+                                <div class="save" v-if="product.product.discount">(Tiết kiệm: <span>{{
+                                        formatVND(product.product.price - (product.product.price -
+                                            ((product.product.discount / 100) * product.product.price)))
+                                }}</span>)</div>
                                 <div class="quantity">
                                     <div class="text">Số lượng:</div>
                                     <div class="quantity-toggle">
                                         <a-button shape="circle" @click="reduction">
-                                            <template #icon><minus-outlined /></template>
+                                            <template #icon>
+                                                <minus-outlined />
+                                            </template>
                                         </a-button>
-                                        <a-input class="input-quantity" v-model:value="quantity" disabled/>
+                                        <a-input class="input-quantity" v-model:value="quantity" disabled />
                                         <a-button shape="circle" @click="plus">
-                                            <template #icon><plus-outlined /></template>
+                                            <template #icon>
+                                                <plus-outlined />
+                                            </template>
                                         </a-button>
                                     </div>
                                 </div>
-                                <div class="add-to-cart"><a-button @click="addToCart(product.product.product_id)">Thêm vào giỏ hàng <shopping-cart-outlined /></a-button></div>
+                                <div class="add-to-cart">
+                                    <a-button @click="addToCart(product.product.id)">Thêm vào giỏ hàng
+                                        <shopping-cart-outlined />
+                                    </a-button>
+                                </div>
                                 <div class="payment">
                                     <div class="text">Phương thức thanh toán</div>
                                     <div class="img">
@@ -69,14 +82,15 @@
                                         <img width="40" height="40" src="../../../assets/images/momo.png" alt="">
                                     </div>
                                 </div>
-                                <div class="describe">{{ product.product.product_description }}</div>
+                                <div class="describe">{{ product.product.description }}</div>
                             </div>
                         </a-col>
                     </a-row>
                     <a-row :gutter="16">
                         <div class="info-product">
                             <h2>Thông tin sản phẩm</h2>
-                            <div class="product-content" :class="{ active: isActive }" v-html="product.product.product_content"></div>
+                            <div class="product-content" :class="{ active: isActive }" v-html="product.product.content">
+                            </div>
                             <div class="read-more">
                                 <a-button v-if="!isActive" @click="readMore">Xem thêm >></a-button>
                                 <a-button v-else @click="readMore">Thu gọn</a-button>
@@ -89,55 +103,60 @@
                                 <div class="rate">
                                     <div class="rate-info">
                                         <a-avatar :src="item.image" :size="45">
-                                            <template v-if="!item.image" #icon><UserOutlined /></template>
+                                            <template v-if="!item.image" #icon>
+                                                <UserOutlined />
+                                            </template>
                                             <!-- <img v-if="item.image" v-bind:src="item.image" alt=""> -->
                                         </a-avatar>
                                         <div class="info">
                                             <div class="name">{{ item.name }}</div>
-                                            <div class="value"><a-rate :value="item.rate_scores" disabled/></div>
+                                            <div class="value">
+                                                <a-rate :value="item.rate_scores" disabled />
+                                            </div>
                                             <div v-if="item.date" class="date">{{ formatDate(item.date) }}</div>
                                         </div>
                                     </div>
                                     <div class="rate-comment">{{ item.rate_comment }}</div>
                                 </div>
                             </a-row>
-                            <Pagination v-show="rating.last_page > 1" @paginate="ratings" :totalPage="rating.last_page"/>
+                            <Pagination v-show="rating.last_page > 1" @paginate="ratings"
+                                :totalPage="rating.last_page" />
                         </a-tab-pane>
                         <a-tab-pane key="2" tab="Bình luận" force-render>
                             <a-row :gutter="16">
                                 <div class="comment">
                                     <h2>Bình luận sản phẩm</h2>
-                                  <a-list
-                                      class="comment-list"
-                                      item-layout="horizontal"
-                                      :data-source="comment.data"
-                                  >
-                                    <template #renderItem="{ item }">
-                                      <a-list-item>
-                                        <a-comment :author="item.author" >
-                                          <template #avatar>
-                                            <a-avatar :src="item.avatar" :size="45">
-                                              <template v-if="!item.avatar" #icon><UserOutlined /></template>
-                                              <!-- <img v-if="item.image" v-bind:src="item.image" alt=""> -->
-                                            </a-avatar>
-                                          </template>
-                                          <template #actions>
-                                            <span v-for="(action, index) in item.actions" :key="index">{{ action }}</span>
-                                          </template>
-                                          <template #content>
-                                            <p>
-                                              {{ item.content }}
-                                            </p>
-                                          </template>
-                                          <template #datetime>
-                                            <a-tooltip :title="formatDate(item.datetime)">
-                                              <span>{{ formatDate(item.datetime) }}</span>
-                                            </a-tooltip>
-                                          </template>
-                                        </a-comment>
-                                      </a-list-item>
-                                    </template>
-                                  </a-list>
+                                    <a-list class="comment-list" item-layout="horizontal" :data-source="comment.data">
+                                        <template #renderItem="{ item }">
+                                            <a-list-item>
+                                                <a-comment :author="item.author">
+                                                    <template #avatar>
+                                                        <a-avatar :src="item.avatar" :size="45">
+                                                            <template v-if="!item.avatar" #icon>
+                                                                <UserOutlined />
+                                                            </template>
+                                                            <!-- <img v-if="item.image" v-bind:src="item.image" alt=""> -->
+                                                        </a-avatar>
+                                                    </template>
+                                                    <template #actions>
+                                                        <span v-for="(action, index) in item.actions" :key="index">{{
+                                                                action
+                                                        }}</span>
+                                                    </template>
+                                                    <template #content>
+                                                        <p>
+                                                            {{ item.content }}
+                                                        </p>
+                                                    </template>
+                                                    <template #datetime>
+                                                        <a-tooltip :title="formatDate(item.datetime)">
+                                                            <span>{{ formatDate(item.datetime) }}</span>
+                                                        </a-tooltip>
+                                                    </template>
+                                                </a-comment>
+                                            </a-list-item>
+                                        </template>
+                                    </a-list>
                                 </div>
                             </a-row>
                             <a-row>
@@ -151,21 +170,23 @@
                                         </a-form-item>
                                         <a-form-item>
                                             <a-button html-type="submit" type="primary" @click="handleSubmitComment">
-                                              Bình luận
+                                                Bình luận
                                             </a-button>
                                         </a-form-item>
                                     </template>
                                 </a-comment>
                             </a-row>
-                            <Pagination v-if="comment.last_page > 1" @paginate="comments" :totalPage="comment.last_page"/>
+                            <Pagination v-if="comment.last_page > 1" @paginate="comments"
+                                :totalPage="comment.last_page" />
                         </a-tab-pane>
                     </a-tabs>
                 </a-col>
-                
+
                 <a-col :span="4">
                     <div class="voucher">
                         <a-card title="Voucher">
-                            <a-card-grid v-for="(item, index) in listVoucher" :key="item.index" style="width: 100%; text-align: center">
+                            <a-card-grid v-for="(item, index) in listVoucher" :key="item.index"
+                                style="width: 100%; text-align: center">
                                 <div class="coupon">
                                     <div class="image">
                                         <img width="100" height="50" v-bind:src="item.image" alt="">
@@ -192,45 +213,56 @@
                     <a class="see-all" href="#">
                         <span class="text">Xem tất cả </span>
                         <span class="icon">
-                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;" xml:space="preserve">
-                                <path fill="#1890FF" d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z"/>
-                                <path fill="#1890FF" d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z"/>
+                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;"
+                                xml:space="preserve">
+                                <path fill="#1890FF"
+                                    d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z" />
+                                <path fill="#1890FF"
+                                    d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z" />
                             </svg>
                         </span>
                     </a>
                 </template>
-                <a-card-grid v-for="product in getProduct" :key="product.product_id" style="width: 20%; text-align: center">
-                    
-                    <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.product_id)"/>
-                    
+                <a-card-grid v-for="product in getProduct" :key="product.id" style="width: 20%; text-align: center">
+
+                    <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.id)" />
+
                     <a-card-meta>
-                        <template #title>{{product.product_name}}</template>
-                        <template #description> <div v-html="product.product_description"></div> </template>
+                        <template #title>{{ product.name }}</template>
+                        <template #description>
+                            <div v-html="product.description"></div>
+                        </template>
                     </a-card-meta>
 
-                    
-                    <div v-if="product.product_discount">
-                        <span class="money">{{ formatVND(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
-                        <span class="sale"><del>{{ formatVND(product.product_price)}}</del></span>
+
+                    <div v-if="product.discount">
+                        <span class="money">{{ formatVND(product.price - ((product.discount / 100) *
+                                product.price))
+                        }}&emsp;</span>
+                        <span class="sale"><del>{{ formatVND(product.price) }}</del></span>
                     </div>
                     <div v-else>
-                        <span class="money">{{ formatVND(product.product_price)}}</span>
+                        <span class="money">{{ formatVND(product.price) }}</span>
                     </div>
 
-                    <div class="icon-card" @click="addToCart(product.product_id)">
+                    <div class="icon-card" @click="addToCart(product.id)">
                         <img width="30" height="30" src="../../../assets/images/add-to-card.png" alt="">
                     </div>
                 </a-card-grid>
             </a-card>
         </div>
         <a-modal v-model:visible="visible" :title="'NHẬP MÃ:' + voucher.code">
-            <div class="code">Mã khuyến mãi: {{voucher.code}}</div>
+            <div class="code">Mã khuyến mãi: {{ voucher.code }}</div>
             <div class="condition">
-                <div class="describe">{{voucher.describe}}</div>
-                <div class="min">Đơn tối thiểu: {{formatVND(voucher.minimum_order)}} - Tối đa {{ formatVND(voucher.discount_amount)}}</div>
-                <div class="quantity">Mỗi khách hàng được sử dụng tối đa {{voucher.quantity}} lần</div>
-                <div class="start_date">Ngày bắt đầu: {{formatDate(voucher.start_date)}} </div>
-                <div class="end_date">Ngày kết thúc: {{formatDate(voucher.end_date)}} </div>
+                <div class="describe">{{ voucher.describe }}</div>
+                <div class="min">Đơn tối thiểu: {{ formatVND(voucher.minimum_order) }} - Tối đa {{
+                        formatVND(voucher.discount_amount)
+                }}</div>
+                <div class="quantity">Mỗi khách hàng được sử dụng tối đa {{ voucher.quantity }} lần</div>
+                <div class="start_date">Ngày bắt đầu: {{ formatDate(voucher.start_date) }} </div>
+                <div class="end_date">Ngày kết thúc: {{ formatDate(voucher.end_date) }} </div>
             </div>
         </a-modal>
     </div>
@@ -242,7 +274,7 @@ import api from "../../../api/homewebview";
 import Pagination from '../../../components/webview/common/Pagination.vue';
 import moment from 'moment';
 const baseUrl =
-  'https://raw.githubusercontent.com/vueComponent/ant-design-vue/master/components/vc-slick/assets/img/react-slick/';
+    'https://raw.githubusercontent.com/vueComponent/ant-design-vue/master/components/vc-slick/assets/img/react-slick/';
 export default {
     name: "ProductDetail",
     components: {
@@ -294,17 +326,17 @@ export default {
             if (this.quantity === 1) {
                 return false;
             }
-            this.quantity --
+            this.quantity--
         },
 
         plus() {
-            this.quantity ++
+            this.quantity++
         },
 
         async productsDetail() {
             this.isLoading = false;
             let id = this.$route.params.id;
-            let res = await api.productDetail({id: id});
+            let res = await api.productDetail({ id: id });
             this.product = res;
             this.isLoading = true;
         },
@@ -316,11 +348,11 @@ export default {
 
         async getProducts() {
             let res = await api.getProduct();
-            this.getProduct = res.product.slice(0,5);
+            this.getProduct = res.product.slice(0, 5);
         },
 
         addToCart(id) {
-            if(this.$store.state.auth.user) {
+            if (this.$store.state.auth.user) {
                 let params = {
                     product_id: id,
                     quantity: this.quantity
@@ -366,12 +398,12 @@ export default {
         },
 
         handleSubmitComment() {
-          if (!localStorage.getItem('token')) {
-            this.$message.error('Bạn chưa đăng nhập');
-            return false;
-          }
-          this.comments();
-          this.valueComment = '';
+            if (!localStorage.getItem('token')) {
+                this.$message.error('Bạn chưa đăng nhập');
+                return false;
+            }
+            this.comments();
+            this.valueComment = '';
         },
 
         formatDate(date) {
@@ -382,18 +414,19 @@ export default {
             return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
         }
     },
-    
+
 }
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/scss/webview/product-detail.scss";
+@import "../../../assets/scss/webview/product-detail.scss";
 </style>
 <style lang="scss">
 .product-detail {
     .ant-card-grid {
         padding: 7px;
     }
+
     .ant-card-head-title {
         text-align: center !important;
         color: #d82e4d;
@@ -412,6 +445,7 @@ export default {
     .read-more {
         text-align: center;
         margin-top: 20px;
+
         button {
             border-radius: 15px;
             color: #d82e4d;
@@ -424,16 +458,19 @@ export default {
             }
         }
     }
+
     .for-you {
         .ant-card-head-title {
             color: #d82e4d;
             font-size: 20px;
             font-weight: 800;
         }
+
         .ant-card-meta-detail {
             padding: 20px 0px;
             text-align: left;
         }
+
         .ant-card-grid {
             text-align: left !important;
             height: 100%;
@@ -444,25 +481,29 @@ export default {
             display: inline;
         }
 
-        .ant-card-meta-description > div{
+        .ant-card-meta-description>div {
             text-overflow: ellipsis;
-            overflow: hidden; 
-            width: 185px; 
-            height: 1.2em; 
+            overflow: hidden;
+            width: 185px;
+            height: 1.2em;
             white-space: nowrap;
         }
     }
+
     .value {
         .anticon-star {
             font-size: 11px !important;
         }
+
         .ant-rate {
             line-height: 10px;
         }
     }
+
     .ant-form-item {
         width: 300px !important;
     }
+
     .ant-comment-inner {
         padding: 0 !important;
     }
@@ -470,38 +511,42 @@ export default {
 }
 </style>
 <style scoped>
+.ant-carousel :deep(.slick-dots) {
+    position: relative;
+    height: auto;
+}
 
-    .ant-carousel :deep(.slick-dots) {
-        position: relative;
-        height: auto;
-    }
-    .ant-carousel :deep(.slick-slide img) {
-        border: 5px solid #fff;
-        display: block;
-        margin: auto;
-        max-width: 80%;
-    }
-    .ant-carousel :deep(.slick-arrow) {
-        display: none !important;
-    }
-    .ant-carousel :deep(.slick-thumb) {
-        bottom: 0px;
-    }
-    .ant-carousel :deep(.slick-thumb li) {
-        width: 60px;
-        height: 45px;
-    }
-    .ant-carousel :deep(.slick-thumb li img) {
-        width: 100%;
-        height: 100%;
-        filter: grayscale(100%);
-    }
-    .ant-carousel :deep .slick-thumb li.slick-active img {
-        filter: grayscale(0%);
-    }
+.ant-carousel :deep(.slick-slide img) {
+    border: 5px solid #fff;
+    display: block;
+    margin: auto;
+    max-width: 80%;
+}
 
-    .slick-slide img {
-        height: 400px !important;
-    }
+.ant-carousel :deep(.slick-arrow) {
+    display: none !important;
+}
 
+.ant-carousel :deep(.slick-thumb) {
+    bottom: 0px;
+}
+
+.ant-carousel :deep(.slick-thumb li) {
+    width: 60px;
+    height: 45px;
+}
+
+.ant-carousel :deep(.slick-thumb li img) {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(100%);
+}
+
+.ant-carousel :deep .slick-thumb li.slick-active img {
+    filter: grayscale(0%);
+}
+
+.slick-slide img {
+    height: 400px !important;
+}
 </style>

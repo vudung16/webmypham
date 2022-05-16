@@ -21,15 +21,14 @@
                         v-model:value="search.textSearch" />
                     <a-select placeholder="Thể loại" :allowClear="true" class="full-width"
                         v-model:value="search.category" style="width: 300px">
-                        <a-select-option v-for="category in category" :value="category.category_id"
-                            :key="category.category_id">
-                            {{ category.category_name }}
+                        <a-select-option v-for="category in category" :value="category.id" :key="category.id">
+                            {{ category.name }}
                         </a-select-option>
                     </a-select>
                     <a-select placeholder="Thương hiệu" :allowClear="true" class="full-width"
                         v-model:value="search.brand" style="width: 300px">
-                        <a-select-option v-for="brand in brand" :value="brand.brand_id" :key="brand.brand_id">
-                            {{ brand.brand_name }}
+                        <a-select-option v-for="brand in brand" :value="brand.id" :key="brand.id">
+                            {{ brand.name }}
                         </a-select-option>
                     </a-select>
                     <a-button type="primary" @click="searchProduct">Tìm kiếm</a-button>

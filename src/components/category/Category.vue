@@ -1,7 +1,7 @@
 <template>
     <div class="category-left">
         <div class="brand">
-            <h1 v-if="$route.params.id && CategoryProduct.category">{{CategoryProduct.category.category_name}}</h1>
+            <h1 v-if="$route.params.id && CategoryProduct.category">{{ CategoryProduct.category.category_name }}</h1>
             <h1 v-else>Tìm kiếm</h1>
             <div class="arrange">
                 <div class="text">Sắp xếp:</div>
@@ -20,25 +20,30 @@
                 </div>
                 <div v-else class="product">
                     <a-card>
-                        <a-card-grid v-for="product in CategoryProduct.product" :key="product.product_id" style="width: 25%; text-align: center" >
-                            
-                            <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.product_id)"/>
-                            
+                        <a-card-grid v-for="product in CategoryProduct.product" :key="product.id"
+                            style="width: 25%; text-align: center">
+
+                            <img alt="example" v-bind:src="product.image" @click="redirectProduct(product.id)" />
+
                             <a-card-meta>
-                                <template #title>{{product.product_name}}</template>
-                                <template #description> <div v-html="product.product_description"></div> </template>
+                                <template #title>{{ product.name }}</template>
+                                <template #description>
+                                    <div v-html="product.description"></div>
+                                </template>
                             </a-card-meta>
 
-                            
-                            <div v-if="product.product_discount">
-                                <span class="money">{{ formatVND(product.product_price - ((product.product_discount /100) * product.product_price))}}&emsp;</span>
-                                <span class="sale"><del>{{ formatVND(product.product_price)}}</del></span>
+
+                            <div v-if="product.discount">
+                                <span class="money">{{ formatVND(product.price - ((product.discount / 100) *
+                                        product.price))
+                                }}&emsp;</span>
+                                <span class="sale"><del>{{ formatVND(product.price) }}</del></span>
                             </div>
                             <div v-else>
-                                <span class="money">{{ formatVND(product.product_price)}}</span>
+                                <span class="money">{{ formatVND(product.price) }}</span>
                             </div>
 
-                            <div class="icon-card" @click="addToCart(product.product_id)">
+                            <div class="icon-card" @click="addToCart(product.id)">
                                 <img width="30" height="30" src="../../assets/images/add-to-card.png" alt="">
                             </div>
                         </a-card-grid>
@@ -55,7 +60,7 @@ export default {
         return {
             current: ['az'],
             search: {
-                
+
             }
         }
     },
@@ -90,7 +95,7 @@ export default {
             handler(val) {
                 this.$emit('searchArrange', this.current);
             },
-            deep:true
+            deep: true
         }
     }
 }
@@ -134,12 +139,15 @@ export default {
         .arrange {
             display: flex;
             align-items: center;
+
             .text {
                 width: 80px;
                 font-size: 17px;
             }
+
             .select {
                 width: 100%;
+
                 .ant-menu-overflow {
                     background-color: #ffffff;
                 }
@@ -147,17 +155,18 @@ export default {
         }
     }
 }
-
 </style>
 <style lang="scss">
 .category-left {
     .ant-card-body {
         background-color: #ffffff !important;
     }
+
     .ant-card-meta-detail {
         padding: 20px 0px;
         text-align: left;
     }
+
     .ant-card-grid {
         text-align: left !important;
         height: 100%;
@@ -169,15 +178,17 @@ export default {
         display: inline !important;
     }
 
-    .ant-card-meta-description > div{
+    .ant-card-meta-description>div {
         text-overflow: ellipsis;
-        overflow: hidden; 
-        width: 185px; 
-        height: 1.2em; 
+        overflow: hidden;
+        width: 185px;
+        height: 1.2em;
         white-space: nowrap;
     }
+
     .ant-menu-item-selected {
         color: #d82e4d !important;
+
         &::after {
             border-bottom: 2px solid #d82e4d !important;
         }

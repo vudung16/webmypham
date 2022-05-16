@@ -3,20 +3,14 @@
         <div class="brand">
             <h2>Thương hiệu</h2>
             <a-checkbox-group v-model:value="filter.brand">
-                <a-checkbox v-for="item in brand" :key="item.id"  :value="item.brand_id">{{ item.brand_name }}</a-checkbox>
+                <a-checkbox v-for="item in brand" :key="item.id" :value="item.id">{{ item.name }}</a-checkbox>
             </a-checkbox-group>
             <br />
         </div>
         <hr>
         <div class="total">
             <h2>Mức giá</h2>
-            <a-slider
-                range
-                :step="1000000"
-                :default-value="[0, 5000000]"
-                :max="10000000"
-                @change="onChangeTotal"
-            />
+            <a-slider range :step="1000000" :default-value="[0, 5000000]" :max="10000000" @change="onChangeTotal" />
         </div>
     </div>
 </template>
@@ -45,8 +39,8 @@ export default {
             let arr = [];
             let res = await api.getBrand();
             this.brand = res;
-            res.forEach(item=> {
-                arr.push(item.brand_id);
+            res.forEach(item => {
+                arr.push(item.id);
             });
             this.filter.brand = arr;
         }
@@ -57,28 +51,33 @@ export default {
             handler(val) {
                 this.$emit('searchCategory', this.filter);
             },
-            deep:true
+            deep: true
         }
     }
 }
 </script>
 <style lang="scss">
-.category-left{
+.category-left {
     .brand {
         margin-bottom: 35px;
     }
+
     .total {
         margin-top: 30px;
+
         h2 {
             margin-bottom: 30px;
         }
     }
+
     .ant-checkbox-wrapper {
         display: block;
     }
-    .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+
+    .ant-checkbox-wrapper+.ant-checkbox-wrapper {
         margin-left: 0px;
     }
+
     hr {
         width: 80%;
         margin: 0;

@@ -97,9 +97,9 @@
                                 <a-form-item ref="category" name="category">
                                     <a-select placeholder="Chọn danh mục" :allowClear="true" class="full-width"
                                         v-model:value="formState.category">
-                                        <a-select-option v-for="category in category" :value="category.category_id"
-                                            :key="category.category_id">
-                                            {{ category.category_name }}
+                                        <a-select-option v-for="category in category" :value="category.id"
+                                            :key="category.id">
+                                            {{ category.name }}
                                         </a-select-option>
                                     </a-select>
                                     <span v-if="errors.brand" style="color:red; font-size: 13px">{{ errors.brand[0]
@@ -113,9 +113,8 @@
                                 <a-form-item ref="brand" name="brand">
                                     <a-select placeholder="Chọn thương hiệu" :allowClear="true" class="full-width"
                                         v-model:value="formState.brand">
-                                        <a-select-option v-for="brand in brand" :value="brand.brand_id"
-                                            :key="brand.brand_id">
-                                            {{ brand.brand_name }}
+                                        <a-select-option v-for="brand in brand" :value="brand.id" :key="brand.id">
+                                            {{ brand.name }}
                                         </a-select-option>
                                     </a-select>
                                     <span v-if="errors.brand" style="color:red; font-size: 13px">{{ errors.brand[0]
