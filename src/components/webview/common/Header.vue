@@ -3,7 +3,7 @@
         <a-row class="header" align="middle">
             <a-col class="header-left" :span="6">
                 <div>
-                    <img width="240" height="50" src="https://theme.hstatic.net/200000411391/1000799987/14/logo.png?v=209" alt="">
+                    <img src="../../../assets/images/logo.png" alt="">
                 </div>
             </a-col>
             <a-col class="header-center" :span="7">
