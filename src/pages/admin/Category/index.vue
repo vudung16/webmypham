@@ -80,6 +80,7 @@ import { createVNode } from 'vue';
 import { Modal } from 'ant-design-vue';
 import moment from 'moment';
 export default {
+    name: "CategoryAdmin",
     components: { Pagination, DeleteOutlined, FormOutlined, ExclamationCircleOutlined, PlusOutlined, ModalCategory },
     data() {
         return {

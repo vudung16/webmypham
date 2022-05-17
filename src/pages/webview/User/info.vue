@@ -24,14 +24,18 @@
         </div>
         <div class="cart">
             <div class="order-cart" v-for="(cart, index) in carts" :key="index" @click="orderDetail(index)">
+                <div class="order-code" style="margin-bottom:10px;"><strong> Đơn hàng: {{ cart[0].code }} <span
+                            v-if="!current[0]">- {{ cart[0].action }}</span></strong>
+                </div>
                 <div class="product-order">
-                    <a-row :gutter="16" v-for="(item, index) in cart[1]" :key="index" style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
+                    <a-row :gutter="16" v-for="(item, index) in cart[1]" :key="index"
+                        style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
                         <a-col :span="16">
                             <div class="product">
                                 <img width="80" height="80" v-bind:src="item.product_image" alt="">
                                 <div class="product_name">
                                     <p>{{ item.product_name }}</p>
-                                    <p>x{{item.quantity}}</p>
+                                    <p>x{{ item.quantity }}</p>
                                 </div>
                             </div>
                         </a-col>
@@ -39,7 +43,7 @@
                         <a-col :span="6">
                             <div class="total">
                                 <div>
-                                    <span class="sale">{{ formatVND(item.detail_amount * item.quantity)}}&emsp;</span>
+                                    <span class="sale">{{ formatVND(item.detail_amount) }}&emsp;</span>
                                 </div>
                             </div>
                         </a-col>
@@ -51,15 +55,17 @@
             </div>
         </div>
         <Footer />
-        <a-modal v-if="orderDetails" v-model:visible="visible" :title="'Chi tiết đơn hàng: ' + orderDetails[0].code" @ok="okModal">
+        <a-modal v-if="orderDetails" v-model:visible="visible" :title="'Chi tiết đơn hàng: ' + orderDetails[0].code"
+            @ok="okModal">
             <div class="condition">
-                <a-row :gutter="16" v-for="(item, index) in orderDetails[1]" :key="index" style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
+                <a-row :gutter="16" v-for="(item, index) in orderDetails[1]" :key="index"
+                    style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
                     <a-col :span="16">
                         <div class="product">
                             <img width="80" height="80" v-bind:src="item.product_image" alt="">
                             <div class="product_name">
                                 <p>{{ item.product_name }}</p>
-                                <p>x{{item.quantity}}</p>
+                                <p>x{{ item.quantity }}</p>
                             </div>
                         </div>
                     </a-col>
@@ -67,16 +73,21 @@
                     <a-col :span="6">
                         <div class="total">
                             <div>
-                                <span class="sale">{{ formatVND(item.detail_amount * item.quantity)}}&emsp;</span>
+                                <span class="sale">{{ formatVND(item.detail_amount) }}&emsp;</span>
                             </div>
                         </div>
                     </a-col>
                 </a-row>
                 <div class="detail" style="font-size: 16px">
-                    <div class="total-product">Tổng tiền hàng: {{ formatVND(orderDetails[1].reduce((accumulator, current) => accumulator + current.detail_amount, 0)) }}</div>
+                    <div class="total-product">Tổng tiền hàng: {{ formatVND(orderDetails[1].reduce((accumulator,
+                            current) => accumulator + current.detail_amount, 0))
+                    }}</div>
                     <div class="payship">Phí vận chuyển: {{ formatVND(orderDetails[0].pay_ship) }}</div>
-                    <div class="voucher" v-if="orderDetails[0].voucher">Giảm giá: - {{ formatVND(orderDetails[0].voucher) }}</div>
-                    <div class="order-total">Tổng tiền thanh toán: {{ formatVND(orderDetails[0].order_total_money) }}</div>
+                    <div class="voucher" v-if="orderDetails[0].voucher">Giảm giá: - {{
+                            formatVND(orderDetails[0].voucher)
+                    }}</div>
+                    <div class="order-total">Tổng tiền thanh toán: {{ formatVND(orderDetails[0].order_total_money) }}
+                    </div>
                 </div>
             </div>
         </a-modal>
@@ -117,13 +128,13 @@ export default {
                 status: this.current[0],
                 user_id: id ? id : this.myId
             }
-            this.$store.dispatch('product/getCart', params);    
+            this.$store.dispatch('product/getCart', params);
         },
 
         formatVND(data) {
             return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
         },
-        
+
         orderDetail(index) {
             this.orderDetails = this.carts[index];
             this.visible = true;
@@ -139,7 +150,7 @@ export default {
     },
     watch: {
         current: {
-            handler (newValue,oldValue) {
+            handler(newValue, oldValue) {
                 this.getCart(this.id);
             },
             immediate: true
@@ -158,16 +169,20 @@ export default {
             margin: 0 auto;
         }
     }
+
     .ant-tabs-tab-active {
         color: #d82e4d !important;
     }
-    .ant-tabs-tab{
+
+    .ant-tabs-tab {
         font-weight: 900;
         font-size: 17px;
+
         &:hover {
             color: #bf445a !important;
         }
     }
+
     .ant-row {
         width: 100%;
     }

@@ -136,8 +136,7 @@
                 <div class="search">
                     <div class="text">Mã đơn hàng</div>
                     <div class="input-search">
-                        <a-input v-model:value="searchOrder"
-                            placeholder="Nhập mã đơn hàng cần tra cứu" size="large">
+                        <a-input v-model:value="searchOrder" placeholder="Nhập mã đơn hàng cần tra cứu" size="large">
                         </a-input>
                         <a-button @click="checkOrder">Tìm kiếm</a-button>
                     </div>
@@ -152,17 +151,19 @@
                     <div v-if="infoOrder.message" style="text-align: center; font-size: 18px; color: red">
                         {{ infoOrder.message }}
                     </div>
-                        <div v-else class="info">
-                        <div class="title" style="text-align: center"><h2>Thông tin đơn hàng</h2></div>
-                            <p><strong>Mã đơn hàng:</strong> {{ infoOrder.code }}</p>
-                            <p><strong>Họ tên:</strong> {{ infoOrder.name }}</p>
-                            <p><strong>Số điện thoại:</strong> {{ infoOrder.phone }}</p>
-                            <p><strong>Ngày đăt:</strong> {{ formatDate(infoOrder.date) }}</p>
-                            <p><strong>Số tiền:</strong> {{ formatVND(infoOrder.money) }} - {{ infoOrder.isPayment }}</p>
-                            <p><strong>Tình trạng đơn hàng:</strong> {{ infoOrder.action }}</p>
+                    <div v-else class="info">
+                        <div class="title" style="text-align: center">
+                            <h2>Thông tin đơn hàng</h2>
                         </div>
+                        <p><strong>Mã đơn hàng:</strong> {{ infoOrder.code }}</p>
+                        <p><strong>Họ tên:</strong> {{ infoOrder.name }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ infoOrder.phone }}</p>
+                        <p><strong>Ngày đăt:</strong> {{ formatDate(infoOrder.date) }}</p>
+                        <p><strong>Số tiền:</strong> {{ formatVND(infoOrder.money) }} - {{ infoOrder.isPayment }}</p>
+                        <p><strong>Tình trạng đơn hàng:</strong> {{ infoOrder.action }}</p>
                     </div>
                 </div>
+            </div>
         </a-modal>
     </div>
 </template>
@@ -189,7 +190,7 @@ export default {
             openKeys: ['sub1'],
             category: {},
             cart: {},
-            current: '',
+            current: [],
             search: '',
             visible: false,
             searchOrder: '',
@@ -232,6 +233,7 @@ export default {
         },
         async getMyInfo() {
             let data = await this.$store.dispatch('auth/getMyInfo');
+            console.log(data);
             this.$emitter.emit("user_id", data);
         },
 
@@ -286,23 +288,23 @@ export default {
         },
 
         async checkOrder() {
-            let res = await api.checkOrder({search: this.searchOrder});
+            let res = await api.checkOrder({ search: this.searchOrder });
             this.infoOrder = res;
         },
-        
+
         redirectHome() {
-            this.$router.push({name: 'Home'});
+            this.$router.push({ name: 'Home' });
         },
 
         redirectAccount() {
-            this.$router.push({name: 'Account'});
+            this.$router.push({ name: 'Account' });
         },
 
         handleCancel() {
             this.current = ['sub1'],
-            this.visible = false;
+                this.visible = false;
         },
-        
+
         formatVND(data) {
             return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
         },

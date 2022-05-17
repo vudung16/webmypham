@@ -259,7 +259,7 @@ const routes = [
             {
                 title: 'Thể loại',
                 path: 'category',
-                name: 'Category',
+                name: 'CategoryAdmin',
                 component: CategoryAdmin,
                 meta: {
                     title: 'Thể loại',

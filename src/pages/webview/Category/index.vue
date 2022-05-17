@@ -9,7 +9,7 @@
                     <span>Danh mục</span>
                 </a-breadcrumb-item>
                 <a-breadcrumb-item v-if="$route.params.id && CategoryProduct.category">
-                    {{ CategoryProduct.category.category_name }}</a-breadcrumb-item>
+                    {{ CategoryProduct.category.name }}</a-breadcrumb-item>
                 <a-breadcrumb-item v-else>Search</a-breadcrumb-item>
             </a-breadcrumb>
         </div>
