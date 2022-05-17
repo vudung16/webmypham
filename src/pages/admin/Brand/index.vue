@@ -42,7 +42,7 @@
                         <DeleteOutlined @click="remove(record.id)" />
                     </template>
                     <template #footer>
-                        <Pagination v-show="listBrand.last_page > 1" @paginate="getBrand"
+                        <Pagination v-if="listBrand.last_page > 1" @paginate="getBrand"
                             :totalPage="listBrand.last_page" />
                     </template>
                 </a-table>
@@ -160,7 +160,7 @@ export default {
             if (!date || date === null) {
                 return ''
             } else {
-                return moment(date).format('MM/DD/YYYY');
+                return moment(date).format('DD/MM/YYYY');
             }
         },
     },

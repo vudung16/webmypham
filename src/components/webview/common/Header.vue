@@ -2,7 +2,7 @@
     <div class="header-webview">
         <a-row class="header" align="middle">
             <a-col class="header-left" :span="6">
-                <div>
+                <div @click="redirectHome">
                     <img src="../../../assets/images/logo.png" alt="">
                 </div>
             </a-col>
@@ -33,7 +33,7 @@
                                 <a-dropdown @click="toCarts">
                                     <template #overlay v-if="user">
                                         <a-menu>
-                                            <a-menu-item>
+                                            <a-menu-item @click="redirectAccount">
                                                 <user-outlined />Cá nhân
                                             </a-menu-item>
                                             <a-menu-item @click="redirectCart()">
@@ -97,7 +97,7 @@
         </a-row>
         <a-row class="header-bottom">
             <div class="header-bottom-menu">
-                <a-menu v-model="current" mode="horizontal">
+                <a-menu v-model:selectedKeys="current" mode="horizontal">
                     <a-sub-menu key="sub1">
                         <template #icon>
                             <AppstoreOutlined />
@@ -128,12 +128,49 @@
                 </a-menu>
             </div>
         </a-row>
+        <a-modal v-model:visible="visible" width="600px">
+            <template #title>
+                <div class="title">
+                    Thông tin đơn hàng
+                </div>
+                <div class="search">
+                    <div class="text">Mã đơn hàng</div>
+                    <div class="input-search">
+                        <a-input v-model:value="searchOrder"
+                            placeholder="Nhập mã đơn hàng cần tra cứu" size="large">
+                        </a-input>
+                        <a-button @click="checkOrder">Tìm kiếm</a-button>
+                    </div>
+                </div>
+            </template>
+            <template #footer>
+                <a-button key="back" @click="handleCancel">Trở lại</a-button>
+                <a-button key="submit" type="primary" @click="handleCancel">Đồng ý</a-button>
+            </template>
+            <div class="info-order">
+                <div v-if="infoOrder">
+                    <div v-if="infoOrder.message" style="text-align: center; font-size: 18px; color: red">
+                        {{ infoOrder.message }}
+                    </div>
+                        <div v-else class="info">
+                        <div class="title" style="text-align: center"><h2>Thông tin đơn hàng</h2></div>
+                            <p><strong>Mã đơn hàng:</strong> {{ infoOrder.code }}</p>
+                            <p><strong>Họ tên:</strong> {{ infoOrder.name }}</p>
+                            <p><strong>Số điện thoại:</strong> {{ infoOrder.phone }}</p>
+                            <p><strong>Ngày đăt:</strong> {{ formatDate(infoOrder.date) }}</p>
+                            <p><strong>Số tiền:</strong> {{ formatVND(infoOrder.money) }} - {{ infoOrder.isPayment }}</p>
+                            <p><strong>Tình trạng đơn hàng:</strong> {{ infoOrder.action }}</p>
+                        </div>
+                    </div>
+                </div>
+        </a-modal>
     </div>
 </template>
 
 <script>
 import { MenuFoldOutlined, AppstoreOutlined, HeatMapOutlined, OrderedListOutlined, SettingOutlined, UserOutlined, ShoppingCartOutlined, LogoutOutlined } from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
+import moment from "moment";
 export default {
     name: "Header",
     components: {
@@ -154,6 +191,9 @@ export default {
             cart: {},
             current: '',
             search: '',
+            visible: false,
+            searchOrder: '',
+            infoOrder: '',
         };
     },
     computed: {
@@ -243,6 +283,46 @@ export default {
             } else {
                 return false;
             }
+        },
+
+        async checkOrder() {
+            let res = await api.checkOrder({search: this.searchOrder});
+            this.infoOrder = res;
+        },
+        
+        redirectHome() {
+            this.$router.push({name: 'Home'});
+        },
+
+        redirectAccount() {
+            this.$router.push({name: 'Account'});
+        },
+
+        handleCancel() {
+            this.current = ['sub1'],
+            this.visible = false;
+        },
+        
+        formatVND(data) {
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(data)
+        },
+
+        formatDate(date) {
+            if (!date || date === null) {
+                return ''
+            } else {
+                return moment(date).format('DD/MM/YYYY');
+            }
+        },
+    },
+    watch: {
+        current: {
+            handler(val) {
+                if (val[0] === 'order') {
+                    this.visible = true;
+                }
+            },
+            deep: true
         }
     },
 }

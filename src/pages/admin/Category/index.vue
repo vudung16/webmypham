@@ -39,7 +39,7 @@
                         <DeleteOutlined @click="remove(record.id)" />
                     </template>
                     <template #footer>
-                        <Pagination v-show="listCategory.last_page > 1" @paginate="getCategory"
+                        <Pagination v-if="listCategory.last_page > 1" @paginate="getCategory"
                             :totalPage="listCategory.last_page" />
                     </template>
                 </a-table>

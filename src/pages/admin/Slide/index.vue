@@ -37,7 +37,7 @@
                         <a-switch v-model:checked="status" />
                     </template>
                     <template #footer>
-                        <Pagination v-show="listSlide.last_page > 1" @paginate="getSlide"
+                        <Pagination v-if="listSlide.last_page > 1" @paginate="getSlide"
                             :totalPage="listSlide.last_page" />
                     </template>
                 </a-table>
@@ -158,7 +158,7 @@ export default {
             if (!date || date === null) {
                 return ''
             } else {
-                return moment(date).format('MM/DD/YYYY');
+                return moment(date).format('DD/MM/YYYY');
             }
         },
     },

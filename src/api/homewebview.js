@@ -534,4 +534,46 @@ export default {
             })
         });
     },
+    // lấy thông tin đơn hàng
+    checkOrder: (data) => {
+        const url = `${process.env.webmyphamapi}api/info-order`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    updateUser: (data) => {
+        const url = `${process.env.webmyphamapi}api/auth/update-user`;
+        let config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, config, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    resolve(response.data);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
 }

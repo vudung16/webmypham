@@ -5,26 +5,18 @@
                 <a-col :span="14">
                     <div class="banner">
                         <a-carousel autoplay>
-                            <div v-for="slide in getSlide" :key="slide.index"><img height="200" v-bind:src="slide"
+                            <div v-for="slide in getSlide" :key="slide.index"><img height="200" v-bind:src="slide.image"
                                     alt=""></div>
                         </a-carousel>
                     </div>
                 </a-col>
-                <a-col :span="5">
-                    <div class="banner-img">
-                        <img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061"
+                <a-col :span="10">
+                    <a-row :gutter="16">
+                        <a-col v-for="image in banner" :key="image.id" :span="12">
+                            <img style="width:100%; height:150px; padding: 5px 0px" :src="image.image"
                             alt="">
-                        <img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061"
-                            alt="">
-                    </div>
-                </a-col>
-                <a-col :span="5">
-                    <div class="banner-img">
-                        <img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061"
-                            alt="">
-                        <img src="https://bizweb.dktcdn.net/100/426/076/themes/845228/assets/slider_1.jpg?1642384810061"
-                            alt="">
-                    </div>
+                        </a-col>
+                    </a-row>
                 </a-col>
             </a-row>
         </div>
@@ -298,7 +290,7 @@ export default {
         },
 
         formatDate(date) {
-            return moment(date).format('MM/DD/YYYY');
+            return moment(date).format('DD/MM/YYYY');
         },
 
         formatVND(data) {

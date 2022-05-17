@@ -12,6 +12,7 @@ import Register from '../pages/webview/Login/register.vue';
 import Search from '../pages/webview/Category/Search.vue';
 import Error404 from "../pages/webview/errors/Error404.vue";
 import InfoUser from "../pages/webview/User/info.vue";
+import Account from "../pages/webview/User/Account.vue";
 
 //admin
 import AdminLayout from "../pages/admin/layouts/AdminLayout.vue";
@@ -204,6 +205,25 @@ const routes = [
                 component: Search,
                 meta: {
                     title: 'Tìm kiếm',
+                }
+            }
+        ]
+    },
+
+    {
+        path: '/account',
+        component: WebviewLayout,
+        meta: {
+            title: "Tài khoản"
+        },
+        children: [
+            {
+                title: 'Tài khoản',
+                path: '',
+                name: 'Account',
+                component: Account,
+                meta: {
+                    title: 'Tài khoản',
                 }
             }
         ]

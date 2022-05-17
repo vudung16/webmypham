@@ -21,13 +21,13 @@
       </a-menu-item>
       <a-menu-item key="Order">
         <template #icon>
-          <DesktopOutlined />
+          <ShoppingCartOutlined />
         </template>
         <span>Đơn hàng</span>
       </a-menu-item>
       <a-menu-item key="Slide">
         <template #icon>
-          <InboxOutlined />
+          <FileImageOutlined />
         </template>
         <span>Slide</span>
       </a-menu-item>
@@ -39,44 +39,34 @@
       </a-menu-item>
       <a-menu-item key="Voucher">
         <template #icon>
-          <InboxOutlined />
+          <WalletOutlined />
         </template>
         <span>Voucher</span>
       </a-menu-item>
       <a-menu-item key="User">
         <template #icon>
-          <InboxOutlined />
+          <UserOutlined />
         </template>
         <span>Tài khoản</span>
       </a-menu-item>
       <a-menu-item key="Brand">
         <template #icon>
-          <InboxOutlined />
+          <AlertOutlined />
         </template>
         <span>Thương hiệu</span>
       </a-menu-item>
       <a-menu-item key="Category">
         <template #icon>
-          <InboxOutlined />
+          <ProfileOutlined />
         </template>
         <span>Danh mục</span>
       </a-menu-item>
-      <a-sub-menu key="sub1">
-        <template #icon>
-          <MailOutlined />
-        </template>
-        <template #title>Navigation One</template>
-        <a-menu-item key="8">Option 5</a-menu-item>
-        <a-menu-item key="9">Option 6</a-menu-item>
-        <a-menu-item key="10">Option 7</a-menu-item>
-        <a-menu-item key="11">Option 8</a-menu-item>
-      </a-sub-menu>
     </a-menu>
   </div>
 </template>
 
 <script>
-import { MenuFoldOutlined, MenuUnfoldOutlined, PieChartOutlined, MailOutlined, DesktopOutlined, InboxOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
+import { MenuFoldOutlined, MenuUnfoldOutlined, PieChartOutlined, MailOutlined, DesktopOutlined, InboxOutlined, AppstoreOutlined, ShoppingCartOutlined, WalletOutlined, UserOutlined, AlertOutlined, ProfileOutlined, FileImageOutlined} from '@ant-design/icons-vue';
 export default {
   name: "Sidebar",
   components: {
@@ -87,6 +77,12 @@ export default {
     DesktopOutlined,
     InboxOutlined,
     AppstoreOutlined,
+    ShoppingCartOutlined,
+    WalletOutlined,
+    UserOutlined,
+    AlertOutlined,
+    ProfileOutlined,
+    FileImageOutlined
   },
   data() {
     return {
