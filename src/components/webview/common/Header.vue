@@ -233,7 +233,6 @@ export default {
         },
         async getMyInfo() {
             let data = await this.$store.dispatch('auth/getMyInfo');
-            console.log(data);
             this.$emitter.emit("user_id", data);
         },
 
@@ -272,6 +271,8 @@ export default {
                 localStorage.removeItem("user_id");
                 this.$message.success('Đăng xuất thành công');
                 this.$router.push({ name: 'Login' });
+                this.$store.state.auth.user = "";
+                this.$store.state.auth.myId = "";
             } else {
                 this.$message.error('Bạn chưa đăng nhập');
             }

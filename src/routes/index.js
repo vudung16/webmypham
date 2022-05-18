@@ -1,5 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
 import auth from '../middleware/auth';
+import authAdmin from '../middleware/authAdmin';
 import {store} from "../stores";
 
 import Home from '../pages/webview/Home/index.vue';
@@ -214,6 +215,7 @@ const routes = [
         path: '/account',
         component: WebviewLayout,
         meta: {
+            middleware: [auth],
             title: "Tài khoản"
         },
         children: [
@@ -234,7 +236,7 @@ const routes = [
         path: '/admin',
         component: AdminLayout,
         meta: {
-            // middleware: [auth],
+            middleware: [authAdmin],
             title: "Admin"
         },
         children: [
@@ -367,7 +369,8 @@ const routes = [
 ]
 const router = createRouter({
     history: createWebHashHistory(),
-    routes: routes
+    routes: routes,
+    store: store
 })
 
 function nextFactory(context, middleware, index) {
@@ -397,6 +400,7 @@ router.beforeEach((to, from, next) => {
             next,
             router,
             to,
+            store
         };
         const nextMiddleware = nextFactory(context, middleware, 1);
 

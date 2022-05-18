@@ -72,15 +72,25 @@ export default {
             }
             let res = await api.login(params);
             if (res.status === true) {
-                this.$message.success('Đăng nhập thành công');
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('role', res.data.role);
                 localStorage.setItem('user_id', res.data.user_id);
                 await this.$store.dispatch('auth/getMyInfo');
                 if (res.data.role === 1) {
+                    this.$message.success('Đăng nhập thành công');
+                    let params = {
+                        product_id: '',
+                        quantity: ''
+                    }
+                    await this.$store.dispatch('product/cartData', params);
                     this.$router.push('/');
                 } else {
-                    this.$message.error('Đăng nhập thất bại');
+                    if (res.data.role === 2) {
+                        this.$message.success('Đăng nhập thành công');
+                        this.$router.push({name: 'Dashboard'});
+                    } else {
+                        this.$message.error('Đăng nhập thất bại');
+                    }
                 }
             } else {
                 this.$message.error(res.message);

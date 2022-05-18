@@ -9,8 +9,8 @@
     <a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" theme="dark"
       :inline-collapsed="collapsed">
       <a-menu-item key="1">
-        <div v-if="!collapsed" class="logo" style="background: #001529;"><img width="200" height="50"
-            src="https://theme.hstatic.net/200000411391/1000799987/14/logo.png?v=209" alt=""></div>
+        <div v-if="!collapsed" class="logo" style="background: #001529;"><img
+            src="../../../assets/images/logo-admin.png" alt=""></div>
         <div v-else class="logo" style="background: #001529;">logo</div>
       </a-menu-item>
       <a-menu-item key="Dashboard">
