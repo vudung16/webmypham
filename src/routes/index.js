@@ -29,6 +29,8 @@ import ProductUpdate from '../pages/admin/Product/update.vue';
 import Order from '../pages/admin/Order/index.vue';
 import OrderDetail from '../pages/admin/Order/detail.vue';
 import CategoryAdmin from '../pages/admin/Category/index.vue';
+import AccountAdmin from '../pages/admin/User/AccountAdmin.vue';
+import ImportProduct from '../pages/admin/Import/ImportProduct.vue';
 
 const routes = [
     {
@@ -350,6 +352,29 @@ const routes = [
                 component: OrderDetail,
                 meta: {
                     title: 'Chi tiết',
+                }
+            },
+
+
+            //User
+            {
+                title: 'Tài khoản',
+                path: 'account',
+                name: 'AccountAdmin',
+                component: AccountAdmin,
+                meta: {
+                    title: 'Tài khoản',
+                }
+            },
+
+            //Nhập kho
+            {
+                title: 'Nhập kho',
+                path: 'import',
+                name: 'ImportProduct',
+                component: ImportProduct,
+                meta: {
+                    title: 'Nhập kho',
                 }
             },
         ]

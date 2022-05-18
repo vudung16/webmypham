@@ -22,7 +22,7 @@
                 </a-menu-item>
             </a-menu>
         </div>
-        <div class="cart">
+        <div class="cart" v-if="carts.length">
             <div class="order-cart" v-for="(cart, index) in carts" :key="index" @click="orderDetail(index)">
                 <div class="order-code" style="margin-bottom:10px;"><strong> Đơn hàng: {{ cart[0].code }} <span
                             v-if="!current[0]">- {{ cart[0].action }}</span></strong>
@@ -53,6 +53,10 @@
                     Tổng số tiền: {{ formatVND(cart[0].order_total_money) }}
                 </div>
             </div>
+        </div>
+        <div v-else class="cart" style="text-align:center; margin-top: 50px">
+            <img src="../../../assets/images/order-empty.jpg" alt="">
+            <p style="font-size: 20px; color: #d82e4d">Không có đơn hàng nào</p>
         </div>
         <Footer />
         <a-modal v-if="orderDetails" v-model:visible="visible" :title="'Chi tiết đơn hàng: ' + orderDetails[0].code"

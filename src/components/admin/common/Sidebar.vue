@@ -55,18 +55,24 @@
         </template>
         <span>Thương hiệu</span>
       </a-menu-item>
-      <a-menu-item key="Category">
+      <a-menu-item key="CategoryAdmin">
         <template #icon>
           <ProfileOutlined />
         </template>
         <span>Danh mục</span>
+      </a-menu-item>
+      <a-menu-item key="ImportProduct">
+        <template #icon>
+          <ImportOutlined />
+        </template>
+        <span>Nhập kho</span>
       </a-menu-item>
     </a-menu>
   </div>
 </template>
 
 <script>
-import { MenuFoldOutlined, MenuUnfoldOutlined, PieChartOutlined, MailOutlined, DesktopOutlined, InboxOutlined, AppstoreOutlined, ShoppingCartOutlined, WalletOutlined, UserOutlined, AlertOutlined, ProfileOutlined, FileImageOutlined} from '@ant-design/icons-vue';
+import { MenuFoldOutlined, MenuUnfoldOutlined, PieChartOutlined, MailOutlined, DesktopOutlined, InboxOutlined, AppstoreOutlined, ShoppingCartOutlined, WalletOutlined, UserOutlined, AlertOutlined, ProfileOutlined, FileImageOutlined, ImportOutlined } from '@ant-design/icons-vue';
 export default {
   name: "Sidebar",
   components: {
@@ -82,7 +88,8 @@ export default {
     UserOutlined,
     AlertOutlined,
     ProfileOutlined,
-    FileImageOutlined
+    FileImageOutlined,
+    ImportOutlined
   },
   data() {
     return {

@@ -14,7 +14,10 @@
                 (checkPath() === 4 && routes4) ||
                 (checkPath() === 5 && routes5) ||
                 (checkPath() === 6 && routes6) ||
-                (checkPath() === 7 && routes7)
+                (checkPath() === 7 && routes7) ||
+                (checkPath() === 8 && routes8) ||
+                (checkPath() === 9 && routes9)
+            
             ">
                 <template #itemRender="{ route, params, routes, paths }">
                     <span v-if="routes.indexOf(route) === routes.length - 1">
@@ -121,6 +124,26 @@ export default {
                     breadcrumbName: "Đơn hàng",
                 },
             ],
+            routes8: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/account",
+                    breadcrumbName: "Thông tin tài khoản",
+                },
+            ],
+            routes9: [
+                {
+                    path: "/admin",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/import",
+                    breadcrumbName: "Nhập kho",
+                },
+            ],
         };
     },
     methods: {
@@ -143,6 +166,12 @@ export default {
             }
             if (path.includes("order")) {
                 return 7;
+            }
+            if (path.includes("account")) {
+                return 8;
+            }
+            if (path.includes("import")) {
+                return 9;
             }
         },
         toggleCollapsed() {
