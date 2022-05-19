@@ -3,7 +3,8 @@
         <div class="header">
             <Breadcrums :title="'Nhập kho'">
                 <template #action>
-                    <a-button type="primary" size="large" @click="importWarehouse">Nhập kho</a-button>
+                    <a-button type="primary" size="large" :disabled="dataProduct.length ? false : true"
+                        @click="importWarehouse">Nhập kho</a-button>
                 </template>
             </Breadcrums>
         </div>
@@ -12,7 +13,8 @@
                 <a-col :span="12">
                     <div class="input-search">
                         <h3>Tìm kiếm sản phẩm cần nhập</h3>
-                        <a-input-search v-model:value="search" placeholder="Tìm kiếm sản phẩm" size="large" @search="onSearch">
+                        <a-input-search v-model:value="search" placeholder="Tìm kiếm sản phẩm" size="large"
+                            @search="onSearch">
                             <template #enterButton>
                                 <a-button>Tìm kiếm</a-button>
                             </template>
@@ -41,7 +43,8 @@
                 <a-col :span="12">
                     <h3>Danh sách sản phẩm cần nhập</h3>
                     <div class="warehouse-product" v-if="dataProduct.length">
-                        <a-table :columns="columns" :data-source="dataProduct" bordered :pagination="false" :scroll="{ y: 500 }">
+                        <a-table :columns="columns" :data-source="dataProduct" bordered :pagination="false"
+                            :scroll="{ y: 500 }">
                             <template #image="{ record }">
                                 <img style="width: 200px; height: 100px" v-bind:src="record.image" alt="">
                             </template>
@@ -49,7 +52,7 @@
                                 {{ record.name }}
                             </template>
                             <template #quantity="{ record }">
-                                <a-input-number v-model:value="record.quantity"/>
+                                <a-input-number v-model:value="record.quantity" />
                             </template>
                             <template #delete="{ record }">
                                 <DeleteOutlined @click="remove(record.id)" />
@@ -78,18 +81,20 @@ const columns = [
         title: 'Số lượng nhập',
         dataIndex: 'quantity',
         slots: { customRender: 'quantity' },
+        width: 150
     },
     {
         title: '',
         dataIndex: 'delete',
         slots: { customRender: 'delete' },
+        width: 50
     }
 ];
-import {DeleteOutlined} from '@ant-design/icons-vue';
+import { DeleteOutlined } from '@ant-design/icons-vue';
 import apiAdmin from '../../../api/admin';
 export default {
     name: 'ImportProduct',
-    components: {DeleteOutlined},
+    components: { DeleteOutlined },
     data() {
         return {
             search: '',
@@ -107,7 +112,7 @@ export default {
             }
             let res = await apiAdmin.searchProduct(params);
             if (res) {
-                this.dataList = res; 
+                this.dataList = res;
                 this.visiable = true;
             }
         },
@@ -126,8 +131,9 @@ export default {
             let res = await apiAdmin.importWarehouse(this.dataProduct);
             if (res.status === true) {
                 this.$message.success('Nhập kho thành công');
+                this.$router.push({ name: 'Dashboard' });
             } else {
-                this.$message.success('Nhập kho thất bại');
+                this.$message.error('Nhập kho thất bại');
             }
         },
         remove(id) {
@@ -139,15 +145,19 @@ export default {
 </script>
 <style lang="scss">
 .content-import {
-    padding: 50px 200px 0px 200px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 0px 0px 0px;
 
     .list-product {
         overflow: auto;
     }
+
     .ant-list {
         background: #ffffff;
-        padding: 5px 20px;  
+        padding: 5px 20px;
     }
+
     h3 {
         text-align: center;
         margin-bottom: 30px;

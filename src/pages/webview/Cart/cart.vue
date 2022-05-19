@@ -31,22 +31,22 @@
                                 <div class="money">
                                     <div v-if="item.discount">
                                         <span class="sale">{{ new Intl.NumberFormat('de-DE', {
-                                        style: 'currency',
-                                        currency: 'VND'
-                                        }).format(item.price - ((item.discount / 100) *
-                                        item.price))
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            }).format(item.price - ((item.discount / 100) *
+                                                item.price))
                                         }}&emsp;</span>
                                         <span class="origin"><del>{{ new Intl.NumberFormat('de-DE', {
-                                        style: 'currency',
-                                        currency: 'VND'
-                                        }).format(item.price)
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            }).format(item.price)
                                         }}</del></span>
                                     </div>
                                     <div v-else>
                                         <span class="money">{{ new Intl.NumberFormat('de-DE', {
-                                        style: 'currency',
-                                        currency: 'VND'
-                                        }).format(item.price)
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            }).format(item.price)
                                         }}</span>
                                     </div>
                                 </div>
@@ -70,17 +70,17 @@
                                 <div class="total">
                                     <div v-if="item.discount">
                                         <span class="sale">{{ new Intl.NumberFormat('de-DE', {
-                                        style: 'currency',
-                                        currency: 'VND'
-                                        }).format((item.price - ((item.discount / 100) * item.price))
-                                        * item.quantity)
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            }).format((item.price - ((item.discount / 100) * item.price))
+                                                * item.quantity)
                                         }}&emsp;</span>
                                     </div>
                                     <div v-else>
                                         <span class="money">{{ new Intl.NumberFormat('de-DE', {
-                                        style: 'currency',
-                                        currency: 'VND'
-                                        }).format(item.price)
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            }).format(item.price)
                                         }}</span>
                                     </div>
                                 </div>
@@ -99,15 +99,15 @@
                     <div class="info-payment">
                         <div class="total-money">
                             Tổng: {{ new Intl.NumberFormat('de-DE', {
-                            style: 'currency', currency: 'VND'
-                            }).format(carts.sum_price)
+                                    style: 'currency', currency: 'VND'
+                                }).format(carts.sum_price)
                             }}
                         </div>
                         <div class="voucher">
                             Mã giảm giá: - {{ okVoucher.discount_price ? new Intl.NumberFormat('de-DE', {
-                            style:
-                            'currency', currency: 'VND'
-                            }).format(okVoucher.discount_price) : '0đ'
+                                    style:
+                                        'currency', currency: 'VND'
+                                }).format(okVoucher.discount_price) : '0đ'
                             }}
                             <a-modal v-model:visible="visible" width="600px">
                                 <template #title>
@@ -141,9 +141,9 @@
                                             <div class="content">
                                                 <div class="voucher-code">{{ item.code }}</div>
                                                 <div class="describe">{{ item.name }} - Đơn tối thiểu {{ new
-                                                Intl.NumberFormat('de-DE', {
-                                                style: 'currency', currency: 'VND'
-                                                }).format(item.minimum_order)
+                                                        Intl.NumberFormat('de-DE', {
+                                                            style: 'currency', currency: 'VND'
+                                                        }).format(item.minimum_order)
                                                 }}</div>
                                                 <div class="end-date">HSD: {{ item.end_date }}</div>
                                                 <div class="click-detail">Chi tiết</div>
@@ -155,27 +155,27 @@
                         </div>
                         <div class="shipping">
                             Phí vận chuyển: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', {
-                            style: 'currency',
-                            currency: 'VND'
-                            }).format(shipPrice.total) : ''
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(shipPrice.total) : ''
                             }}
                         </div>
                         <div class="payment" v-if="!okVoucher.discount_price">
                             Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', {
-                            style: 'currency',
-                            currency: 'VND'
-                            }).format(carts.sum_price + shipPrice.total) : new
-                            Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price)
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(carts.sum_price + shipPrice.total) : new
+                                    Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(carts.sum_price)
                             }}
                         </div>
                         <div class="payment" v-else>
                             Thanh toán: {{ shipPrice.total ? new Intl.NumberFormat('de-DE', {
-                            style: 'currency',
-                            currency: 'VND'
-                            }).format(carts.sum_price - okVoucher.discount_price + shipPrice.total) :
-                            new Intl.NumberFormat('de-DE', {
-                            style: 'currency', currency: 'VND'
-                            }).format(carts.sum_price - okVoucher.discount_price)
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(carts.sum_price - okVoucher.discount_price + shipPrice.total) :
+                                    new Intl.NumberFormat('de-DE', {
+                                        style: 'currency', currency: 'VND'
+                                    }).format(carts.sum_price - okVoucher.discount_price)
                             }}
                         </div>
                         <div class="payment-format">
@@ -400,6 +400,16 @@ export default {
                     } else {
                         console.log(res);
                         this.listErrors = res.errors;
+                    }
+                } else {
+                    if (this.selectPayment === 'momo') {
+                        this.$message.error('Tính năng đang phát triển');
+                        return false;
+                    } else {
+                        if (this.selectPayment === 'paypal') {
+                            this.$message.error('Tính năng đang phát triển');
+                            return false;
+                        }
                     }
                 }
             }
