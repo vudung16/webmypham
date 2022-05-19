@@ -394,4 +394,37 @@ export default {
             })
         });
     },
+
+    //Kho hàng
+    searchProduct: (data) => {
+        const url = `${process.env.webmyphamapi}admin/import/get-product`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+
+    importWarehouse:(data) => {
+        const url = `${process.env.webmyphamapi}admin/import/import-warehouse`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status) {
+                        resolve(response.data.data);
+                    } else {
+                        reject(response);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    }
 }
