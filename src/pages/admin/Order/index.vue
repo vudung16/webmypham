@@ -16,24 +16,7 @@
         </div>
         <div class="admin-order">
             <div class="filter-order">
-                <!-- <a-space>
-                    <a-input placeholder="Tìm kiếm theo mã tên" style="width: 300px"
-                        v-model:value="search.textSearch" />
-                    <a-select placeholder="Thể loại" :allowClear="true" class="full-width"
-                        v-model:value="search.category" style="width: 300px">
-                        <a-select-option v-for="category in category" :value="category.category_id"
-                            :key="category.category_id">
-                            {{ category.category_name }}
-                        </a-select-option>
-                    </a-select>
-                    <a-select placeholder="Thương hiệu" :allowClear="true" class="full-width"
-                        v-model:value="search.brand" style="width: 300px">
-                        <a-select-option v-for="brand in brand" :value="brand.brand_id" :key="brand.brand_id">
-                            {{ brand.brand_name }}
-                        </a-select-option>
-                    </a-select>
-                    <a-button type="primary" @click="searchProduct">Tìm kiếm</a-button>
-                </a-space> -->
+                <OrderFilter :tabStatus="tabStatus" />
             </div>
             <div class="product-table">
                 <a-tabs size="small" :active-key="tabStatus" :tabBarGutter="8" @change="changeTab">
@@ -79,9 +62,10 @@ const listTabs = [
 ];
 import api from '../../../api/admin';
 import TableOrder from '../../../components/admin/Order/TableOrder.vue';
+import OrderFilter from '../../../components/admin/Order/OrderFilter.vue';
 export default {
     name: 'ListOrder',
-    components: { TableOrder },
+    components: { TableOrder, OrderFilter },
     data() {
         return {
             listTabs,
