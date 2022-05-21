@@ -6,7 +6,7 @@
                     <a-space>
                         <a-button type="primary" size="large" @click="addOrder">
                             <template #icon>
-                                <plus-outlined />
+                                <PlusOutlined />
                             </template>
                             Tạo đơn hàng
                         </a-button>
@@ -60,12 +60,13 @@ const listTabs = [
         total: 0,
     },
 ];
+import {PlusOutlined} from '@ant-design/icons-vue';
 import api from '../../../api/admin';
 import TableOrder from '../../../components/admin/Order/TableOrder.vue';
 import OrderFilter from '../../../components/admin/Order/OrderFilter.vue';
 export default {
     name: 'ListOrder',
-    components: { TableOrder, OrderFilter },
+    components: { TableOrder, OrderFilter, PlusOutlined },
     data() {
         return {
             listTabs,
@@ -75,6 +76,7 @@ export default {
         }
     },
     mounted() {
+        console.log(121);
         if (this.$route.query.status) {
             this.tabStatus = this.$route.query.status;
         }
@@ -116,8 +118,38 @@ export default {
             }).catch((error) => {
                 console.log(error);
             })
+        },
+        addOrder() {
+            console.log('add');
         }
     },
+    watch: {
+        $route(to) {
+            if (to.query.status) {
+                this.tabStatus = to.query.status;
+            }
+            const {
+                startDate,
+                endDate,
+                textSearch,
+                p_code,
+                d_code,
+                v_code,
+                page,
+            } = to.query;
+            const data = {
+                status: this.tabStatus,
+                date_start: startDate,
+                date_end: endDate,
+                key_search: textSearch,
+                p_code: p_code,
+                d_code: d_code,
+                v_code: v_code,
+                page,
+            };
+            this.getOrder({ ...data });
+        },
+    }
 }
 </script>
 <style lang="scss" scoped>

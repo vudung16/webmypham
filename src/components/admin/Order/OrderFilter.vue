@@ -55,6 +55,9 @@ export default {
                 textSearch: "",
                 startDate: "",
                 endDate: "",
+                d_code: '',
+                p_code: '',
+                v_code: '',
             },
             listProvince: [],
             listDistrict: [],
@@ -99,8 +102,8 @@ export default {
                 this.filter = { ...this.filter, v_code: value };
             }
             this.$router.push({
-                path: "/admin/order",
-                query: { ...this.$route.query, ...this.filter },
+                name: 'Order',
+                query: { ...this.$route.query, ...this.filter,  status: this.tabStatus},
             });
         },
         async getCity() {
