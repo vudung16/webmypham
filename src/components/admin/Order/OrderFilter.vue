@@ -103,7 +103,7 @@ export default {
             }
             this.$router.push({
                 name: 'Order',
-                query: { ...this.$route.query, ...this.filter,  status: this.tabStatus},
+                query: { ...this.$route.query, ...this.filter, status: this.tabStatus, page: 1 },
             });
         },
         async getCity() {
@@ -128,6 +128,10 @@ export default {
 <style lang="scss" scoped>
 .order-filter {
     .ant-select {
+        width: 100% !important;
+    }
+
+    .ant-calendar-picker {
         width: 100% !important;
     }
 }

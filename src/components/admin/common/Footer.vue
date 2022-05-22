@@ -1,18 +1,20 @@
 <template>
     <div>
-        <a-row class="footer" align="middle">
+        <a-row class="footer-admin" align="middle">
             <a-col class="footer-left" :span="12">
                 <div>
                     2018 © Copyright - All Rights Reserved. Theme By ManhDung
                 </div>
             </a-col>
-            <a-col class="footer-right" :span="12">
-                <div>
-                    Hotline: <b>0386132297</b>
-                </div>
-                <div>|</div>
-                <div>
-                    <a href="#">Hướng dẫn</a>
+            <a-col :span="12">
+                <div class="footer-right">
+                    <div>
+                        Hotline: <b>0386132297</b>&ensp;
+                    </div>
+                    <div>|</div>&ensp;
+                    <div>
+                        <a href="#">Hướng dẫn</a>
+                    </div>
                 </div>
             </a-col>
         </a-row>
@@ -20,11 +22,15 @@
 </template>
 
 <script>
-    export default {
-        name: "Footer"
-    }
+export default {
+    name: "Footer"
+}
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../assets/scss/common/footer.scss";
+.footer-admin {
+    .footer-right {
+        display: flex;
+    }
+}
 </style>

@@ -379,8 +379,52 @@ export default {
 
     //order
     getListOrder: (data) => {
-        console.log(data);
-        const url = `${process.env.webmyphamapi}admin/order/list?page=` + data.page;
+        const url = `${process.env.webmyphamapi}admin/order/list`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    getOrder: (data) => {
+        const url = `${process.env.webmyphamapi}admin/order/detail`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    changeAction: (data) => {
+        const url = `${process.env.webmyphamapi}admin/order/change-action`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    cancelOrder: (data) => {
+        const url = `${process.env.webmyphamapi}admin/order/cancel-order`;
         return new Promise((resolve, reject) => {
             axios.post(url, data)
                 .then((response) => {
@@ -418,7 +462,7 @@ export default {
             axios.post(url, data)
                 .then((response) => {
                     if (response.data.status) {
-                        resolve(response.data.data);
+                        resolve(response);
                     } else {
                         reject(response);
                     }

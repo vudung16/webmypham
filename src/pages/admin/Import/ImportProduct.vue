@@ -128,13 +128,16 @@ export default {
 
         },
         async importWarehouse() {
-            let res = await apiAdmin.importWarehouse(this.dataProduct);
-            if (res.status === true) {
-                this.$message.success('Nhập kho thành công');
-                this.$router.push({ name: 'Dashboard' });
-            } else {
-                this.$message.error('Nhập kho thất bại');
-            }
+            await apiAdmin.importWarehouse(this.dataProduct).then((res) => {
+                if (res.data.status === true) {
+                    this.$message.success('Nhập kho thành công');
+                    this.$router.push({ name: 'Dashboard' });
+                } else {
+                    this.$message.error('Nhập kho thất bại');
+                }
+            }).catch(error => {
+                this.$message.error('Có lỗi xảy ra');
+            });
         },
         remove(id) {
             let index = this.dataProduct.findIndex(product => product.id === id);
@@ -147,7 +150,7 @@ export default {
 .content-import {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 50px 0px 0px 0px;
+    padding: 50px 30px 0px 30px;
 
     .list-product {
         overflow: auto;
@@ -156,6 +159,8 @@ export default {
     .ant-list {
         background: #ffffff;
         padding: 5px 20px;
+        max-height: 300px;
+        overflow: auto;
     }
 
     h3 {

@@ -1,42 +1,50 @@
-.footer {
-    padding: 40px 30px;
-    font-size: 14px;
-    line-height: 16px;
-    background-color: #EFEFEF;
+.footer-webview {
+  padding: 40px 30px;
+  font-size: 14px;
+  line-height: 16px;
+  background-color: #EFEFEF;
 
-    h2 {
-      margin-bottom: 20px;
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .info,
+  .address,
+  .phone,
+  .email {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .policy,
+  .support {
+    font-size: 16px;
+  }
+
+  .ant-input-wrapper {
+    input {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
     }
 
-    .logo {
-      margin-bottom: 10px;
+    input:hover {
+      border-color: #fbd947;
     }
-    .info, .address, .phone, .email {
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-    .policy, .support {
-      font-size: 16px;
-    }
-    .ant-input-wrapper {
-      input {
-          border-top-left-radius: 20px;
-          border-bottom-left-radius: 20px;
-      }
 
-      input:hover {
-          border-color: #fbd947;
-      }
-
-      button {
-          border-top-right-radius: 20px;
-          border-bottom-right-radius: 20px;
-          color: #d82e4d;
-          background-color: #fbd947;
-          border: none;
-      }
-    }
-    .register {
-      margin-bottom: 15px;
+    button {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      color: #d82e4d;
+      background-color: #fbd947;
+      border: none;
     }
   }
+
+  .register {
+    margin-bottom: 15px;
+  }
+}

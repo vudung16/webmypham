@@ -26,39 +26,42 @@ import Footer from "../../../components/admin/common/Footer.vue";
 
 export default {
     name: "AdminLayout",
-    components: {Footer, Header, Sidebar},
+    components: { Footer, Header, Sidebar },
 }
 </script>
 
 <style lang="scss" scoped>
-    .webmypham-layout {
-        display: flex;
-        height: 100vh;
-        .webmypham-sidebar {
-            height: 100%;
+.webmypham-layout {
+    display: flex;
+    height: 100vh;
+
+    .webmypham-sidebar {
+        height: 100%;
+    }
+
+    .webmypham-main-content {
+        // flex: auto;
+        width: 100%;
+
+        .webmypham-header {
+            position: relative;
+            z-index: 2;
         }
 
-        .webmypham-main-content {
-            // flex: auto;
-            width: 100%;
-            .webmypham-header {
-                position: relative;
-                z-index: 2;
-            }
-            .webmypham-content {
-                /*padding: 20px;*/
-                max-height: calc(100vh - 60px);
-                overflow: hidden auto;
-                height: 100%;
-                background: #f1eded;
-            }
+        .webmypham-content {
+            /*padding: 20px;*/
+            max-height: calc(100vh - 60px);
+            overflow: hidden auto;
+            height: 100%;
+            background: #f1eded;
+        }
 
-            .webmypham-footer {
-                flex-shrink: 0;
-                height: 60px;
-                width: 100%;
-                background: #FFFFFF;
-            }
+        .webmypham-footer {
+            padding: 20px;
+            flex-shrink: 0;
+            width: 100%;
+            background: #FFFFFF;
         }
     }
+}
 </style>

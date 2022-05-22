@@ -2,16 +2,6 @@
     <div>
         <div class="header">
             <Breadcrums :title="'Danh sách đơn hàng'">
-                <template #action>
-                    <a-space>
-                        <a-button type="primary" size="large" @click="addOrder">
-                            <template #icon>
-                                <PlusOutlined />
-                            </template>
-                            Tạo đơn hàng
-                        </a-button>
-                    </a-space>
-                </template>
             </Breadcrums>
         </div>
         <div class="admin-order">
@@ -20,10 +10,10 @@
             </div>
             <div class="product-table">
                 <a-tabs size="small" :active-key="tabStatus" :tabBarGutter="8" @change="changeTab">
-                    <a-tab-pane v-for="tab in listTabs" :key="tab.key" :tab="`${tab.name} (${tab.total})`">
+                    <a-tab-pane v-for="tab in listTabs" :key="tab.key" :tab="`${tab.name}`">
                         <div class="padding-table">
                             <div class="padding-table">
-                                <TableOrder :listOrder="listOrder" :tabStatus="tabStatus" :totalRecord="totalRecord" />
+                                <TableOrder :listOrder="listOrder" :tabStatus="tabStatus" :order="order" @page="page" />
                             </div>
                         </div>
                     </a-tab-pane>
@@ -60,7 +50,7 @@ const listTabs = [
         total: 0,
     },
 ];
-import {PlusOutlined} from '@ant-design/icons-vue';
+import { PlusOutlined } from '@ant-design/icons-vue';
 import api from '../../../api/admin';
 import TableOrder from '../../../components/admin/Order/TableOrder.vue';
 import OrderFilter from '../../../components/admin/Order/OrderFilter.vue';
@@ -73,10 +63,10 @@ export default {
             tabStatus: 'order_create',
             listOrder: [],
             totalRecord: 0,
+            order: {},
         }
     },
     mounted() {
-        console.log(121);
         if (this.$route.query.status) {
             this.tabStatus = this.$route.query.status;
         }
@@ -112,16 +102,31 @@ export default {
                 },
             });
         },
-        getOrder(data) {
-            api.getListOrder(data).then((res) => {
-                console.log(res);
+        async getOrder(data) {
+            await api.getListOrder(data).then((res) => {
+                this.order = res.data;
+                this.listOrder = res.data.data.map((order, index) => {
+                    const { id, name, code, email, phone, order_time, order_total_money, is_payment } = order;
+                    return {
+                        index: index + 1,
+                        key: id,
+                        id: id,
+                        name: name,
+                        code: code,
+                        email: email,
+                        phone: phone,
+                        order_time: order_time,
+                        order_total_money: order_total_money,
+                        is_payment: is_payment
+                    }
+                })
             }).catch((error) => {
                 console.log(error);
             })
         },
-        addOrder() {
-            console.log('add');
-        }
+        page(value) {
+            this.page = value
+        },
     },
     watch: {
         $route(to) {
@@ -145,7 +150,7 @@ export default {
                 p_code: p_code,
                 d_code: d_code,
                 v_code: v_code,
-                page,
+                page: page,
             };
             this.getOrder({ ...data });
         },

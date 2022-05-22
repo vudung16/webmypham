@@ -227,7 +227,7 @@
                 </template>
                 <a-card-grid v-for="product in getProduct" :key="product.id" style="width: 20%; text-align: center">
 
-                    <img alt="example" v-bind:src="product.product_image" @click="redirectProduct(product.id)" />
+                    <img alt="example" v-bind:src="product.image" @click="redirectProduct(product.id)" />
 
                     <a-card-meta>
                         <template #title>{{ product.name }}</template>
