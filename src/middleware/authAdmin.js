@@ -4,15 +4,17 @@ export default async function auth({ next, router, store }) {
     } else {
         await store.dispatch('auth/getMyInfo')
         .then(() => {
+            console.log('abc');
             if(store.state.auth.user.role === 2) {
                 return next();
             } else {
-                console.log('abc');
                 return router.push({ name: 'Login' });
             }
         })
         .catch((err) => {
-            router.push({ name: 'Login' });
+            if(err.response.status) {
+                return router.push({ name: 'Login' });
+            }
         })
     }
   }

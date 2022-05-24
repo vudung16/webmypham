@@ -20,8 +20,9 @@ export default {
                 } else {
                     reject(response);
                 }
-            }).catch((response) => {
+            }).catch((error) => {
                 console.log('Authorization !!');
+                reject(error);
             })
         });
     },
