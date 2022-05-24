@@ -31,10 +31,10 @@
                             <div class="main-content">
                                 <div class="brand">{{ product.brand }}</div>
                                 <div class="product-name">{{ product.product.name }}</div>
-                                <div class="status">Tình trạng: <span>còn hàng</span></div>
+                                <div class="status">Tình trạng: <span v-if="product.warehouse">còn hàng</span><span v-else>hết hàng</span></div>
                                 <div class="rating">
-                                    <a-rate v-model:value="rate" disabled />
-                                    <span class="text">(123)</span>
+                                    <a-rate v-model:value="product.rate.sum" disabled />
+                                    <span class="text">({{product.rate.count}})</span>
                                 </div>
                                 <hr width="85%" align="left">
                                 <div class="money">
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <a-button @click="addToCart(product.product.id)">Thêm vào giỏ hàng
+                                    <a-button v-if="product.warehouse" @click="addToCart(product.product.id)">Thêm vào giỏ hàng
                                         <shopping-cart-outlined />
                                     </a-button>
                                 </div>

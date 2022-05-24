@@ -60,25 +60,30 @@
         </div>
         <Footer />
         <a-modal v-if="orderDetails" v-model:visible="visible" :title="'Chi tiết đơn hàng: ' + orderDetails[0].code"
-            @ok="okModal">
+            @ok="okModal" width="800px">
             <div class="condition">
                 <a-row :gutter="16" v-for="(item, index) in orderDetails[1]" :key="index"
                     style="padding: 5px 0px; border-bottom: 1px solid #c6bdbd; ">
-                    <a-col :span="16">
+                    <a-col :span="15">
                         <div class="product">
-                            <img width="80" height="80" v-bind:src="item.product_image" alt="">
+                            <img width="80" height="100" v-bind:src="item.product_image" alt="">
                             <div class="product_name">
                                 <p>{{ item.product_name }}</p>
                                 <p>x{{ item.quantity }}</p>
                             </div>
                         </div>
                     </a-col>
-                    <a-col :span="2"></a-col>
-                    <a-col :span="6">
+                    <a-col :span="1"></a-col>
+                    <a-col :span="4">
                         <div class="total">
                             <div>
                                 <span class="sale">{{ formatVND(item.detail_amount) }}&emsp;</span>
                             </div>
+                        </div>
+                    </a-col>
+                    <a-col :span="3">
+                        <div class="total">
+                            <a-button type="primary" @click="userRate(item.id)">Đánh giá</a-button>
                         </div>
                     </a-col>
                 </a-row>
@@ -150,6 +155,9 @@ export default {
 
         async getUser() {
             await this.$store.dispatch('auth/getMyInfo');
+        },
+        userRate(id) {
+            
         }
     },
     watch: {
