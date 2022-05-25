@@ -505,6 +505,33 @@ export default {
             })
         });
     },
+    userRate: (data) => {
+        const url = `${process.env.webmyphamapi}api/user-rate`;
+        let config = {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+                user_id: localStorage.getItem('user_id'),
+            }
+        }
+        return new Promise((resolve, reject) => {
+            axios.post(url, data, config, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
 
     // lấy comment sản phẩm
     comment: (data) => {

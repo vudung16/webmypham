@@ -82,8 +82,8 @@
                         </div>
                     </a-col>
                     <a-col :span="3">
-                        <div class="total">
-                            <a-button type="primary" @click="userRate(item.id)">Đánh giá</a-button>
+                        <div class="total" v-if="current[0] === '4' && item.rate === true">
+                            <a-button type="primary" @click="userRate(item.product_id)">Đánh giá</a-button>
                         </div>
                     </a-col>
                 </a-row>
@@ -100,9 +100,19 @@
                 </div>
             </div>
         </a-modal>
+
+        <a-modal class="rate-product" v-model:visible="visibleRate" title="Đánh giá sản phẩm" @ok="handleOk">
+            <template #footer>
+                <a-button key="back" @click="handleCancel">Hủy bỏ</a-button>
+                <a-button key="submit" type="primary" @click="handleOk">Đánh giá</a-button>
+            </template>
+            <a-rate v-model:value="rate" /><br><br>
+            <a-input v-if="rate" v-model:value="rateComment" placeholder="Nhập đánh giá" />
+        </a-modal>
     </div>
 </template>
 <script>
+import api from '../../../api/homewebview';
 import { mapGetters } from 'vuex';
 export default {
     data() {
@@ -110,7 +120,11 @@ export default {
             current: [''],
             visible: false,
             orderDetails: '',
-            id: ''
+            id: '',
+            visibleRate: false,
+            rate: 0,
+            rateComment: '',
+            productRateId: '',
         }
     },
 
@@ -157,7 +171,30 @@ export default {
             await this.$store.dispatch('auth/getMyInfo');
         },
         userRate(id) {
-            
+            this.visibleRate = true;
+            this.productRateId = id;
+        },
+        handleCancel() {
+            this.visibleRate = false
+        },
+        async handleOk() {
+            if (this.rate === 0) {
+                this.$message.error('Bạn chưa đánh giá sản phẩm');
+            } else {
+                let params = {
+                    product_id: this.productRateId,
+                    rate: this.rate,
+                    comment: this.rateComment
+                }
+
+                let res = await api.userRate(params);
+                if (res.status === true) {
+                    this.$router.push({name: 'Home'})
+                    this.$message.success('Cảm ơn bạn đã đánh giá sản phẩm');
+                } else {
+                    this.$message.error('Có lỗi xảy ra');
+                }
+            }
         }
     },
     watch: {
@@ -197,6 +234,14 @@ export default {
 
     .ant-row {
         width: 100%;
+    }
+}
+.rate-product {
+    .ant-modal-body {
+        text-align: center;
+        .ant-rate {
+            color: #d82e4d;
+        }
     }
 }
 </style>

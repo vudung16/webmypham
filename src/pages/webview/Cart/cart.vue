@@ -390,7 +390,11 @@ export default {
                     this.$message.success('Đặt hàng thành công');
                     this.$router.push({ name: 'InfoUser' });
                 } else {
-                    this.listErrors = res.errors;
+                    if (res.errors) {
+                        this.listErrors = res.errors;
+                    } else {
+                        this.$message.error(res.message);
+                    }
                 }
             } else {
                 if (this.selectPayment === 'vnpay') {
@@ -398,7 +402,6 @@ export default {
                     if (res.status === true) {
                         window.location = res.data;
                     } else {
-                        console.log(res);
                         this.listErrors = res.errors;
                     }
                 } else {

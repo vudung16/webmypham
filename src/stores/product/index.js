@@ -28,7 +28,7 @@ export const product = {
             return new Promise(async (resolve, reject) => {
                 try {
                     let res = await api.cartData({
-                        user_id: rootGetters['auth/user'].id,
+                        user_id: rootGetters['auth/user'].id ? rootGetters['auth/user'].id : localStorage.getItem('user_id'),
                         product_id: data.product_id,
                         quantity: data.quantity,
                         type: data.type
