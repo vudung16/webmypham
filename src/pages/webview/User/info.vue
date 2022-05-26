@@ -184,7 +184,8 @@ export default {
                 let params = {
                     product_id: this.productRateId,
                     rate: this.rate,
-                    comment: this.rateComment
+                    comment: this.rateComment,
+                    user_id: this.$store.state.auth.user.id ? this.$store.state.auth.user.id : localStorage.getItem('user_id')
                 }
 
                 let res = await api.userRate(params);

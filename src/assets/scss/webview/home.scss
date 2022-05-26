@@ -9,6 +9,10 @@
 
     .voucher {
         margin: 20px 0px 0px 0px;
+        .ant-card-bordered {
+            border: none !important;
+        }
+        
         .coupon {
             border: solid 1px rgb(94, 94, 90);
             border-style: dashed;
@@ -55,6 +59,10 @@
     }
     .flash-sale {
         margin: 20px 0px 0px 0px;
+        .ant-card-bordered {
+            border: none !important;
+        }
+
         .ant-badge {
             img {
                 width: 100%;
@@ -97,6 +105,9 @@
     }
     .selling {
         margin: 20px 0px 0px 0px;
+        .ant-card-bordered {
+            border: none !important;
+        }
 
         img {
             width: 100%;
@@ -138,6 +149,9 @@
     }
     .for-you {
         margin: 20px 0px 0px 0px;
+        .ant-card-bordered {
+            border: none !important;
+        }
 
         img {
             width: 100%;
@@ -180,5 +194,11 @@
         // .icon-outline {
         //     margin-top: 5px;
         // }
+    }
+    .brand {
+        margin: 20px 0px 0px 0px;
+        .ant-card-bordered {
+           border: none !important;
+        }
     }
 }

@@ -21,22 +21,13 @@
             </a-row>
         </div>
         <div class="voucher">
-            <a-card title="Voucher">
-                <template #extra>
-                    <a class="see-all" href="#">
-                        <span class="text">Xem tất cả </span>
-                        <span class="icon">
-                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;"
-                                xml:space="preserve">
-                                <path fill="#1890FF"
-                                    d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z" />
-                                <path fill="#1890FF"
-                                    d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z" />
-                            </svg>
-                        </span>
-                    </a>
+            <a-card>
+                <template #title>
+                    <div style="text-align: center; align-items: center; display: flex;">
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: right;"></div>
+                        <div style="margin: 0px 20px">Voucher</div>
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
+                    </div>
                 </template>
                 <a-card-grid v-for="(item, index) in listVoucher" :key="index" style="width: 25%; text-align: center">
                     <div class="coupon">
@@ -57,22 +48,13 @@
             </a-card>
         </div>
         <div class="flash-sale">
-            <a-card title="Flash-sale">
-                <template #extra>
-                    <a class="see-all" href="#">
-                        <span class="text">Xem tất cả </span>
-                        <span class="icon">
-                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;"
-                                xml:space="preserve">
-                                <path fill="#1890FF"
-                                    d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z" />
-                                <path fill="#1890FF"
-                                    d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z" />
-                            </svg>
-                        </span>
-                    </a>
+            <a-card>
+                <template #title>
+                    <div style="text-align: center; align-items: center; display: flex;">
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: right;"></div>
+                        <div style="margin: 0px 20px">Flash-sale</div>
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
+                    </div>
                 </template>
                 <a-card-grid v-for="product in productDiscount" :key="product.index"
                     style="width: 20%; text-align: center">
@@ -104,22 +86,13 @@
             </a-card>
         </div>
         <div class="selling">
-            <a-card title="Sản phẩm bán chạy">
-                <template #extra>
-                    <a class="see-all" href="#">
-                        <span class="text">Xem tất cả </span>
-                        <span class="icon">
-                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;"
-                                xml:space="preserve">
-                                <path fill="#1890FF"
-                                    d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z" />
-                                <path fill="#1890FF"
-                                    d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z" />
-                            </svg>
-                        </span>
-                    </a>
+            <a-card>
+                <template #title>
+                    <div style="text-align: center; align-items: center; display: flex;">
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: right;"></div>
+                        <div style="margin: 0px 20px">Sản phẩm bán chạy</div>
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
+                    </div>
                 </template>
                 <a-card-grid v-for="product in productSelling" :key="product.id" style="width: 20%; text-align: center">
 
@@ -150,22 +123,13 @@
             </a-card>
         </div>
         <div class="for-you">
-            <a-card title="Dành cho bạn">
-                <template #extra>
-                    <a class="see-all" href="#">
-                        <span class="text">Xem tất cả </span>
-                        <span class="icon">
-                            <svg class="icon-outline" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                viewBox="0 0 490.4 490.4" style="enable-background:new 0 0 490.4 490.4;"
-                                xml:space="preserve">
-                                <path fill="#1890FF"
-                                    d="M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5    c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z" />
-                                <path fill="#1890FF"
-                                    d="M138.7,257.5h183.4l-48,48c-4.8,4.8-4.8,12.5,0,17.3c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l68.9-68.9    c4.8-4.8,4.8-12.5,0-17.3l-68.9-68.9c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l48,48H138.7c-6.8,0-12.3,5.5-12.3,12.3    C126.4,252.1,131.9,257.5,138.7,257.5z" />
-                            </svg>
-                        </span>
-                    </a>
+            <a-card>
+                <template #title>
+                    <div style="text-align: center; align-items: center; display: flex;">
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: right;"></div>
+                        <div style="margin: 0px 20px">Dành cho bạn</div>
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
+                    </div>
                 </template>
                 <a-card-grid v-for="product in getProduct" :key="product.id" style="width: 20%; text-align: center">
 
@@ -195,6 +159,26 @@
                 </a-card-grid>
             </a-card>
         </div>
+        <div class="brand">
+            <a-card>
+                <template #title>
+                    <div style="text-align: center; align-items: center; display: flex;">
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: right;"></div>
+                        <div style="margin: 0px 20px">Thương hiệu</div>
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
+                    </div>
+                </template>
+                <carousel :items-to-show="5" :wrap-around="true">
+                    <slide style="padding: 0px 10px" v-for="item in brand" :key="item.id">
+                    <img style="width:100%" :src="item.image" alt="">
+                    </slide>
+
+                    <template #addons>
+                    <navigation />
+                    </template>
+                </carousel>
+            </a-card>
+        </div>
         <a-modal v-model:visible="visible" :title="'NHẬP MÃ:' + voucher.code">
             <div class="code">Mã khuyến mãi: {{ voucher.code }}</div>
             <div class="condition">
@@ -213,11 +197,16 @@
 <script>
 import { AppstoreOutlined, } from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import moment from 'moment';
 export default {
     name: "Home",
     components: {
         AppstoreOutlined,
+        Carousel,
+        Slide,
+        Navigation,
     },
     data() {
         return {
@@ -229,12 +218,14 @@ export default {
             listVoucher: '',
             visible: false,
             voucher: '',
+            brand: '',
         }
     },
 
     created() {
         this.getProducts();
         this.getSlides();
+        this.getBrands();
         this.productsDiscount();
         this.productsSelling();
         this.vouchers();
@@ -250,6 +241,11 @@ export default {
             let res = await api.getSlide();
             this.getSlide = res.slide;
             this.banner = res.banner;
+        },
+
+        async getBrands() {
+            let res = await api.getBrand();
+            this.brand = res;
         },
 
         async productsDiscount() {
@@ -376,6 +372,12 @@ export default {
 
     .ant-badge {
         width: 100%;
+    }
+    .ant-card-head {
+        border-bottom: none !important;
+    }
+    .carousel__next, .carousel__prev {
+        background: #cf7575;
     }
 }
 </style>

@@ -162,7 +162,7 @@
                             <a-row>
                                 <a-comment>
                                     <template #avatar>
-                                        <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+                                        <a-avatar :src="$store.state.auth.user.image" alt="Han Solo" />
                                     </template>
                                     <template #content>
                                         <a-form-item>
@@ -391,7 +391,8 @@ export default {
             let params = {
                 page: data ? data : 1,
                 product_id: this.$route.params.id,
-                value: data ? '' : this.valueComment
+                value: data ? '' : this.valueComment,
+                user_id: this.$store.state.auth.user.id ? this.$store.state.auth.user.id : localStorage.getItem('user_id')
             }
             let res = await api.comment(params);
             this.comment = res;
