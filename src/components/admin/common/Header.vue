@@ -45,16 +45,12 @@ export default {
             user: '',
         }
     },
-    created() {
-        this.getUser();
+    computed: {
+        user() {
+            return this.$store.state.auth.user;
+        }
     },
     methods: {
-        getUser() {
-            let user = this.$store.state.auth.user;
-            if (user) {
-                this.user = user;
-            }
-        },
         async handleMenuClick(e) {
             if (e.key === 'logout') {
                 let res = await api.logout();

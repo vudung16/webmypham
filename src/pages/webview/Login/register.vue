@@ -12,11 +12,11 @@
         >
             <a-form-item 
                 name="username"
-                :rules="[{ required: true, message: 'Bạn chưa nhập vào tài khoản!' }]"
+                :rules="[{ required: true, message: 'Bạn chưa nhập vào họ tên!' }]"
             >
                 <a-input
                     v-model:value="formState.username"
-                    placeholder="Tài khoản"
+                    placeholder="Họ tên"
                 >
                     <template #prefix>
                         <UserOutlined class="site-form-item-icon" />
@@ -34,6 +34,19 @@
                 >
                     <template #prefix>
                         <mail-outlined />
+                    </template>
+                </a-input>
+            </a-form-item>
+            <a-form-item 
+                name="phone"
+                :rules="[{ required: true, message: 'Bạn chưa nhập vào số điện thoại!' }]"
+            >
+                <a-input
+                    v-model:value="formState.phone"
+                    placeholder="Số điện thoại"
+                >
+                    <template #prefix>
+                        <phone-outlined />
                     </template>
                 </a-input>
             </a-form-item>
@@ -75,7 +88,7 @@
   </div>
 </template>
 <script>
-import { UserOutlined, LockOutlined, FacebookOutlined, MailOutlined, UnlockOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, LockOutlined, FacebookOutlined, MailOutlined, UnlockOutlined, PhoneOutlined } from '@ant-design/icons-vue';
 import api from "../../../api/homewebview";
 export default {
     components: {
@@ -83,7 +96,8 @@ export default {
         LockOutlined,
         FacebookOutlined,
         MailOutlined,
-        UnlockOutlined
+        UnlockOutlined,
+        PhoneOutlined
     },
     data() {
         return {
@@ -93,6 +107,8 @@ export default {
                 password: '',
                 email: '',
                 retypePassword: '',
+                phone: '',
+                image: '',
             }
         }
      },
@@ -104,6 +120,7 @@ export default {
                 email: values.email,
                 password: values.password,
                 retype_password: values.retypePassword,
+                phone: values.phone
             }
             let res = await api.register(params);
             if (res.status === true) {

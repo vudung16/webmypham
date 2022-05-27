@@ -143,6 +143,7 @@ export default {
                         this.errors = res.errors;
                     } else {
                         this.$message.success("Cập nhật tài khoản thành công");
+                        this.$store.dispatch('auth/getMyInfo');
                     }
                 })
                 .catch(error => {
