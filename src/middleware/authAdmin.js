@@ -5,7 +5,6 @@ export default async function auth({ next, router, store }) {
     } else {
         await store.dispatch('auth/getMyInfo')
         .then(() => {
-            console.log('abc');
             if(store.state.auth.user.role === 2) {
                 return next();
             } else {
