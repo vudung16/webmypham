@@ -381,7 +381,8 @@ export default {
         async ratings(data) {
             let params = {
                 page: data ? data : 1,
-                product_id: 1
+                product_id: this.$route.params.id,
+                user_id: this.$store.state.auth.user.id ? this.$store.state.auth.user.id : localStorage.getItem('user_id')
             }
             let res = await api.rating(params);
             this.rating = res;
