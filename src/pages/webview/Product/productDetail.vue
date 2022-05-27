@@ -381,7 +381,7 @@ export default {
         async ratings(data) {
             let params = {
                 page: data ? data : 1,
-                product_id: this.$route.params.id
+                product_id: 1
             }
             let res = await api.rating(params);
             this.rating = res;
