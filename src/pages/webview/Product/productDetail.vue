@@ -408,6 +408,10 @@ export default {
             this.valueComment = '';
         },
 
+        redirectProduct(id) {
+            this.$router.push('/product/product-detail/' + id);
+        },
+
         formatDate(date) {
             return moment(date).format('DD/MM/YYYY');
         },

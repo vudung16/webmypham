@@ -1,7 +1,6 @@
 export default async function auth({ next, router, store }) {
-    if (localStorage.getItem('token')) {
-        await store.dispatch('auth/getMyInfo')
-        return next();
+    if (!localStorage.getItem('token')) {
+        return router.push({ name: 'Login' });
     } else {
         await store.dispatch('auth/getMyInfo')
         .then(() => {

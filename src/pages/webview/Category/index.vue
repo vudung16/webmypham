@@ -197,6 +197,10 @@ export default {
             this.$message.success('Thêm vào giỏ hàng thành công');
         },
 
+        redirectProduct(id) {
+            this.$router.push('/product/product-detail/' + id);
+        },
+
         showVoucher(index) {
             this.visible = true;
             this.voucher = this.listVoucher[index];

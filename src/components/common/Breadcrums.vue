@@ -66,7 +66,7 @@ export default {
             ],
             routes2: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -76,7 +76,7 @@ export default {
             ],
             routes3: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -86,7 +86,7 @@ export default {
             ],
             routes4: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -96,7 +96,7 @@ export default {
             ],
             routes5: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -106,7 +106,7 @@ export default {
             ],
             routes6: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -116,7 +116,7 @@ export default {
             ],
             routes7: [
                 {
-                    path: "/admin",
+                    path: "dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -126,7 +126,7 @@ export default {
             ],
             routes8: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
@@ -136,7 +136,7 @@ export default {
             ],
             routes9: [
                 {
-                    path: "/admin",
+                    path: "/dashboard",
                     breadcrumbName: "Trang chủ",
                 },
                 {
