@@ -159,7 +159,26 @@
                 </a-card-grid>
             </a-card>
         </div>
-        
+        <div class="brand">
+            <a-card>
+                <template #title>
+                    <div style="text-align: center; align-items: center; display: flex;">
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: right;"></div>
+                        <div style="margin: 0px 20px">Thương hiệu</div>
+                        <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
+                    </div>
+                </template>
+                <carousel :items-to-show="2" :wrap-around="true">
+                    <slide style="padding: 0px 10px" v-for="item in brand" :key="item">
+                    <img style="width:100%" :src="item.image" alt="">
+                    </slide>
+
+                    <template #addons>
+                    <navigation />
+                    </template>
+                </carousel>
+            </a-card>
+        </div>
         <a-modal v-model:visible="visible" :title="'NHẬP MÃ:' + voucher.code">
             <div class="code">Mã khuyến mãi: {{ voucher.code }}</div>
             <div class="condition">
