@@ -159,7 +159,7 @@
                 </a-card-grid>
             </a-card>
         </div>
-        <div class="brand">
+        <div class="brand" v-if="brand">
             <a-card>
                 <template #title>
                     <div style="text-align: center; align-items: center; display: flex;">
@@ -168,15 +168,17 @@
                         <div style="width: 100%"><hr style="border: 1px solid #bd7c7c; width: 70%; float: left;"></div>
                     </div>
                 </template>
-                <carousel :items-to-show="2" :wrap-around="true">
-                    <slide style="padding: 0px 10px" v-for="item in brand" :key="item">
-                    <img style="width:100%" :src="item.image" alt="">
-                    </slide>
-
-                    <template #addons>
-                    <navigation />
+                <Carousel :items-to-show="5" :wrap-around="true">
+                    <template #slides>
+                    <Slide style="padding: 0px 10px" v-for="item in brand" :key="item">
+                        <img style="width:100%" :src="item.image" alt="">
+                    </Slide>
                     </template>
-                </carousel>
+
+                    <template #addons="{ slidesCount }">
+                    <Navigation v-if="slidesCount > 6"/>
+                    </template>
+                </Carousel>
             </a-card>
         </div>
         <a-modal v-model:visible="visible" :title="'NHẬP MÃ:' + voucher.code">
