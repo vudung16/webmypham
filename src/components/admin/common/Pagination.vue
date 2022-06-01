@@ -1,5 +1,5 @@
 <template>
-    <div class="pagination">
+    <div class="pagination" style="text-align:right">
         <a-pagination v-model:current="current" :total="totalPage * 10" />
     </div>
 </template>

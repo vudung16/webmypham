@@ -30,6 +30,8 @@ import Order from '../pages/admin/Order/index.vue';
 import OrderDetail from '../pages/admin/Order/detail.vue';
 import CategoryAdmin from '../pages/admin/Category/index.vue';
 import AccountAdmin from '../pages/admin/User/AccountAdmin.vue';
+import User from '../pages/admin/User/Index.vue';
+import CreateUser from '../pages/admin/User/create.vue';
 import ImportProduct from '../pages/admin/Import/ImportProduct.vue';
 
 const routes = [
@@ -359,11 +361,29 @@ const routes = [
             //User
             {
                 title: 'Tài khoản',
+                path: 'user',
+                name: 'User',
+                component: User,
+                meta: {
+                    title: 'Tài khoản',
+                }
+            },
+            {
+                title: 'Tài khoản',
                 path: 'account',
                 name: 'AccountAdmin',
                 component: AccountAdmin,
                 meta: {
                     title: 'Tài khoản',
+                }
+            },
+            {
+                title: 'Tạo mới',
+                path: 'user/create',
+                name: 'CreateUser',
+                component: CreateUser,
+                meta: {
+                    title: 'Tạo mới',
                 }
             },
 

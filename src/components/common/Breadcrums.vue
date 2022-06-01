@@ -16,7 +16,8 @@
                 (checkPath() === 6 && routes6) ||
                 (checkPath() === 7 && routes7) ||
                 (checkPath() === 8 && routes8) ||
-                (checkPath() === 9 && routes9)
+                (checkPath() === 9 && routes9) ||
+                (checkPath() === 10 && routes10)
             
             ">
                 <template #itemRender="{ route, params, routes, paths }">
@@ -144,6 +145,16 @@ export default {
                     breadcrumbName: "Nhập kho",
                 },
             ],
+            routes10: [
+                {
+                    path: "/dashboard",
+                    breadcrumbName: "Trang chủ",
+                },
+                {
+                    path: "/admin/user",
+                    breadcrumbName: "Tài khoản",
+                },
+            ],
         };
     },
     methods: {
@@ -172,6 +183,9 @@ export default {
             }
             if (path.includes("import")) {
                 return 9;
+            }
+            if (path.includes("user")) {
+                return 10;
             }
         },
         toggleCollapsed() {

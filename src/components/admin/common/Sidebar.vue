@@ -19,49 +19,49 @@
         </template>
         <span>Dashboard</span>
       </a-menu-item>
-      <a-menu-item key="Order">
+      <a-menu-item key="Order" v-if="$store.state.auth.user.role_admin & 1">
         <template #icon>
           <ShoppingCartOutlined />
         </template>
         <span>Đơn hàng</span>
       </a-menu-item>
-      <a-menu-item key="Slide">
+      <a-menu-item key="Slide" v-if="$store.state.auth.user.role_admin & 2">
         <template #icon>
           <FileImageOutlined />
         </template>
         <span>Slide</span>
       </a-menu-item>
-      <a-menu-item key="Product">
+      <a-menu-item key="Product" v-if="$store.state.auth.user.role_admin & 4">
         <template #icon>
           <InboxOutlined />
         </template>
         <span>Sản phẩm</span>
       </a-menu-item>
-      <a-menu-item key="Voucher">
+      <a-menu-item key="Voucher" v-if="$store.state.auth.user.role_admin & 8">
         <template #icon>
           <WalletOutlined />
         </template>
         <span>Voucher</span>
       </a-menu-item>
-      <a-menu-item key="User">
+      <a-menu-item key="User" v-if="$store.state.auth.user.role_admin & 16">
         <template #icon>
           <UserOutlined />
         </template>
         <span>Tài khoản</span>
       </a-menu-item>
-      <a-menu-item key="Brand">
+      <a-menu-item key="Brand" v-if="$store.state.auth.user.role_admin & 32">
         <template #icon>
           <AlertOutlined />
         </template>
         <span>Thương hiệu</span>
       </a-menu-item>
-      <a-menu-item key="CategoryAdmin">
+      <a-menu-item key="CategoryAdmin" v-if="$store.state.auth.user.role_admin & 64">
         <template #icon>
           <ProfileOutlined />
         </template>
         <span>Danh mục</span>
       </a-menu-item>
-      <a-menu-item key="ImportProduct">
+      <a-menu-item key="ImportProduct" v-if="$store.state.auth.user.role_admin & 128">
         <template #icon>
           <ImportOutlined />
         </template>

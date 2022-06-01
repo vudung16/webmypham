@@ -470,5 +470,67 @@ export default {
                 reject(response);
             })
         });
-    }
+    },
+
+    //User
+    listUser: (data) => {
+        const url = `${process.env.webmyphamapi}admin/user/list`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    updateRole: (data) => {
+        const url = `${process.env.webmyphamapi}admin/user/update-role`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    deleteUser: (data) => {
+        const url = `${process.env.webmyphamapi}admin/user/delete`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    createUser: (data) => {
+        const url = `${process.env.webmyphamapi}admin/user/create`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data)
+                .then((response) => {
+                    if (response.data.status === true) {
+                        resolve(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
 }
