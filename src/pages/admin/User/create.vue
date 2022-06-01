@@ -24,7 +24,7 @@
                                     }}</span>
                                 </a-form-item>
                             </div>
-                            
+
                             <div class="email">
                                 <div class="txt-email">
                                     <label for="email"> Email<span style="color:red">*</span></label>
@@ -41,8 +41,10 @@
                                 </div>
                                 <a-form-item ref="password" name="password">
                                     <a-input style="width:76%" v-model:value="formState.password" />
-                                    <a-button type="primary" style="width:24%" @click="createPassword">Tạo mật khẩu</a-button>
-                                    <span v-if="errors.password" style="color:red; font-size: 13px">{{ errors.password[0]
+                                    <a-button type="primary" style="width:24%" @click="createPassword">Tạo mật khẩu
+                                    </a-button>
+                                    <span v-if="errors.password" style="color:red; font-size: 13px">{{
+                                            errors.password[0]
                                     }}</span>
                                 </a-form-item>
                             </div>
@@ -86,7 +88,7 @@ export default {
             if (e.target.checked === true) {
                 this.formState.role += e.target.value
             } else {
-                this.formState.role -= e.target.value 
+                this.formState.role -= e.target.value
             }
         },
         createPassword() {
@@ -94,7 +96,11 @@ export default {
         },
 
         async createUser() {
-            await api.createUser(this.formState).then(() => {
+            await api.createUser(this.formState).then((res) => {
+                if (res.status === false) {
+                    this.errors = res.errors;
+                    return false;
+                }
                 this.$message.success('Thêm tài khoản thành công');
                 this.$router.push({ name: 'User' });
             }).catch((error) => this.$message.error('Có lỗi xảy ra'))

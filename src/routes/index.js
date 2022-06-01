@@ -411,6 +411,14 @@ const routes = [
             title: 'Không tìm thấy trang'
         }
     },
+    // {
+    //     path: "error",
+    //     name: 'Error404',
+    //     component: Error404,
+    //     meta: {
+    //         title: 'Không tìm thấy trang'
+    //     }
+    // },
 ]
 const router = createRouter({
     history: createWebHashHistory(),
