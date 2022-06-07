@@ -27,13 +27,13 @@
                         class="login-form-button">
                         Đăng nhập
                     </a-button><br>
-                    <a-button class="login-form-button">
+                    <a-button @click="loginFacebook" class="login-form-button">
                         <!-- <template #prefix> -->
                         <facebook-outlined />
                         <!-- </template> -->
                         Đăng nhập bằng Facebook
                     </a-button><br>
-                    <a class="login-form-forgot" href="">
+                    <a class="login-form-forgot" @click="openForgot">
                         Quên mật khẩu?
                     </a><br>
                     Hoặc
@@ -41,6 +41,13 @@
                 </a-form-item>
             </a-form>
         </div>
+        <a-modal v-model:visible="visible" title="Quên mật khẩu" @ok="handleOk">
+            <template #footer>
+                <a-button key="back" @click="handleCancel">Hủy bỏ</a-button>
+                <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Đồng ý</a-button>
+            </template>
+            <a-input type="email" v-model:value="email" placeholder="Nhập vào email" />
+        </a-modal>
     </div>
 </template>
 <script>
@@ -59,7 +66,10 @@ export default {
                 username: '',
                 password: '',
                 remember: true,
-            }
+            },
+            visible: false,
+            email: '',
+            loading: false,
         }
     },
 
@@ -87,7 +97,7 @@ export default {
                 } else {
                     if (res.data.role === 2) {
                         this.$message.success('Đăng nhập thành công');
-                        this.$router.push({name: 'Dashboard'});
+                        this.$router.push({ name: 'Dashboard' });
                     } else {
                         this.$message.error('Đăng nhập thất bại');
                     }
@@ -96,6 +106,42 @@ export default {
                 this.$message.error(res.message);
             }
         },
+        openForgot() {
+            this.visible = true;
+        },
+
+        async loginFacebook() {
+            let res = await api.loginFacebook();
+            if (res.status === true) {
+                window.location.href = res.data
+            } else {
+                this.$message.error('Đăng nhập thất bại');
+            }
+        },
+
+        async handleOk() {
+            if (this.email === '') {
+                this.$message.error('Vui lòng nhập vào email');
+                return false;
+            }
+            this.loading = true;
+            await api.forgot({ email: this.email })
+                .then((res) => {
+                    if (res.status === true) {
+                        this.$message.success('Vui lòng kiểm tra mail để lấy lại mật khẩu');
+                        this.visible = false;
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                })
+                .catch((error) => { this.$message.error('Có lỗi xảy ra') });
+            this.loading = false;
+        },
+
+        handleCancel() {
+            this.visible = false;
+        },
+
         register() {
             this.$router.push('/register');
         }

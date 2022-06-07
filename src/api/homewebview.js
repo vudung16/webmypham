@@ -429,6 +429,57 @@ export default {
         });
     },
 
+    //Lấy lại mật khẩu
+    forgot(data) {
+        const url = `${process.env.webmyphamapi}api/reset-password`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    resolve(response.data);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    reset(data) {
+        const url = `${process.env.webmyphamapi}api/reset`;
+        return new Promise((resolve, reject) => {
+            axios.post(url, data).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    resolve(response.data);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+    loginFacebook:() => {
+        const url = `${process.env.webmyphamapi}login-facebook`;
+        return new Promise((resolve, reject) => {
+            axios.get(url, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+                xsrfCookieName: 'csrftoken_testtest',
+                // xsrfHeaderName: 'X-CSRFToken'
+            }).then((response) => {
+                if (response.data.status === true) {
+                    resolve(response.data);
+                } else {
+                    reject(response);
+                }
+            }).catch((response) => {
+                reject(response);
+            })
+        });
+    },
+
     // đăng xuất
     logout() {
         const url = `${process.env.webmyphamapi}api/auth/logout`;

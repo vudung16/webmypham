@@ -9,6 +9,7 @@ import ProductDetail from "../pages/webview/Product/productDetail.vue";
 import Cart from "../pages/webview/Cart/cart.vue";
 import Category from '../pages/webview/Category/index.vue';
 import Login from '../pages/webview/Login/login.vue';
+import Forgot from '../pages/webview/Login/forgot.vue';
 import Register from '../pages/webview/Login/register.vue';
 import Search from '../pages/webview/Category/Search.vue';
 import Error404 from "../pages/webview/errors/Error404.vue";
@@ -172,6 +173,25 @@ const routes = [
                 component: Login,
                 meta: {
                     title: 'Đăng nhập',
+                }
+            }
+        ]
+    },
+
+    {
+        path: '/forgot',
+        component: WebviewLayout,
+        meta: {
+            title: "Quên mật khẩu"
+        },
+        children: [
+            {
+                title: 'Quên mật khẩu',
+                path: '',
+                name: 'Forgot',
+                component: Forgot,
+                meta: {
+                    title: 'Quên mật khẩu',
                 }
             }
         ]
