@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="category-product">
-                <div v-if="$route.params.id && CategoryProduct.category" class="product">
+                <div v-if="CategoryProduct.product && CategoryProduct.product.length === 0" class="product">
                     Không tìm thấy sản phẩm
                 </div>
                 <div v-else class="product">
