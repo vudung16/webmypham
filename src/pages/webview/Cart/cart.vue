@@ -397,7 +397,7 @@ export default {
                     }
                 }
             } else {
-                if (this.selectPayment === 'vnpay') {
+                if (this.selectPayment === 'vnpay' || this.selectPayment === 'momo') {
                     let res = await api.payment(params);
                     if (res.status === true) {
                         window.location = res.data;
@@ -405,14 +405,9 @@ export default {
                         this.listErrors = res.errors;
                     }
                 } else {
-                    if (this.selectPayment === 'momo') {
+                    if (this.selectPayment === 'paypal') {
                         this.$message.error('Tính năng đang phát triển');
                         return false;
-                    } else {
-                        if (this.selectPayment === 'paypal') {
-                            this.$message.error('Tính năng đang phát triển');
-                            return false;
-                        }
                     }
                 }
             }
