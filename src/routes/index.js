@@ -34,6 +34,7 @@ import AccountAdmin from '../pages/admin/User/AccountAdmin.vue';
 import User from '../pages/admin/User/Index.vue';
 import CreateUser from '../pages/admin/User/create.vue';
 import ImportProduct from '../pages/admin/Import/ImportProduct.vue';
+import LoginFacebook from '../pages/webview/Login/LoginFacebook.vue';
 
 const routes = [
     {
@@ -173,6 +174,25 @@ const routes = [
                 component: Login,
                 meta: {
                     title: 'Đăng nhập',
+                }
+            }
+        ]
+    },
+
+    {
+        path: '/login-facebook',
+        component: WebviewLayout,
+        meta: {
+            title: "Đăng nhập Facebook"
+        },
+        children: [
+            {
+                title: 'Đăng nhập Facebook',
+                path: '',
+                name: 'LoginFacebook',
+                component: LoginFacebook,
+                meta: {
+                    title: 'Đăng nhập Facebook',
                 }
             }
         ]
